@@ -1,0 +1,41 @@
+{
+  "type": "module",
+  "private": true,
+  "name": "vite-react-template",
+  "version": "0.0.1",
+  "description": "Vite React template scaffolding",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview",
+    "remove": "rm -rf docs",
+    "lint": "eslint \"./src/**\" --report-unused-disable-directives --ignore-pattern .gitignore"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.8.0",
+    "@types/node": "22.0.0",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "@vitejs/plugin-react": "4.3.1",
+    "eslint": "9.8.0",
+    "eslint-plugin-react": "7.35.0",
+    "eslint-plugin-react-hooks": "4.6.2",
+    "eslint-plugin-react-refresh": "0.4.9",
+    "globals": "15.8.0",
+    "prettier": "3.3.3",
+    "prop-types": "15.8.1",
+    "vite": "5.3.5"
+  },
+  "dependencies": {
+    "gsap": "3.12.5",
+    "pocketbase": "0.21.5",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-helmet": "6.1.0",
+    "react-router-dom": "6.26.1",
+    "swiper": "11.1.11",
+    "tailwindcss": "3.4.10",
+    "use-immer": "0.10.0",
+    "zustand": "4.5.5"
+  }
+}
