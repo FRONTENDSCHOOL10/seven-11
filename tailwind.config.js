@@ -1,7 +1,11 @@
 module.exports = {
   content: ['./src/**/*.{html,js,jsx}'],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        pretendard: ['Pretendard-Regular', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 };
