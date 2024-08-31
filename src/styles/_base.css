@@ -6,7 +6,20 @@
     font-weight: 400;
     font-style: normal;
   }
-  html {
+
+  @font-face {
+    font-family: 'UhBeeSe_hyun';
+    src: url('https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_five@.2.0/UhBeeSe_hyun.woff')
+      format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  body {
     @apply font-pretendard;
+  }
+
+  h1 {
+    @apply font-uhbee text-4xl;
   }
 }

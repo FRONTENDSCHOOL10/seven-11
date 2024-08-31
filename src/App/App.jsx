@@ -1,7 +1,10 @@
 export default function App() {
   return (
-    <h2 id="hello" className="text-4xl">
-      안녕하세요?
-    </h2>
+    <>
+      <h1>작심하루</h1>
+      <h2 id="hello" className="text-2xl">
+        소제목
+      </h2>
+    </>
   );
 }
