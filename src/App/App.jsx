@@ -1,3 +1,9 @@
+import pb from '@/api/pb';
+
+const record = await pb.collection('users').getFullList();
+
+console.log(record);
+
 export default function App() {
   return (
     <>
