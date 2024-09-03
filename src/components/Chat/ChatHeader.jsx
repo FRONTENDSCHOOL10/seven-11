@@ -1,5 +1,5 @@
 import { number, string } from 'prop-types';
-import BackIcon from './BackIcon.jsx';
+import BackIcon from './BackIcon';
 import HamburgerIcon from './HamburgerIcon';
 
 ChatHeader.propType = {
