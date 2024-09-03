@@ -1,8 +1,9 @@
+import { memo } from 'react';
 import { navigationItems } from '@/router';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
-export default function FooterNav() {
+function FooterNav() {
   const [items] = useState(navigationItems);
 
   return (
@@ -32,3 +33,5 @@ export default function FooterNav() {
     </nav>
   );
 }
+
+export default memo(FooterNav);
