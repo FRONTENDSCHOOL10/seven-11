@@ -1,15 +1,15 @@
-import FooterNav from '@/components/FooterNav';
-import Header from '@/components/Header';
 import { Outlet } from 'react-router-dom';
+import Header from '@/components/Header';
+import FooterNav from '@/components/FooterNav';
 
-function RootLayout() {
+export default function RootLayout() {
   return (
-    <div className="">
+    <div className="w-[320px] h-[693px] flex flex-col relative mx-auto border border-gray-300">
       <Header />
-      <Outlet />
+      <main className="flex-grow">
+        <Outlet />
+      </main>
       <FooterNav />
     </div>
   );
 }
-
-export default RootLayout;
