@@ -6,7 +6,7 @@ function App() {
   return (
     <HelmetProvider>
       <div className="App">
-        <div className="w-[320px] h-[693px] mx-auto border border-gray-300">
+        <div className="w-[320px] h-[693px] mx-auto relative border border-gray-300">
           <RouterProvider router={router} />
         </div>
       </div>
