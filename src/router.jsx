@@ -31,12 +31,6 @@ const navigation = [
     text: '채팅',
     path: 'chat',
     lazy: () => import('@/pages/Chat/Chatrooms'),
-    children: [
-      {
-        path: ':roomId',
-        lazy: () => import('@/pages/Chat/Chatroom'),
-      },
-    ],
   },
   {
     text: '마이 페이지',
@@ -78,6 +72,11 @@ export const routes = [
     path: '/home/study-post',
     element: <StudyPost />,
   },
+
+  {
+    path: '/home/chat/:roomId',
+    element: <Chatroom />,
+  },
   {
     path: '/home',
     element: <RootLayout />,
@@ -88,6 +87,7 @@ export const routes = [
 const router = createBrowserRouter(routes, {
   basename: import.meta.env.BASE_URL,
 });
+import { Chatroom } from './pages/Chat/Chatroom';
 
 export default router;
 
