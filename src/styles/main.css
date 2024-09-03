@@ -1,3 +1,4 @@
+@import './_reset.css';
 @import 'tailwindcss/base';
 @import './_base.css';
 
@@ -6,4 +7,3 @@
 
 @import 'tailwindcss/utilities';
 @import './_utilities.css';
-
