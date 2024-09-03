@@ -6,7 +6,9 @@ function App() {
   return (
     <HelmetProvider>
       <div className="App">
-        <RouterProvider router={router} />
+        <div className="w-[320px] h-[693px] flex justify-center items-center mx-auto border border-gray-300">
+          <RouterProvider router={router} />
+        </div>
       </div>
     </HelmetProvider>
   );
