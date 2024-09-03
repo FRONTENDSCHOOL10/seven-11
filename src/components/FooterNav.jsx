@@ -1,14 +1,9 @@
+import { navigationItems } from '@/router';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 export default function FooterNav() {
-  const [items] = useState([
-    { path: '/home', text: '홈', icon: '#home', activeIcon: '#fullHome' },
-    { path: '/board', text: '게시판', icon: '#file', activeIcon: '#fullFile' },
-    { path: '/nearby', text: '내 근처', icon: '#map', activeIcon: '#fullMap' },
-    { path: '/chat', text: '채팅', icon: '#chat', activeIcon: '#fullChat' },
-    { path: '/profile', text: '나의 이름', icon: '#my', activeIcon: '#fullMy' },
-  ]);
+  const [items] = useState(navigationItems);
 
   return (
     <nav className="bg-white border-t border-gray-100 absolute bottom-0 w-full">
@@ -17,7 +12,7 @@ export default function FooterNav() {
           <li key={index} className="flex-1 text-center">
             <NavLink
               to={item.path}
-              end={item.path?.endsWith('/') ?? false}
+              end={item.path === '/home'}
               className="flex flex-col items-center text-sm"
             >
               {({ isActive }) => (
