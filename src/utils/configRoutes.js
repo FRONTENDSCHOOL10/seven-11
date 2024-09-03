@@ -12,6 +12,8 @@ export function configRoutes(navigation) {
 
     delete route.text;
     delete route.display;
+    delete route.icon;
+    delete route.activeIcon;
 
     return route;
   });
