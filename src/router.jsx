@@ -9,26 +9,35 @@ import SelectCategory from './pages/SelectCategory';
 import SignUp from './pages/SignUp';
 import StudyPost from './pages/StudyPost';
 import { configRoutes, getNavigationItems } from './utils/index';
+import LandingPage from './pages/LandingPage';
 
 const navigation = [
   {
     text: '홈',
     path: '/home',
+    icon: '#home',
+    activeIcon: '#fullHome',
     element: <HomePage />,
   },
   {
     text: '게시판',
     path: 'board',
+    icon: '#file',
+    activeIcon: '#fullFile',
     lazy: () => import('@/pages/QuestionPage/QuestionPage'),
   },
   {
-    text: '내주변',
+    text: '내 근처',
     path: 'map',
+    icon: '#map',
+    activeIcon: '#fullMap',
     lazy: () => import('@/pages/Map'),
   },
   {
     text: '채팅',
     path: 'chat',
+    icon: '#chat',
+    activeIcon: '#fullChat',
     lazy: () => import('@/pages/Chat/Chatrooms'),
     children: [
       {
@@ -40,6 +49,8 @@ const navigation = [
   {
     text: '마이 페이지',
     path: 'mypage',
+    icon: '#my',
+    activeIcon: '#fullMy',
     lazy: () => import('@/pages/MyPage'),
   },
 ];
@@ -47,7 +58,7 @@ const navigation = [
 export const routes = [
   {
     path: '/',
-    element: <HomePage />,
+    element: <LandingPage />,
   },
   {
     path: '/categories',
