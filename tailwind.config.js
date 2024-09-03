@@ -30,6 +30,10 @@ module.exports = {
         '2xl': '2.072rem',
         '3xl': '2.763rem',
       },
+      spacing: {
+        1.5: '6px',
+        2.5: '10px',
+      },
     },
   },
   plugins: [],
