@@ -1,15 +1,14 @@
-import { createBrowserRouter } from 'react-router-dom';
 import RootLayout from '@/layouts/RootLayout';
-import HomePage from './pages/HomePage';
-import { configRoutes, getNavigationItems } from './utils/index';
-import LandingPage from './pages/LandingPage';
-import SelectCategory from './pages/SelectCategory';
-import SignUp from './pages/SignUp';
+import { QuestionPost } from '@/pages/QuestionPage/QuestionPost';
+import { createBrowserRouter } from 'react-router-dom';
 import CheckEmail from './pages/CheckEmail';
+import HomePage from './pages/HomePage';
 import Login from './pages/Login';
 import Search from './pages/Search';
-import { QuestionPost } from '@/pages/QuestionPage/QuestionPost';
+import SelectCategory from './pages/SelectCategory';
+import SignUp from './pages/SignUp';
 import StudyPost from './pages/StudyPost';
+import { configRoutes, getNavigationItems } from './utils/index';
 
 const navigation = [
   {
@@ -42,7 +41,7 @@ const navigation = [
 export const routes = [
   {
     path: '/',
-    element: <LandingPage />,
+    element: <HomePage />,
   },
   {
     path: '/categories',
