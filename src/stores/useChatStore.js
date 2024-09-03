@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import pb from '@/api/pb';
+import pb from '../api/pb.js';
 
 const useChatStore = create((set) => ({
   chatList: [],

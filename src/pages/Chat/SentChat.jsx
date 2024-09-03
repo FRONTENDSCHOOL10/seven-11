@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import ChatNowTime from './ChatNowTime';
+import ChatNowTime from '../../components/Chat/ChatNowTime';
 import { string } from 'prop-types';
 
 SentChat.propTypes = {
