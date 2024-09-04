@@ -1,4 +1,4 @@
-import SelectButton from '@/components/SelectButton';
+import SendMessageBar from '@/components/SendMessageBar';
 import { Link } from 'react-router-dom';
 
 export default function HomePage() {

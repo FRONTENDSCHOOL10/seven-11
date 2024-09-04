@@ -1,11 +1,8 @@
-import { func } from 'prop-types';
+import useChatStore from '@/stores/useChatStore';
 import { memo } from 'react';
 
-HamburgerIcon.propTypes = {
-  onClick: func,
-};
-
-function HamburgerIcon({ onClick }) {
+function HamburgerIcon() {
+  const setModal = useChatStore((s) => s.setModalOpen);
   return (
     <button type="button" onClick={onClick} aria-label="참여중인 이웃 보기">
       <svg className="w-5 h-5">
