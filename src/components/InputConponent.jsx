@@ -1,21 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const { string, func } = PropTypes;
+
 InputComponent.propTypes = {
-  placeholder: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
+  placeholder: string,
+  onchange: func,
 };
 
-function InputComponent({ placeholder, onChange }) {
+function InputComponent({ placeholder, onchange }) {
   return (
     <section className="flex flex-col items-center justify-center">
-      <div className="m-3 px-3 py-2 border rounded border-black w-fit">
+      <div className=" m-2 border rounded border-black">
         <input
-          className="w-64 h-6 text-sm"
+          className="w-[295px] h-[38px] text-base "
           type="text"
           id="InputComponent"
           placeholder={placeholder}
-          onChange={onChange}
+          onChange={onchange}
         />
       </div>
     </section>
