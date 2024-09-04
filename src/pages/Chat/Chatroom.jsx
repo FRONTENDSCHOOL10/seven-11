@@ -3,9 +3,10 @@ import ChatBoard from '../../components/Chat/ChatBoard';
 import { useParams } from 'react-router-dom';
 import ChatModal from '@/components/Chat/ChatModal';
 import clsx from 'clsx';
+import useChatStore from '@/stores/useChatStore';
 
 export function Chatroom() {
-  const open = false; // 모달창 열기(true) 닫기(false)
+  const open = useChatStore((s) => s.isOpenedModal);
   const bgClass = clsx(open ? 'bg-[#46464699] opacity-65' : '');
   const { roomId } = useParams();
 

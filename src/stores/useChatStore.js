@@ -5,6 +5,7 @@ const useChatStore = create((set) => ({
   chatList: [],
   loading: false,
   error: null,
+  isOpenedModal: false,
 
   fetchChatList: async () => {
     set({ loading: true, error: null });
@@ -30,8 +31,16 @@ const useChatStore = create((set) => ({
       set({ chatList: newChatList, loading: false });
     } catch (error) {
       console.error('채팅 메시지 데이터를 가져오는 데 실패했습니다:', error);
-      set({ error, loading: false });
     }
+  },
+
+  setModalOpen: () => {
+    set({ isOpenedModal: true });
+    console.log('모달 오픈!');
+  },
+
+  setModalClose: () => {
+    set({ isOpenedModal: false });
   },
 }));
 
