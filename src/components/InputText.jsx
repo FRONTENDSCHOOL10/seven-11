@@ -1,6 +1,4 @@
-import PropTypes from 'prop-types';
-
-const { string, func } = PropTypes;
+import { string, func } from 'prop-types';
 
 InputText.propTypes = {
   placeholder: string,
