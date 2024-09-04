@@ -1,5 +1,5 @@
 import ChatMessage from './ChatMessage';
-import SentChat from '../../pages/Chat/SentChat';
+import SentChat from '../../components/Chat/SentChat';
 import ChatTime from './ChatTime';
 import { memo } from 'react';
 
