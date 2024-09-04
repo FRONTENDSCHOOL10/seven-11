@@ -1,4 +1,5 @@
 import CheckButton from '@/components/CheckButton';
+import GenderRadio from '@/components/GenderRadio';
 import InputText from '@/components/InputText';
 import InputTitle from '@/components/SubTitle';
 import { Link } from 'react-router-dom';
@@ -20,6 +21,7 @@ export default function Login() {
       <InputTitle title="직업" />
       <InputText placeholder="직업을 입력해주세요" />
       <InputTitle title="성별" />
+      <GenderRadio />
     </>
   );
 }
