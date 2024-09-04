@@ -7,7 +7,7 @@ DownIcon.propTypes = {
 
 function DownIcon({ onClick }) {
   return (
-    <button type="button" onClick={onClick}>
+    <button type="button" onClick={onClick} aria-label="옵션 더보기">
       <svg className="w-5 h-5">
         <use href="/stack.svg#down" />
       </svg>
