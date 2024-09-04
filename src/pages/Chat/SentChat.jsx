@@ -9,7 +9,7 @@ SentChat.propTypes = {
 
 function SentChat({ time, message }) {
   return (
-    <div className="flex flex-row gap-[7px] justify-end">
+    <div className="flex flex-row gap-1 justify-end">
       <ChatNowTime time={time} />
       <div className="bg-primary text-white p-3 rounded-[5px] text-base">
         {message}
