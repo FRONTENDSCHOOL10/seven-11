@@ -3,7 +3,7 @@
 }
 
 .listItem {
-  @apply pl-3 py-3 list-none;
+  @apply pl-3 py-3 list-none border-b;
 }
 
 .container {
