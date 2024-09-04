@@ -1,3 +1,38 @@
 #hello {
   @apply bg-slate-500;
 }
+
+.exit {
+  @apply absolute w-full h-[63px] bg-gray-100 bottom-0 flex items-center justify-between px-3;
+}
+
+.chat {
+  @apply h-[68px];
+  li {
+    @apply pl-3 py-3 list-none;
+  }
+
+  .container {
+    @apply flex flex-row items-center gap-2.5;
+
+    img {
+      @apply w-11 h-11 rounded-[50px];
+    }
+  }
+
+  .textContainer {
+    @apply flex flex-col;
+
+    .titleContainer {
+      @apply flex flex-row gap-1 items-center;
+
+      h3 {
+        @apply text-base font-semibold;
+      }
+
+      .message {
+        @apply font-normal text-base;
+      }
+    }
+  }
+}
