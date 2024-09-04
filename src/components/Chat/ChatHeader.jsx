@@ -2,7 +2,7 @@ import { number, string } from 'prop-types';
 import BackIcon from './BackIcon';
 import HamburgerIcon from './HamburgerIcon';
 
-ChatHeader.propType = {
+ChatHeader.propTypes = {
   title: string.isRequired,
   people: number.isRequired,
 };

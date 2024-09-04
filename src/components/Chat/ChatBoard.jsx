@@ -1,6 +1,6 @@
 import ChatMessage from './ChatMessage';
 import SentChat from '../../pages/Chat/SentChat';
-import ChatTime from '../../pages/Chat/ChatTime';
+import ChatTime from './ChatTime';
 import { memo } from 'react';
 
 function ChatBoard() {
