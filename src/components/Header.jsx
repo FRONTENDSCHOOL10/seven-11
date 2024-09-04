@@ -8,12 +8,11 @@ import clsx from 'clsx';
 Header.propTypes = {
   address: string.isRequired,
   isChatroom: bool.isRequired,
-  isMap: bool.isRequired,
-  isProfile: bool.isRequired,
+  isHiddenHeader: bool.isRequired,
 };
 
-function Header({ address, isChatroom, isMap, isProfile }) {
-  const displayNone = clsx(isMap || isProfile ? 'hidden' : '');
+function Header({ address, isChatroom, isHiddenHeader }) {
+  const displayNone = clsx(isHiddenHeader ? 'hidden' : '');
   return (
     <header
       className={`flex justify-between items-center px-2.5 py-1.5 border-b border-gray-200 ${displayNone}`}

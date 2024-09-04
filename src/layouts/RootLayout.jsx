@@ -6,15 +6,17 @@ export default function RootLayout() {
   const location = useLocation();
 
   const isChatroom = location.pathname.includes('/chat');
-  const isMap = location.pathname.includes('/map');
-  const isProfile = location.pathname.includes('/mypage');
+
+  const isHiddenHeader =
+    location.pathname.includes('/map') ||
+    location.pathname.includes('/profile') ||
+    location.pathname.includes('/mypage');
   return (
     <div className="w-full">
       <Header
         address=""
         isChatroom={isChatroom}
-        isMap={isMap}
-        isProfile={isProfile}
+        isHiddenHeader={isHiddenHeader}
       />
       <main className="flex-grow">
         <Outlet />

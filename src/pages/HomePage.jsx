@@ -12,7 +12,7 @@ export default function HomePage() {
           { value: 'male', label: '남자만' },
         ]}
       />
-      <Link to={'board/post'}>게시글 작성</Link>
+      <Link to={'qna-post'}>게시글 작성</Link>
       <Link to={'study-post'}>모집글 작성</Link>
     </div>
   );
