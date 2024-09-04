@@ -9,7 +9,7 @@ LeftIcon.propTypes = {
 function LeftIcon({ to }) {
   const navigate = useNavigate();
 
-  const handleClick = (e) => {
+  const handlePreviousPage = (e) => {
     if (!to) {
       e.preventDefault();
       navigate(-1);
@@ -17,7 +17,11 @@ function LeftIcon({ to }) {
   };
 
   return (
-    <Link to={to || '#'} onClick={handleClick} aria-label='이전 페이지로 이동'>
+    <Link
+      to={to || '#'}
+      onClick={handlePreviousPage}
+      aria-label="이전 페이지로 이동"
+    >
       <svg className="w-5 h-5">
         <use href="/stack.svg#left" />
       </svg>
