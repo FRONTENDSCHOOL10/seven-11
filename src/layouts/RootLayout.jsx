@@ -5,7 +5,7 @@ import FooterNav from '@/components/FooterNav';
 export default function RootLayout() {
   return (
     <div className="w-full">
-      <Header />
+      <Header address="" />
       <main className="flex-grow">
         <Outlet />
       </main>

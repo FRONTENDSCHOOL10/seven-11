@@ -1,0 +1,7 @@
+.component {
+  @apply w-[293px] h-[58px] bg-[#a2b2ba] rounded-[10px] py-[13px];
+}
+
+.container {
+  @apply flex flex-row gap-3 justify-between items-center w-full px-3;
+}

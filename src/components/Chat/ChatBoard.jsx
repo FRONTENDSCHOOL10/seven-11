@@ -2,13 +2,16 @@ import ChatMessage from './ChatMessage';
 import SentChat from '../../components/Chat/SentChat';
 import ChatTime from './ChatTime';
 import { memo } from 'react';
+import ChatNotice from '@/components/Chat/ChatNotice';
 
 function ChatBoard() {
   return (
     <div className="flex flex-col gap-2 px-3">
+      <ChatNotice />
+      <ChatTime time={'2024년 8월 15일'} />
       <ChatMessage
         message={
-          '안녕하세요 교수님. 저는 어쩌구학과 어쩌구학번 박윤선이라고 합니다.'
+          '안녕하세요 교수님. 졸업 안시켜주면 한강 다이브쇼를 하겠습니다.'
         }
         time={'오후 7:16'}
         userImg={'/favicon.svg'}
