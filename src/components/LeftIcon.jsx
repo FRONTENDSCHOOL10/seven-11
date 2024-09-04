@@ -17,7 +17,7 @@ function LeftIcon({ to }) {
   };
 
   return (
-    <Link to={to || '#'} onClick={handleClick}>
+    <Link to={to || '#'} onClick={handleClick} aria-label='이전 페이지로 이동'>
       <svg className="w-5 h-5">
         <use href="/stack.svg#left" />
       </svg>
