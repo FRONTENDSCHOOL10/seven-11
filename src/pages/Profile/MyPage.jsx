@@ -9,7 +9,7 @@ export function Component() {
     <div>
       <MyProfile />
       <MyMenu />
-      <Temperature temp={36.5} />
+      <Temperature temp={41.2} />
       <ContentNav />
       <InfoNav />
     </div>
