@@ -8,7 +8,7 @@ import ProfileButton from '@/components/MyPage/ProfileButton';
 function ProfileDetail() {
   return (
     <div>
-      <ProfileHeader to={'/home/profile-edit'}>기본정보</ProfileHeader>
+      <ProfileHeader to={'/home/user-info/profile-edit'}>기본정보</ProfileHeader>
       <div className="flex flex-col items-center mt-4">
         <ProfileImg
           userImg="/favicon.svg"

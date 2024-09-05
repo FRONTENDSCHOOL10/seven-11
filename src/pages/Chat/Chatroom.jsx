@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import ChatModal from '@/components/Chat/ChatModal';
 import clsx from 'clsx';
 import useChatListStore from '@/stores/useChatListStore';
+import SendMessageBar from '@/components/SendMessageBar';
 
 export default function Chatroom() {
   const open = useChatListStore((s) => s.isOpenedModal);
@@ -16,6 +17,10 @@ export default function Chatroom() {
         <ChatHeader title={'EUID 피그마 스터디 하실분~'} people={3} />
         <div>채팅방 ID: {roomId}</div>
         <ChatBoard />
+
+        <div className="absolute bottom-0 left-0 w-full">
+          <SendMessageBar />
+        </div>
       </div>
       <ChatModal isOpened={open} />
     </div>

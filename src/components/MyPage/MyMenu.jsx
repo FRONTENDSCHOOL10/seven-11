@@ -8,7 +8,7 @@ function MyMenu() {
       <MyMenuIcon
         iconTitle={'나의 프로필'}
         iconId={'my'}
-        to="/home/profile-edit"
+        to="/home/user-info/profile-edit"
       />
       <MyMenuIcon iconTitle={'나의 Q&A'} iconId={'alarmBell'} />
     </div>

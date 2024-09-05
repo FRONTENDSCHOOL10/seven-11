@@ -5,7 +5,7 @@ function EditProfile() {
   return (
     <div>
       <h1>프로필 편집</h1>
-      <Link to={'/home/profile-detail'}>프로필 수정</Link>
+      <Link to={'/home/user-info/profile-detail'}>프로필 수정</Link>
     </div>
   );
 }
