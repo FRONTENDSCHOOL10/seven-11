@@ -7,7 +7,7 @@ function FooterNav() {
   const [items] = useState(navigationItems);
 
   return (
-    <nav className="bg-white border-t border-gray-100 absolute bottom-0 w-full">
+    <nav className="bg-white border-t border-gray-100 w-full">
       <ul className="flex justify-around p-2">
         {items.map((item, index) => (
           <li key={index} className="flex-1 text-center">
