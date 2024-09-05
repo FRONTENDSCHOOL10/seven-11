@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        pretendard: ['Pretendard-Regular', 'sans-serif'],
+        pretendard: ['Pretendard Variable', 'sans-serif'],
         uhbee: ['UhBeeSe_hyun', 'sans-serif'],
       },
       colors: {

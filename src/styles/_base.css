@@ -16,7 +16,7 @@
   }
 
   body {
-    @apply font-pretendard;
+    @apply font-pretendard overflow-y-auto;
   }
 
   h1 {

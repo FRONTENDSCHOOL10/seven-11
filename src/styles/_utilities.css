@@ -10,3 +10,7 @@
     white-space: nowrap;
   }
 }
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
