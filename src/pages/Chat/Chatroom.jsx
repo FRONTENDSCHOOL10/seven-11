@@ -5,7 +5,7 @@ import ChatModal from '@/components/Chat/ChatModal';
 import clsx from 'clsx';
 import useChatStore from '@/stores/useChatStore';
 
-export function Chatroom() {
+export default function Chatroom() {
   const open = useChatStore((s) => s.isOpenedModal);
   const bgClass = clsx(open ? 'bg-[#46464699] opacity-65' : '');
   const { roomId } = useParams();

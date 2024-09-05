@@ -1,15 +1,22 @@
 import RootLayout from '@/layouts/RootLayout';
-import { QuestionPost } from '@/pages/QuestionPage/QuestionPost';
-import { createBrowserRouter } from 'react-router-dom';
-import CheckEmail from './pages/CheckEmail';
-import HomePage from './pages/HomePage';
-import Login from './pages/Login';
-import Search from './pages/Search';
-import SelectCategory from './pages/SelectCategory';
-import SignUp from './pages/SignUp';
-import StudyPost from './pages/StudyPost';
 import { configRoutes, getNavigationItems } from './utils/index';
-import LandingPage from './pages/LandingPage';
+import { createBrowserRouter } from 'react-router-dom';
+
+import {
+  QuestionPost,
+  HomePage,
+  UserProfile,
+  EditProfile,
+  ProfileDetail,
+  LandingPage,
+  SelectCategory,
+  SignUp,
+  CheckEmail,
+  Login,
+  Search,
+  StudyPost,
+  Chatroom,
+} from './pages/index';
 
 const navigation = [
   {
@@ -115,11 +122,6 @@ export const routes = [
 const router = createBrowserRouter(routes, {
   basename: import.meta.env.BASE_URL,
 });
-import { Chatroom } from './pages/Chat/Chatroom';
-import { element } from 'prop-types';
-import UserProfile from './pages/Profile/UserProfile';
-import EditProfile from './pages/Profile/EditProfile';
-import ProfileDetail from './pages/Profile/ProfileDetail';
 
 export default router;
 

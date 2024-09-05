@@ -39,6 +39,9 @@ module.exports = {
         profile: '0px 4px 4px 0px rgba(0, 0, 0, 0.10)',
         pencil: '4px 4px 4px 0px rgba(0, 0, 0, 0.15)',
       },
+      borderRadius: {
+        button: '10px',
+      },
     },
   },
   plugins: [],
