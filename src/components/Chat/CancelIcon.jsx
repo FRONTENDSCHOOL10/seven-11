@@ -1,8 +1,8 @@
-import useChatStore from '@/stores/useChatStore';
+import useChatListStore from '@/stores/useChatListStore';
 import { memo } from 'react';
 
 function CancelIcon() {
-  const setModal = useChatStore((s) => s.setModalClose);
+  const setModal = useChatListStore((s) => s.setModalClose);
   return (
     <button type="button" onClick={setModal}>
       <svg className="w-4 h-4">

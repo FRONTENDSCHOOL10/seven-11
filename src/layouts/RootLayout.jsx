@@ -9,7 +9,7 @@ export default function RootLayout() {
   const isHiddenHeader =
     location.pathname.includes('/map') ||
     location.pathname.includes('/profile') ||
-    location.pathname.includes('/mypage');
+    location.pathname.includes('/user-info');
 
   return (
     <div className="flex flex-col h-[693px] w-full">
@@ -18,7 +18,7 @@ export default function RootLayout() {
         isChatroom={isChatroom}
         isHiddenHeader={isHiddenHeader}
       />
-      <main className="flex-grow overflow-auto no-scrollbar">
+      <main className="flex-grow">
         <Outlet />
       </main>
       <FooterNav />
