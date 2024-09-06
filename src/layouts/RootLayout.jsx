@@ -6,13 +6,13 @@ export default function RootLayout() {
   const location = useLocation();
 
   const isChatroom = location.pathname.includes('/chat');
-
   const isHiddenHeader =
     location.pathname.includes('/map') ||
     location.pathname.includes('/profile') ||
-    location.pathname.includes('/mypage');
+    location.pathname.includes('/user-info');
+
   return (
-    <div className="w-full">
+    <div className="flex flex-col h-[693px] w-full">
       <Header
         address=""
         isChatroom={isChatroom}

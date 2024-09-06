@@ -8,7 +8,7 @@
     "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview",
-    "remove": "rm -rf docs",
+    "remove": "rm -rf dist",
     "lint": "eslint \"./src/**\" --report-unused-disable-directives --ignore-pattern .gitignore"
   },
   "devDependencies": {

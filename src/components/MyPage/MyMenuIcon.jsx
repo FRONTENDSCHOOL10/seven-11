@@ -5,11 +5,12 @@ import { Link } from 'react-router-dom';
 MyMenuIcon.propTypes = {
   iconTitle: string.isRequired,
   iconId: string.isRequired,
+  to: string,
 };
 
-function MyMenuIcon({ iconTitle, iconId }) {
+function MyMenuIcon({ iconTitle, iconId, to }) {
   return (
-    <Link className="flex flex-col gap-[6px] items-center">
+    <Link to={to} className="flex flex-col gap-[6px] items-center">
       <svg className={`w-[26px] h-[26px] `}>
         <use href={`/stack.svg#${iconId}`} />
       </svg>
