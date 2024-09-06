@@ -1,10 +1,13 @@
+import { number } from 'prop-types';
 import { memo } from 'react';
 
-function Temperature({ temp }) {
-  let percentage = ((temp - 36.5) / 36.5) * 100;
+Temperature.propTypes = {
+  temp: number.isRequired,
+};
 
-  if (percentage < 36.5) {
-    percentage = 36.5;
+function Temperature({ temp }) {
+  if (temp < 36.5) {
+    temp = 36.5;
   }
 
   return (
@@ -27,7 +30,7 @@ function Temperature({ temp }) {
       <div className="relative w-full h-3 bg-gray-300 rounded-full overflow-hidden">
         <div
           className={`h-full rounded-full transition-all duration-300 bg-secondary `}
-          style={{ width: `${percentage}%` }}
+          style={{ width: `${temp}%` }}
         ></div>
       </div>
     </div>

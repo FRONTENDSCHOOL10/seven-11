@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import pb from '../api/pb.js';
 
-const useChatStore = create((set) => ({
+const useChatListStore = create((set) => ({
   chatList: [],
   loading: false,
   error: null,
@@ -44,4 +44,4 @@ const useChatStore = create((set) => ({
   },
 }));
 
-export default useChatStore;
+export default useChatListStore;

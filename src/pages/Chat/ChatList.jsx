@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import useChatStore from '@/stores/useChatStore';
 import Chat from '@/components/Chat/Chat';
 import { getTimeDifference } from '@/utils/getTimeDifference';
+import useChatListStore from '@/stores/useChatListStore';
 
 export default function ChatList() {
-  const { chatList, loading, error, fetchChatList } = useChatStore();
+  const { chatList, loading, error, fetchChatList } = useChatListStore();
 
   useEffect(() => {
     fetchChatList();

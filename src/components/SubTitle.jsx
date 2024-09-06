@@ -5,11 +5,7 @@ SubTitle.propTypes = {
 };
 
 function SubTitle({ title }) {
-  return (
-    <section className="flex flex-col pl-3">
-      <h2 className="text-lg font-semibold">{title}</h2>
-    </section>
-  );
+  return <h2 className=" text-lg font-semibold">{title}</h2>;
 }
 
 export default SubTitle;
