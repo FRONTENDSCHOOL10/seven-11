@@ -12,8 +12,9 @@ import {
   Search,
   StudyPost,
   Chatroom,
+  UserProfile,
 } from './pages/index';
-import navigation from './layouts/navigation';
+import navigation from './navigation';
 
 export const routes = [
   {
@@ -54,10 +55,17 @@ export const routes = [
     element: <Chatroom />,
   },
   {
+    path: 'profile',
+    element: <UserProfile />,
+  },
+  {
     path: '/home',
     element: <RootLayout />,
     children: configRoutes(navigation),
   },
+
+  // 스터디 디테일: home/study-detail/:postId
+  // Q&A 디테일: home/board/qna-detail/:postId
 ];
 
 const router = createBrowserRouter(routes, {

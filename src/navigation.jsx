@@ -1,5 +1,11 @@
-import { EditProfile, HomePage, MyPage, ProfileDetail, UserProfile } from '@/pages';
-import ProfileRootLayout from './ProfileRootLayout';
+import {
+  EditProfile,
+  HomePage,
+  MyPage,
+  ProfileDetail,
+  UserProfile,
+} from '@/pages';
+import ProfileRootLayout from './layouts/ProfileRootLayout';
 
 const navigation = [
   {
@@ -14,21 +20,21 @@ const navigation = [
     path: 'board',
     icon: '#file',
     activeIcon: '#fullFile',
-    lazy: () => import('../pages/QuestionPage/QuestionPage'),
+    lazy: () => import('./pages/QuestionPage/QuestionPage'),
   },
   {
     text: '내 근처',
     path: 'map',
     icon: '#map',
     activeIcon: '#fullMap',
-    lazy: () => import('../pages/Map'),
+    lazy: () => import('./pages/Map'),
   },
   {
     text: '채팅',
     path: 'chat',
     icon: '#chat',
     activeIcon: '#fullChat',
-    lazy: () => import('../pages/Chat/Chatrooms'),
+    lazy: () => import('./pages/Chat/Chatrooms'),
   },
   {
     text: '마이 페이지',

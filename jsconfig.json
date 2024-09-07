@@ -6,6 +6,6 @@
     },
     "jsx": "react"
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "navigation.jsx"],
   "exclude": ["node_modules"]
 }
