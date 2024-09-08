@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import PostIcon from './PostIcon';
-import PostMenu from './PostMenu';
+import PostMenuModal from './PostMenuModal';
 
 function PostButton() {
   const [isClicked, setIsClicked] = useState(false);
@@ -12,7 +12,7 @@ function PostButton() {
   return (
     <div className="absolute right-2.5 bottom-20 ">
       <PostIcon onClick={handleClick} />
-      {isClicked && <PostMenu />}
+      {isClicked && <PostMenuModal />}
     </div>
   );
 }
