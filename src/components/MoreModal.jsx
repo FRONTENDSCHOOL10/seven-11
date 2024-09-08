@@ -25,7 +25,10 @@ function MoreModal({ isVisible }) {
             </button>
           </>
         ) : (
-          <button className="block mb-2" onClick={() => alert('신고')}>
+          <button
+            className="flex items-center justify-center  w-full h-[56px] text-base"
+            onClick={() => alert('신고')}
+          >
             신고
           </button>
         )}
