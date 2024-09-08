@@ -1,8 +1,8 @@
 import clsx from 'clsx';
-import { func, string } from 'prop-types';
+import { func, node } from 'prop-types';
 
 ProfileButton.propTypes = {
-  children: string.isRequired,
+  children: node.isRequired,
   onClick: func,
 };
 
