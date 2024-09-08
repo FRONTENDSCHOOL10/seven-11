@@ -16,13 +16,17 @@ function PostIcon({ onClick }) {
   };
 
   return (
-    <div onClick={handleClick} aria-label="글 올리기 메뉴 보기">
+    <button
+      type="button"
+      onClick={handleClick}
+      aria-label="글 올리기 메뉴 보기"
+    >
       <svg className="w-12 h-12">
         <use
           href={`/stack.svg#${isClicked ? 'postButtonClicked' : 'postButton'}`}
         />
       </svg>
-    </div>
+    </button>
   );
 }
 
