@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import { number } from 'prop-types';
 import { useState } from 'react';
 
 function Counter({ min = 2, max = 8 }) {
@@ -44,8 +44,8 @@ function Counter({ min = 2, max = 8 }) {
 }
 
 Counter.propTypes = {
-  min: PropTypes.number,
-  max: PropTypes.number,
+  min: number,
+  max: number,
 };
 
 export default Counter;
