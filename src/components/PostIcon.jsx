@@ -1,9 +1,9 @@
-import { func } from 'prop-types';
+import { bool, func } from 'prop-types';
 import { memo } from 'react';
 
 PostIcon.propTypes = {
   onClick: func.isRequired,
-  isClicked: func.isRequired,
+  isClicked: bool.isRequired,
 };
 
 function PostIcon({ onClick, isClicked }) {
