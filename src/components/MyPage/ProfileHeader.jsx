@@ -1,8 +1,8 @@
-import { string } from 'prop-types';
+import { node, string } from 'prop-types';
 import { Link } from 'react-router-dom';
 
 ProfileHeader.propTypes = {
-  children: string.isRequired,
+  children: node.isRequired,
   to: string,
 };
 

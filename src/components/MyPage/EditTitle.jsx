@@ -1,7 +1,7 @@
-import { string } from 'prop-types';
+import { node } from 'prop-types';
 
 EditTitle.propTypes = {
-  children: string.isRequired,
+  children: node.isRequired,
 };
 
 export default function EditTitle({ children }) {
