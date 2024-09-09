@@ -10,8 +10,8 @@ function PostButton() {
   };
 
   return (
-    <div className="absolute right-2.5 bottom-20 ">
-      <PostIcon onClick={handleClick} />
+    <div className="absolute right-2.5 bottom-20">
+      <PostIcon onClick={handleClick} isClicked={isClicked} />
       {isClicked && <PostMenuModal />}
     </div>
   );
