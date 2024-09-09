@@ -1,3 +1,4 @@
+import CategoryDropdown from '@/components/CategoryDropdown';
 import PostButton from '@/components/PostButton';
 import TopNav from '@/components/TopNav';
 import { Link } from 'react-router-dom';
@@ -9,6 +10,7 @@ export default function HomePage() {
       <TopNav />
       <Link to={'board/post'}>게시글 작성</Link>
       <Link to={'study-post'}>모집글 작성</Link>
+      <CategoryDropdown />
       <PostButton />
     </div>
   );
