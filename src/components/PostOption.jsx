@@ -1,32 +1,55 @@
 import PropTypes from 'prop-types';
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import IconTextBig from './IconTextBig';
+import Counter from './Counter';
 
-function PostOption({ value }) {
+function PostOption({ icon, text, value, optionType }) {
+  const [inputValue, setInputValue] = useState(value || '');
+
   return (
-    <div>
-      <div className="flex items-center justify-between px-3 py-4">
-        <IconTextBig icon="people" text="인원" />
-        <span className="text-base font-medium">{value}</span>
-      </div>
-      <div className="flex items-center justify-between px-3 py-4">
-        <IconTextBig icon="date" text="날짜" />
-        <span className="text-base font-medium">{value}</span>
-      </div>
-      <div className="flex items-center justify-between px-3 py-4">
-        <IconTextBig icon="time" text="시간" />
-        <span className="text-base font-medium">{value}</span>
-      </div>
-      <div className="flex items-center justify-between px-3 py-4">
-        <IconTextBig icon="gender" text="성별" />
-        <span className="text-base font-medium">{value}</span>
-      </div>
+    <div className="flex items-center justify-between px-3 py-4 text-base">
+      <IconTextBig icon={icon} text={text} />
+
+      {optionType === 'date' && (
+        <input
+          type="date"
+          className="border px-2 py-1 rounded"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+        />
+      )}
+
+      {optionType === 'time' && (
+        <input
+          type="time"
+          className="border px-2 py-1 rounded"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+        />
+      )}
+
+      {optionType === 'select' && (
+        <select
+          className="border px-2 py-1 rounded"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+        >
+          <option value="누구나">누구나</option>
+          <option value="남성">남성</option>
+          <option value="여성">여성</option>
+        </select>
+      )}
+
+      {optionType === 'counter' && <Counter min={2} max={8} />}
     </div>
   );
 }
 
 PostOption.propTypes = {
-  value: PropTypes.string.isRequired, // 값 (예: '오늘', '오후 8:00')
+  icon: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  value: PropTypes.string,
+  optionType: PropTypes.oneOf(['date', 'time', 'select', 'counter']).isRequired,
 };
 
 export default memo(PostOption);
