@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { string } from 'prop-types';
-import plusIcon from '../../public/plus.svg';
-import checkIcon from '../../public/check.svg';
+import PropTypes from 'prop-types';
 
 CategoryButton.propTypes = {
-  smallText: string,
-  largeText: string,
+  smallText: PropTypes.string,
+  largeText: PropTypes.string,
 };
 
 function CategoryButton({ smallText, largeText }) {
@@ -31,11 +29,11 @@ function CategoryButton({ smallText, largeText }) {
         </p>
       </div>
       <div className="rounded-full flex items-center justify-center">
-        <img
-          src={isSelected ? checkIcon : plusIcon}
-          alt="icon"
-          className="w-6 h-6"
-        />
+        <svg className="w-6 h-6">
+          <use
+            href={isSelected ? '/stack.svg#check' : '/stack.svg#plusCircle'}
+          />
+        </svg>
       </div>
     </button>
   );
