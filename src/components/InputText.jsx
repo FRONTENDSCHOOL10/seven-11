@@ -7,7 +7,7 @@ InputText.propTypes = {
 
 function InputText({ placeholder, onChange }) {
   return (
-    <div className=" border rounded border-black w-[295px] h-[38px] ">
+    <div className="border rounded border-black w-[295px] h-[38px] ">
       <input
         className="pl-3 text-base w-full h-full rounded
            "
@@ -17,7 +17,6 @@ function InputText({ placeholder, onChange }) {
         onChange={onChange}
       />
     </div>
-
   );
 }
 

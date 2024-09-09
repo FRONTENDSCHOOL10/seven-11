@@ -8,7 +8,7 @@ CheckButton.propTypes = {
 function CheckButton({ label, onClick }) {
   return (
     <button
-      className=" my-2 border rounded border-gray-300 text-base font-bold w-[295px] h-[38px]  "
+      className="border rounded border-gray-300 text-base font-bold w-[295px] h-[38px]  "
       type="button"
       id="CheckButton"
       onClick={onClick}
