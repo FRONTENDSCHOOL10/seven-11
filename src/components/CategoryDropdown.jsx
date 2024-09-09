@@ -11,7 +11,7 @@ function CategoryDropdown() {
     async function fetchCategories() {
       try {
         // 현재 로그인한 유저 정보 가져오는 것
-        const user = await pb.authStore.model;
+        const user = pb.authStore.model;
 
         // 유저의 category 필드에서 카테고리 ID 배열 가져옴
         const categoryIds = user.category;
@@ -53,7 +53,7 @@ function CategoryDropdown() {
         onClick={toggleDropdown}
       >
         <span>{selectedCategory}</span>
-        <svg className="w-4 h-4">
+        <svg className="w-4 h-4" aria-label="드롭다운 열기">
           <use href={'/stack.svg#down'} />
         </svg>
       </button>
