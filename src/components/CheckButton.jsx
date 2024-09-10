@@ -8,6 +8,8 @@ CheckButton.propTypes = {
   border: string,
   font: string,
   rounded: string,
+  height: string,
+  id: string,
 };
 
 function CheckButton({
@@ -18,12 +20,14 @@ function CheckButton({
   border = 'border-gray-300',
   font = 'text-base',
   rounded = 'rounded',
+  height = 'h-[38px]',
+  id = 'CheckButton',
 }) {
   return (
     <button
-      className={`border rounded border-gray-300 text-base font-bold w-[295px] h-[38px] ${textColor} ${bgColor} ${border} ${font} ${rounded}`}
+      className={`border rounded border-gray-300 text-base font-bold w-[295px] h-[38px] ${textColor} ${bgColor} ${border} ${font} ${rounded} ${height}`}
       type="button"
-      id="CheckButton"
+      id={id}
       onClick={onClick}
     >
       {label}
