@@ -1,46 +1,23 @@
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ProfileImg from './ProfileImg';
-import pb from '@/api/pb';
-import getAge from '@/utils/getAge';
-
-const user = await pb.collection('users').getOne('3446i6zpwmwme3w');
-const profileData = await pb
-  .collection('User_Profile')
-  .getFirstListItem(`user="${user.id}"`);
-
-console.log(profileData);
-
-const age = getAge(user.birth_date);
-
-const list = [
-  {
-    title: '프로필 사진',
-    img: `${pb.files.getUrl(user, user.avatar)}`,
-  },
-  {
-    title: '닉네임',
-    description: `${user.nickname}`,
-  },
-  {
-    title: '성별',
-    description: `${user.gender}`,
-  },
-  {
-    title: '연령',
-    description: `${age}`,
-  },
-  {
-    title: '직업',
-    description: `${profileData.job}`,
-  },
-  {
-    title: '자격',
-    description: `${profileData.license}`,
-  },
-];
+import useProfileStore from '@/stores/useProfileStore';
 
 function ProfileInfo() {
+  const { userList, fetchUserList, loading, error } = useProfileStore();
+
+  useEffect(() => {
+    fetchUserList();
+  }, [fetchUserList]);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>데이터 가져오기를 실패했습니다.: {error}</p>;
+  }
+
   return (
     <div className="w-full bg-white rounded-lg font-semibold">
       <div className="flex justify-between border-b border-gray-300 p-3">
@@ -53,7 +30,7 @@ function ProfileInfo() {
         </Link>
       </div>
       <ul className="flex flex-col">
-        {list.map((item, index) => (
+        {userList.map((item, index) => (
           <li key={index} className="flex justify-between p-3 items-center">
             <span className="text-base">{item.title}</span>
             {item.img ? (

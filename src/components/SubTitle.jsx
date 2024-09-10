@@ -5,7 +5,7 @@ SubTitle.propTypes = {
 };
 
 function SubTitle({ title }) {
-  return <h2 className=" text-lg font-semibold">{title}</h2>;
+  return <h2 className=" text-[20px] font-bold  ">{title}</h2>;
 }
 
 export default SubTitle;

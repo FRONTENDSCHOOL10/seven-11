@@ -9,7 +9,7 @@ function GenderRadio() {
   ];
 
   return (
-    <div className="flex py-3 w-[295px]">
+    <div className="flex w-[295px]">
       {genders.map((gender) => (
         <div key={gender.value} className="flex items-center pr-3">
           <label htmlFor={gender.value} className="mr-3 text-base">
