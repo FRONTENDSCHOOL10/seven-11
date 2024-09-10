@@ -77,7 +77,7 @@ export default function SignUp() {
             <SubTitle title="성별" />
           </p>
           <p className="my-3">
-            <GenderRadio />{' '}
+            <GenderRadio />
           </p>
         </section>
 
