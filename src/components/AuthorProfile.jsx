@@ -2,7 +2,7 @@ import pb from '@/api/pb';
 import { useEffect, useState } from 'react';
 import useUserStore from '../stores/useUserStore';
 
-function StudyAuthorProfile() {
+function AuthorProfile() {
   // 기존 useUseStore 에서 postAuthorId 가져오기
   const postAuthorId = useUserStore((state) => state.postAuthorId);
 
@@ -35,18 +35,26 @@ function StudyAuthorProfile() {
   }, [postAuthorId]);
 
   return (
-    <div className="flex items-center">
-      <div>
-        <img
-          src={authorData.avatar}
-          alt="작성자 아바타"
-          className="w-50 h-30 rounded-full mr-2"
-        />
-        <span className="block font-bold">{authorData.nickname}</span>
+    <div className="flex items-center gap-2.5">
+      <img
+        src={authorData.avatar}
+        alt="작성자 프로필 사진"
+        className="w-[30px] h-[30px] rounded-full"
+      />
+      <div className="flex flex-col">
+        <div className="flex items-center gap-1">
+          <span className="text-sm font-bold">{authorData.nickname}</span>
+          <div className="flex items-center space-x-[1px]">
+            <svg className="w-[17px] h-[17px]">
+              <use href="/stack.svg#organizer" />
+            </svg>
+            <span className="text-sm">모임장</span>
+          </div>
+        </div>
+        <span className="text-sm text-gray-400">{authorData.address}</span>
       </div>
-      <span className="text-sm text-gray-500">{authorData.address}</span>
     </div>
   );
 }
 
-export default StudyAuthorProfile;
+export default AuthorProfile;
