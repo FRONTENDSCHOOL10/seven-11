@@ -2,7 +2,9 @@ import { oneOf } from 'prop-types';
 import { memo } from 'react';
 
 function StatusBadge({ status }) {
-  return <span className=" text-primary text-lg font-semibold">{status}</span>;
+  return (
+    <span className=" text-secondary text-lg font-semibold">{status}</span>
+  );
 }
 
 StatusBadge.propTypes = {
