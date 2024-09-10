@@ -1,4 +1,6 @@
 import { memo, useEffect } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 import useCategoryStore from '@/stores/useCategoryStore';
 
 function CategoryNav() {
@@ -9,31 +11,42 @@ function CategoryNav() {
     fetchCategories('i0cg783rtm915js');
   }, [fetchCategories]);
 
-  console.log(categories);
   return (
-    <ul className="w-full h-[37px] bg-primary flex flex-row gap-2 justify-center items-center font-semibold text-base">
-      <li>
-        <a
-          className={selectedCategory === null ? 'text-white' : 'text-gray-400'}
-          onClick={() => setSelectedCategory(null)}
-        >
-          전체
-        </a>
-      </li>
-
-      {categories.map((item) => (
-        <li key={item.id}>
+    <div className="w-full h-[37px] bg-primary flex items-center justify-center font-semibold px-3">
+      <Swiper
+        spaceBetween={13.5}
+        slidesPerView={4}
+        className=""
+      >
+        <SwiperSlide className="flex justify-center items-center text-center whitespace-nowrap w-full">
           <a
-            className={
-              selectedCategory?.id === item.id ? 'text-white' : 'text-gray-400'
-            }
-            onClick={() => setSelectedCategory(item)}
+            className={`cursor-pointer w-full ${
+              selectedCategory === null ? 'text-white' : 'text-gray-400'
+            }`}
+            onClick={() => setSelectedCategory(null)}
           >
-            {item.category_name}
+            전체
           </a>
-        </li>
-      ))}
-    </ul>
+        </SwiperSlide>
+        {categories.map((item) => (
+          <SwiperSlide
+            key={item.id}
+            className="flex justify-center items-center text-center whitespace-nowrap"
+          >
+            <a
+              className={`cursor-pointer ${
+                selectedCategory?.id === item.id
+                  ? 'text-white'
+                  : 'text-gray-400'
+              }`}
+              onClick={() => setSelectedCategory(item)}
+            >
+              {item.category_name}
+            </a>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   );
 }
 
