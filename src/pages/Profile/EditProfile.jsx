@@ -1,9 +1,8 @@
 import ProfileCard from '@/components/MyPage/ProfileCard';
 import ProfileHeader from '@/components/MyPage/ProfileHeader';
 import ProfileInfo from '@/components/MyPage/ProfileInfo';
-import useProfileStore from '@/stores/useProfileStore';
 import { getStorageData } from '@/utils/getStorageData';
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 
 function EditProfile() {
   const userData = getStorageData('authInfo');
@@ -25,7 +24,6 @@ function EditProfile() {
           badge={'고인물'}
           userImg={'/favicon.svg'}
         />
-
         <ProfileInfo />
       </div>
     </div>
