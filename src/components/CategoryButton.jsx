@@ -15,7 +15,7 @@ function CategoryButton({ smallText, largeText }) {
 
   return (
     <button
-      className={`flex items-center justify-between w-[143px] h-[61px] rounded-lg p-2 flex-wrap my-1.5 
+      className={`flex items-center justify-between w-[143px] h-[61px] rounded-lg p-2 flex-wrap my-2 
         ${isSelected ? 'bg-primary' : 'bg-gray-300'}`}
       type="button"
       onClick={handleIconClick}

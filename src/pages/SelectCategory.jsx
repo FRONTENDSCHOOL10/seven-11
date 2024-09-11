@@ -7,9 +7,6 @@ import LeftIcon from '@/components/LeftIcon';
 export default function SelectCategory() {
   return (
     <>
-      <h1>카테고리 선택</h1>
-      <Link to={'/signup'}>회원가입으로 이동</Link>
-
       <div className="my-2 flex items-center px-2.5 py-1 gap-2 ">
         <LeftIcon />
         <SearchBar location="분야 (이름)로 검색" />
@@ -27,7 +24,7 @@ export default function SelectCategory() {
             }
             bgColor="bg-[#F0FBFF]"
             border="border-none"
-            font="text-xs"
+            font="text-[11px]"
             rounded="rounded-[10px]"
             height="h-[40px]"
           />

@@ -17,19 +17,23 @@ export default function LandingPage() {
         <div className="mb-[30px]">
           <SubTitle
             title="작심하루"
-            font="40px"
-            color="#79B2D1"
-            fontFamily="UhBeeSe_hyun"
-            fontWeight="normal"
+            font="text-[40px]"
+            color="text-primary"
+            fontFamily="font-uhbee"
+            fontWeight="font-normal"
           />
         </div>
-        <SubTitle title="당신 곁에 작심하루" font="20px" color="#79B2D1" />
+        <SubTitle
+          title="당신 곁에 작심하루"
+          font="text-[20px]"
+          color="text-primary"
+        />
         <SmallText
           title="하루라도, 작심하루와 공부하기!"
-          font="text-[15px]"
+          font="text-[16px]"
           color="text-gray-300"
         />
-        <div className="mt-[180px]">
+        <div className="mt-[160px]">
           <Link to={'/categories'}>
             <CheckButton
               label="시작하기"
@@ -41,7 +45,7 @@ export default function LandingPage() {
           </Link>
         </div>
 
-        <div className="text-sm flex justify-center h-[45px] items-center gap-3">
+        <div className="text-sm flex justify-center h-[70px] items-center gap-3">
           <span className="text-gray-300">이미 계정이 있나요?</span>
           <Link className="text-primary" to={'/login'}>
             로그인

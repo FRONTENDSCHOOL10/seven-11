@@ -10,21 +10,13 @@ SubTitle.propTypes = {
 
 function SubTitle({
   title,
-  font = '20px',
-  color = 'black',
+  font = 'text-[20px]',
+  color = 'text-black',
   fontFamily,
   fontWeight,
 }) {
   return (
-    <div
-      className=" font-bold  "
-      style={{
-        fontSize: font,
-        color: color,
-        fontFamily: fontFamily,
-        fontWeight: fontWeight,
-      }}
-    >
+    <div className={`font-bold ${font} ${color} ${fontFamily} ${fontWeight}`}>
       {title}
     </div>
   );

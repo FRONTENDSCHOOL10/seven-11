@@ -7,8 +7,8 @@ SmallText.propTypes = {
   font: string,
 };
 
-function SmallText({ title, color, href, font }) {
-  const textStyle = `text-sm ${color} ${font}`;
+function SmallText({ title, color, href, font = 'text-sm' }) {
+  const textStyle = ` ${color} ${font}`;
 
   if (href) {
     return (

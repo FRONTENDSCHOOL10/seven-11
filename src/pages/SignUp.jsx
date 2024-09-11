@@ -11,7 +11,6 @@ export default function SignUp() {
   const handleSignUp = () => {};
   return (
     <>
-      <Link to={'/check-email'}>이메일 체크 페이지로 이동</Link>
       <div className=" flex flex-col items-center justify-center">
         <section className="ml-3 my-2 text-left self-start">
           <SubTitle title="안녕하세요!" />
@@ -103,7 +102,9 @@ export default function SignUp() {
         </section>
 
         <div className="mb-3">
-          <NormalButton onClick={handleSignUp} label="가입하기" />
+          <Link className="text-primary" to={'/check-email'}>
+            <NormalButton onClick={handleSignUp} label="가입하기" />
+          </Link>
         </div>
       </div>
     </>
