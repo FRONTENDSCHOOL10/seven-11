@@ -1,27 +1,24 @@
 import { useState, useEffect } from 'react';
-import pb from '@/api/pb';
-import StudyPostItem from '@/components/Board/StudyPostItem';
-import BannerSwiper from '@/components/BannerSwiper';
-import CategoryNav from '@/components/Board/CategoryNav';
-import CategoryDropdown from '@/components/CategoryDropdown';
-import PostButton from '@/components/PostButton';
-import PostOptionList from '@/components/PostOptionList';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import pb from '@/api/pb';
 import useCategoryStore from '@/stores/useCategoryStore';
 import { getStorageData } from '@/utils';
-import { Helmet } from 'react-helmet-async';
+import {
+  BannerSwiper,
+  CategoryDropdown,
+  PostButton,
+  PostOptionList,
+} from '@/components';
+import { CategoryNav, StudyPostItem } from '@/components/Board';
 
 export default function HomePage() {
   const [studyList, setStudyList] = useState([]);
   const user = getStorageData('authInfo').user;
-  const { categories, selectedCategory, fetchCategories, setSelectedCategory } =
-    useCategoryStore();
+  const { categories, fetchCategories } = useCategoryStore();
 
   useEffect(() => {
-    const fetch = async () => {
-      await fetchCategories(user.id);
-    };
-    fetch();
+    fetchCategories();
   }, []);
 
   const studyListFetch = async () => {
@@ -36,6 +33,10 @@ export default function HomePage() {
   useEffect(() => {
     studyListFetch();
   }, []);
+
+  if (!categories) {
+    return <div>페이지 로딩중...</div>;
+  }
 
   return (
     <>

@@ -23,24 +23,24 @@ function SelectAgreement({
   return (
     <div className="flex flex-col gap-[9px] justify-center mt-3">
       <div className="flex gap-3">
-        <input
-          type="checkbox"
-          name="필수 동의"
-          id="needy"
-          className="w-4 h-4 flex-none"
-          checked={checked}
-          onChange={onChange}
-        />
-        <div className="flex flex-row justify-between w-full items-center">
+        <label htmlFor="needy" className="flex items-center gap-3">
+          <input
+            type="checkbox"
+            name="필수 동의"
+            id="needy"
+            className="w-4 h-4 flex-none"
+            checked={checked}
+            onChange={onChange}
+          />
           <span className="text-sm font-semibold">[ 필수 ] {children}</span>
-          <div
-            className={`flex items-center gap-[-4px] text-sm text-gray-300 ${detailClass}`}
-          >
-            <Link>자세히</Link>
-            <svg className="w-4 h-4 text-gray-300">
-              <use href="/stack.svg#right" />
-            </svg>
-          </div>
+        </label>
+        <div
+          className={`flex items-center gap-[-4px] text-sm text-gray-300 ${detailClass}`}
+        >
+          <Link>자세히</Link>
+          <svg className="w-4 h-4 text-gray-300">
+            <use href="/stack.svg#right" />
+          </svg>
         </div>
       </div>
       <div className={`pl-7 leading-4 ${discriptionClass}`}>

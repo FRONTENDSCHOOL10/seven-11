@@ -1,11 +1,12 @@
 import { string } from 'prop-types';
+import { memo } from 'react';
 
 LocationTime.propTypes = {
   time: string.isRequired,
   location: string,
 };
 
-export default function LocationTime({ location, time }) {
+function LocationTime({ location, time }) {
   return (
     <div className="flex text-gray-400 text-sm font-normal">
       {location ? (
@@ -18,3 +19,5 @@ export default function LocationTime({ location, time }) {
     </div>
   );
 }
+
+export default memo(LocationTime);

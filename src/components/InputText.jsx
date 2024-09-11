@@ -1,5 +1,5 @@
 import { string, func, oneOf } from 'prop-types';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 
 InputText.propTypes = {
   placeholder: string,
@@ -31,4 +31,4 @@ function InputText({ inputType, placeholder, onChange, name }) {
   );
 }
 
-export default InputText;
+export default memo(InputText);
