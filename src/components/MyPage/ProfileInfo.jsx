@@ -2,10 +2,10 @@ import { memo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ProfileImg from './ProfileImg';
 import useProfileStore from '@/stores/useProfileStore';
-import { getStorageData } from '@/utils/getStorageData';
+import { getStorageData } from '@/utils';
 
 function ProfileInfo() {
-  const { userList, fetchUserList, loading, error } = useProfileStore();
+  const { userList, fetchUserList } = useProfileStore();
 
   const userData = getStorageData('authInfo');
 
@@ -13,14 +13,6 @@ function ProfileInfo() {
     useEffect(() => {
       fetchUserList(userData.user.id);
     }, [fetchUserList]);
-  }
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>데이터 가져오기를 실패했습니다.: {error}</p>;
   }
 
   return (
