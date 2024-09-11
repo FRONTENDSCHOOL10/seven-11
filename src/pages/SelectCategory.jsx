@@ -45,13 +45,15 @@ export default function SelectCategory() {
         <CategoryButton smallText="기타" largeText="기타" />
 
         <p className="my-4">
-          <CheckButton
-            label="이대로 저장할래요"
-            textColor="text-white"
-            bgColor="bg-primary"
-            border="border-none"
-            rounded="rounded-[8px]"
-          />
+          <Link to={'/signup'}>
+            <CheckButton
+              label="이대로 저장할래요"
+              textColor="text-white"
+              bgColor="bg-primary"
+              border="border-none"
+              rounded="rounded-[8px]"
+            />
+          </Link>
         </p>
       </section>
     </>
