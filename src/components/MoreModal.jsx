@@ -1,15 +1,20 @@
 import { bool, func } from 'prop-types';
-import useUserStore from '../stores/useUserStore';
+import useAuthorStore from '../stores/useAuthorStore';
+import { getStorageData } from '@/utils/getStorageData';
 
 function MoreModal({ isVisible }) {
-  const isAuthor = useUserStore((state) => state.isAuthor());
+  const { isAuthor } = useAuthorStore();
+  const authInfo = getStorageData('authInfo');
+  const loggedInUserId = authInfo?.user?.id;
 
   if (!isVisible) return null;
+
+  const isUserAuthor = isAuthor(loggedInUserId);
 
   return (
     <div className="absolute top-full right-0 flex items-end justify-end">
       <div className=" w-[113px] flex flex-col  bg-white rounded-es border-l border-b border-gray-100 shadow-md ">
-        {isAuthor ? (
+        {isUserAuthor ? (
           <>
             <button
               className="flex items-center justify-center  w-full h-[56px] text-base border-b border-gray-100 "
