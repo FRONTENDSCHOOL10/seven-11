@@ -1,6 +1,13 @@
 import { memo } from 'react';
 import ProfileBadge from './ProfileBadge';
 import ProfileImg from './ProfileImg';
+import { oneOf, string } from 'prop-types';
+
+ProfileCard.propTypes = {
+  userName: string.isRequired,
+  badge: oneOf(['뉴비', '고인물', '화석']),
+  userImg: string,
+};
 
 function ProfileCard({ userName, badge, userImg }) {
   return (

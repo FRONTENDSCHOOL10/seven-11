@@ -1,28 +1,23 @@
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import useCategoryStore from '@/stores/useCategoryStore';
+import clsx from 'clsx';
 
 function CategoryNav() {
-  const { categories, selectedCategory, fetchCategories, setSelectedCategory } =
+  const { categories, selectedCategory, setSelectedCategory } =
     useCategoryStore();
 
-  useEffect(() => {
-    fetchCategories('i0cg783rtm915js');
-  }, [fetchCategories]);
+  const textClass = clsx(
+    selectedCategory === null ? 'text-white' : 'text-gray-400'
+  );
 
   return (
     <div className="w-full h-[37px] bg-primary flex items-center justify-center font-semibold px-3">
-      <Swiper
-        spaceBetween={13.5}
-        slidesPerView={4}
-        className=""
-      >
+      <Swiper spaceBetween={13.5} slidesPerView={4} className="">
         <SwiperSlide className="flex justify-center items-center text-center whitespace-nowrap w-full">
           <a
-            className={`cursor-pointer w-full ${
-              selectedCategory === null ? 'text-white' : 'text-gray-400'
-            }`}
+            className={`cursor-pointer w-full ${textClass}`}
             onClick={() => setSelectedCategory(null)}
           >
             전체

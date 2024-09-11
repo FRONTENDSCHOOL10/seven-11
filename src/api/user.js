@@ -1,3 +1,4 @@
+import { removeStorageData } from '@/utils';
 import pb from './pb';
 
 export async function userSignUp(username, email, password) {
@@ -22,4 +23,9 @@ export async function userSignIn(email, password) {
   return authData;
 }
 
-export function signOut() {}
+export async function signOut() {
+  pb.authStore.clear();
+  removeStorageData('authInfo');
+
+  console.log('로그아웃됨!');
+}

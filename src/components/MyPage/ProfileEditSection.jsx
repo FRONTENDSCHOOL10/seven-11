@@ -1,14 +1,17 @@
+import { getStorageData } from '@/utils';
 import InputText from '../InputText';
 import EditButton from './EditButton';
 import EditInput from './EditInput';
 import EditTitle from './EditTitle';
 
 export default function ProfileEditSection() {
+  const user = getStorageData('authInfo').user;
+
   return (
     <div className="flex flex-col gap-[11px] mb-[13px]">
       <EditTitle>닉네임</EditTitle>
       <div className="flex flex-row justify-center gap-2 w-full max-w-md mx-auto">
-        <EditInput />
+        <EditInput placeholder={user.nickname} />
         <EditButton>중복확인</EditButton>
       </div>
       <EditTitle>직업</EditTitle>
