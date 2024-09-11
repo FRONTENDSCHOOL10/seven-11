@@ -17,9 +17,9 @@ export default function SignUp() {
         <section className="ml-3 my-2 text-left self-start">
           <SubTitle title="안녕하세요!" />
           <SubTitle title="이메일로 회원가입해주세요." />
-          <p className="my-2">
+          <div className="my-2">
             <SmallText title="회원 정보는 안전하게 보관되며 서로에게 공개되지 않아요." />
-          </p>
+          </div>
 
           {/* <div className="flex">
             <SmallText title="회원이 아니신가요?" color="text-gray-300" />
@@ -28,57 +28,57 @@ export default function SignUp() {
         </section>
 
         <section>
-          <p className="mt-1.5">
+          <div className="mt-1.5">
             <SubTitle title="이메일 " />
-          </p>
-          <p className="my-3">
+          </div>
+          <div className="my-3">
             <InputText placeholder="이메일을 작성해주세요" />
-          </p>
-          <p className="my-3">
+          </div>
+          <div className="my-3">
             <CheckButton label="중복확인" />
-          </p>
+          </div>
         </section>
 
         <section>
-          <p className="mt-1.5">
+          <div className="mt-1.5">
             <SubTitle title="비밀번호" />
-          </p>
-          <p className="my-3">
+          </div>
+          <div className="my-3">
             <InputText placeholder="비밀번호를 작성해주세요" />
-          </p>
-          <p className="my-3">
+          </div>
+          <div className="my-3">
             <InputText placeholder="비밀번호를 한번 더 작성해주세요" />
-          </p>
+          </div>
         </section>
 
         <section>
-          <p className="mt-1.5">
+          <div className="mt-1.5">
             <SubTitle title="닉네임" />
-          </p>
-          <p className="my-3">
+          </div>
+          <div className="my-3">
             <InputText placeholder="닉네임을 작성해주세요" />
-          </p>
-          <p className="my-3">
+          </div>
+          <div className="my-3">
             <CheckButton label="중복확인" />
-          </p>
+          </div>
         </section>
 
         <section>
-          <p className="mt-1.5">
+          <div className="mt-1.5">
             <SubTitle title="직업" />
-          </p>
-          <p className="my-3">
+          </div>
+          <div className="my-3">
             <InputText placeholder="직업을 입력해주세요" />
-          </p>
+          </div>
         </section>
 
         <section>
-          <p className="mt-1.5">
+          <div className="mt-1.5">
             <SubTitle title="성별" />
-          </p>
-          <p className="my-3">
+          </div>
+          <div className="my-3">
             <GenderRadio />
-          </p>
+          </div>
         </section>
 
         <section>
@@ -87,30 +87,30 @@ export default function SignUp() {
           </div>
 
           <div className="flex">
-            <p className="mx-1 my-1">
+            <div className="mx-1 my-1">
               <DateButton label="년" />
-            </p>
-            <p className="mx-1 my-1">
+            </div>
+            <div className="mx-1 my-1">
               <DateButton label="월" />
-            </p>
-            <p className="mx-1 my-1">
+            </div>
+            <div className="mx-1 my-1">
               <DateButton label="일" />
-            </p>
+            </div>
           </div>
         </section>
 
         <section>
-          <p className="mt-1.5">
+          <div className="mt-1.5">
             <SubTitle title="주소" />
-          </p>
-          <p className="my-3">
+          </div>
+          <div className="my-3">
             <CheckButton label="주소 찾기" />
-          </p>
+          </div>
         </section>
 
-        <p className="mb-3">
+        <div className="mb-3">
           <NormalButton onClick={handleSignUp} label="가입하기" />
-        </p>
+        </div>
       </div>
     </>
   );

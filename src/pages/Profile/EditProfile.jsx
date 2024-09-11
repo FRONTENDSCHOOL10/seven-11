@@ -1,9 +1,14 @@
 import ProfileCard from '@/components/MyPage/ProfileCard';
 import ProfileHeader from '@/components/MyPage/ProfileHeader';
 import ProfileInfo from '@/components/MyPage/ProfileInfo';
-import { memo } from 'react';
+import useProfileStore from '@/stores/useProfileStore';
+import { getStorageData } from '@/utils/getStorageData';
+import { memo, useEffect } from 'react';
 
 function EditProfile() {
+  const userData = getStorageData('authInfo');
+
+  console.log(userData);
   return (
     <div className="h-full">
       <ProfileHeader to={'/home/user-info'}>프로필수정</ProfileHeader>
