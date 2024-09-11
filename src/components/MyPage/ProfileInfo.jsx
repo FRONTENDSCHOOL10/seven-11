@@ -2,13 +2,18 @@ import { memo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ProfileImg from './ProfileImg';
 import useProfileStore from '@/stores/useProfileStore';
+import { getStorageData } from '@/utils/getStorageData';
 
 function ProfileInfo() {
   const { userList, fetchUserList, loading, error } = useProfileStore();
 
-  useEffect(() => {
-    fetchUserList();
-  }, [fetchUserList]);
+  const userData = getStorageData('authInfo');
+
+  if (userData) {
+    useEffect(() => {
+      fetchUserList(userData.user.id);
+    }, [fetchUserList]);
+  }
 
   if (loading) {
     return <p>Loading...</p>;

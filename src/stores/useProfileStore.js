@@ -7,10 +7,10 @@ const useProfileStore = create((set) => ({
   loading: false,
   error: null,
 
-  fetchUserList: async () => {
+  fetchUserList: async (id) => {
     set({ loading: true, error: null });
     try {
-      const user = await pb.collection('users').getOne('3446i6zpwmwme3w');
+      const user = await pb.collection('users').getOne(id);
       const profileData = await pb
         .collection('User_Profile')
         .getFirstListItem(`user="${user.id}"`);
