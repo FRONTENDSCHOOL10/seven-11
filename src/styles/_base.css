@@ -9,8 +9,4 @@
   body {
     @apply font-pretendard;
   }
-
-  h1 {
-    @apply font-uhbee text-4xl;
-  }
 }

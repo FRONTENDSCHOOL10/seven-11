@@ -17,7 +17,7 @@ function SmallText({ title, color, href }) {
     );
   }
 
-  return <p className={textStyle}>{title}</p>;
+  return <div className={textStyle}>{title}</div>;
 }
 
 export default SmallText;

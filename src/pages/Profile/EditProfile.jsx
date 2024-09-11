@@ -1,8 +1,13 @@
 import ProfileCard from '@/components/MyPage/ProfileCard';
 import ProfileHeader from '@/components/MyPage/ProfileHeader';
+import ProfileInfo from '@/components/MyPage/ProfileInfo';
+import { getStorageData } from '@/utils/getStorageData';
 import { memo } from 'react';
 
 function EditProfile() {
+  const userData = getStorageData('authInfo');
+
+  console.log(userData);
   return (
     <div className="h-full">
       <ProfileHeader to={'/home/user-info'}>프로필수정</ProfileHeader>
@@ -19,7 +24,7 @@ function EditProfile() {
           badge={'고인물'}
           userImg={'/favicon.svg'}
         />
-        {/* <ProfileInfo /> */}
+        <ProfileInfo />
       </div>
     </div>
   );
