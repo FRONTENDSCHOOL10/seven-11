@@ -10,7 +10,7 @@ QuestionList.propTypes = {
 
 function QuestionList({ tag, title, description, timeAgo, imageUrl }) {
   return (
-    <div className="flex justify-between items-center p-3 border-y border-gray-300 ">
+    <div className="flex justify-between items-center p-3 border-b border-gray-300 ">
       <div className="flex flex-col flex-grow">
         <span className="bg-gray-300 font-semibold text-white text-sm px-1 py-0.5 rounded self-start">
           {tag}
