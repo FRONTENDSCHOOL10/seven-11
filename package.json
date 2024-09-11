@@ -1,9 +1,9 @@
 {
   "type": "module",
   "private": true,
-  "name": "vite-react-template",
+  "name": "seven-11-final-project",
   "version": "0.0.1",
-  "description": "Vite React template scaffolding",
+  "description": "Likelion 11 seven-11 React Final Project Study Platform",
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
