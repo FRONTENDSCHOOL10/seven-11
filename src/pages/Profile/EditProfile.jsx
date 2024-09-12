@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import pb from '@/api/pb';
 
@@ -10,7 +10,16 @@ import useProfileStore from '@/stores/useProfileStore';
 
 function EditProfile() {
   const user = getStorageData('authInfo').user;
-  const profile = useProfileStore((s) => s.profile);
+  const { profile, fetchUserProfile } = useProfileStore((s) => ({
+    profile: s.profile,
+    fetchUserProfile: s.fetchUserProfile,
+  }));
+
+  const fetchOnce = useCallback(() => {
+    fetchUserProfile();
+  }, [fetchUserProfile]);
+
+  useEffect(fetchOnce, [fetchOnce]);
 
   return (
     <>
@@ -33,7 +42,7 @@ function EditProfile() {
           </div>
           <ProfileCard
             userName={user.nickname}
-            badge={profile.level}
+            badge={profile?.level}
             userImg={pb.files.getUrl(user, user.avatar)}
           />
           <ProfileInfo />
