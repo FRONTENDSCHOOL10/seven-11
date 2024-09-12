@@ -1,7 +1,7 @@
 import { userSignIn } from '@/api/user';
 import InputText from '@/components/InputText';
 import NormalButton from '@/components/NormalButton';
-import { setStorageData } from '@/utils/';
+import { setStorageData } from '@/utils/storageData';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
