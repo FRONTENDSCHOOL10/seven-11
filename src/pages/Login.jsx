@@ -2,6 +2,7 @@ import { userSignIn } from '@/api/user';
 import InputText from '@/components/InputText';
 import NormalButton from '@/components/NormalButton';
 import { setStorageData } from '@/utils/';
+import { isValidEmail } from '@/utils/validation';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
@@ -34,6 +35,7 @@ export default function Login() {
   };
 
   const handleEmailInput = (value) => {
+    console.log(isValidEmail(value));
     setFormState((prev) => ({
       ...prev,
       email: value,

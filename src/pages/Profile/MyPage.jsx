@@ -16,8 +16,8 @@ export default function MyPage() {
   const { profile, fetchUserProfile } = useProfileStore();
 
   useEffect(() => {
-    fetchUserProfile();
-  }, []);
+    fetchUserProfile(user);
+  }, [fetchUserProfile]);
 
   if (!profile || Object.keys(profile).length === 0) {
     return <div>페이지 로딩중...</div>;

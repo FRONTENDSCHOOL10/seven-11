@@ -1,4 +1,4 @@
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import pb from '@/api/pb';
 
@@ -10,15 +10,7 @@ import useProfileStore from '@/stores/useProfileStore';
 
 function EditProfile() {
   const user = getStorageData('authInfo').user;
-  const { profile, fetchUserProfile } = useProfileStore();
-
-  useEffect(() => {
-    fetchUserProfile();
-  }, []);
-
-  if (!profile || Object.keys(profile).length === 0) {
-    return <div>페이지 로딩중...</div>;
-  }
+  const profile = useProfileStore((s) => s.profile);
 
   return (
     <>

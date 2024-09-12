@@ -1,16 +1,14 @@
 import pb from '@/api/pb';
-import { getStorageData } from '@/utils';
 import { create } from 'zustand';
 
 const useProfileStore = create((set) => ({
-  user: getStorageData('authInfo').user,
+  user: null,
   userList: [],
   loading: false,
   error: null,
   profile: {},
 
-  fetchUserProfile: async () => {
-    const user = getStorageData('authInfo').user;
+  fetchUserProfile: async (user) => {
     try {
       const record = await pb
         .collection('User_Profile')
