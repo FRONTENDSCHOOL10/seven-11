@@ -12,6 +12,7 @@ export default function ProfileButton({ children, onClick }) {
 
   return (
     <button
+      type="button"
       className={`${bgClass} ${borderClass}  px-[40px] py-2 rounded-[8px] text-base font-semibold w-[145px] h-[37px]`}
       onClick={onClick}
     >

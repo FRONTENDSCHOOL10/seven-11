@@ -34,13 +34,8 @@ const useChatListStore = create((set) => ({
     }
   },
 
-  setModalOpen: () => {
-    set({ isOpenedModal: true });
-    console.log('모달 오픈!');
-  },
-
-  setModalClose: () => {
-    set({ isOpenedModal: false });
+  setToggleModal: () => {
+    set((state) => ({ isOpenedModal: !state.isOpenedModal }));
   },
 }));
 

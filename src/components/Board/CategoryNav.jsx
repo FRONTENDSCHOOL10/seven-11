@@ -6,7 +6,11 @@ import clsx from 'clsx';
 
 function CategoryNav() {
   const { categories, selectedCategory, setSelectedCategory } =
-    useCategoryStore();
+    useCategoryStore((s) => ({
+      categories: s.categories,
+      selectedCategory: s.selectedCategory,
+      setSelectedCategory: s.setSelectedCategory,
+    }));
 
   const textClass = clsx(
     selectedCategory === null ? 'text-white' : 'text-gray-400'

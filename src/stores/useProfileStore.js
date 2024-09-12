@@ -1,54 +1,23 @@
 import pb from '@/api/pb';
-import getAge from '@/utils/getAge';
+import { getStorageData } from '@/utils';
 import { create } from 'zustand';
 
 const useProfileStore = create((set) => ({
+  user: getStorageData('authInfo').user,
   userList: [],
   loading: false,
   error: null,
+  profile: {},
 
-  fetchUserList: async (id) => {
-    set({ loading: true, error: null });
+  fetchUserProfile: async () => {
+    const user = getStorageData('authInfo').user;
     try {
-      const user = await pb.collection('users').getOne(id);
-      const profileData = await pb
+      const record = await pb
         .collection('User_Profile')
-        .getFirstListItem(`user="${user.id}"`);
-
-      const birth = user.birth_date;
-      const age = getAge(birth);
-
-      const list = [
-        {
-          title: '프로필 사진',
-          img: `${pb.files.getUrl(user, user.avatar)}`,
-        },
-        {
-          title: '닉네임',
-          description: `${user.nickname}`,
-        },
-        {
-          title: '성별',
-          description: `${user.gender}`,
-        },
-        {
-          title: '연령',
-          description: `${age}`,
-        },
-        {
-          title: '직업',
-          description: `${profileData.job}`,
-        },
-        {
-          title: '자격',
-          description: `${profileData.license}`,
-        },
-      ];
-
-      set({ userList: list, loading: false });
+        .getFirstListItem(`user.id="${user.id}"`);
+      set({ profile: record });
     } catch (error) {
-      console.error('User Info Data Fetch 실패', error);
-      set({ loading: false, error: 'Failed to fetch user data' });
+      console.error('User_Profile를 가져오는 데 실패했습니다.:', error);
     }
   },
 }));

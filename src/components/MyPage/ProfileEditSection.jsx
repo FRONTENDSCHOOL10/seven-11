@@ -1,10 +1,9 @@
 import { getStorageData } from '@/utils';
-import InputText from '../InputText';
-import EditButton from './EditButton';
-import EditInput from './EditInput';
-import EditTitle from './EditTitle';
+import { memo } from 'react';
+import { EditTitle, EditInput, EditButton } from './index';
+import { InputText } from '../index';
 
-export default function ProfileEditSection() {
+function ProfileEditSection() {
   const user = getStorageData('authInfo').user;
 
   return (
@@ -21,3 +20,5 @@ export default function ProfileEditSection() {
     </div>
   );
 }
+
+export default memo(ProfileEditSection);

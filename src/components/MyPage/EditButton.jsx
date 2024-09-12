@@ -1,10 +1,11 @@
 import { func, string } from 'prop-types';
+import { memo } from 'react';
 
 EditButton.propTypes = {
   onClick: func,
   children: string,
 };
-export default function EditButton({ onClick, children }) {
+function EditButton({ onClick, children }) {
   return (
     <button
       type="button"
@@ -15,3 +16,5 @@ export default function EditButton({ onClick, children }) {
     </button>
   );
 }
+
+export default memo(EditButton);

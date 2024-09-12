@@ -1,4 +1,5 @@
 import { node, string } from 'prop-types';
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
 ProfileHeader.propTypes = {
@@ -6,7 +7,7 @@ ProfileHeader.propTypes = {
   to: string,
 };
 
-export default function ProfileHeader({ children, to }) {
+function ProfileHeader({ children, to }) {
   return (
     <div className="flex flex-row items-center justify-between p-[14px] border-b border-gray-300">
       <h2 className="font-semibold text-base">{children}</h2>
@@ -23,3 +24,5 @@ export default function ProfileHeader({ children, to }) {
     </div>
   );
 }
+
+export default memo(ProfileHeader);

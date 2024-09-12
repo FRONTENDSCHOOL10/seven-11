@@ -1,19 +1,44 @@
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import ProfileImg from './ProfileImg';
 import useProfileStore from '@/stores/useProfileStore';
 import { getStorageData } from '@/utils';
+import pb from '@/api/pb';
+import getAge from '@/utils/getAge';
 
 function ProfileInfo() {
-  const { userList, fetchUserList } = useProfileStore();
+  const profile = useProfileStore((s) => s.profile);
+  const user = getStorageData('authInfo').user;
 
-  const userData = getStorageData('authInfo');
+  const birth = user.birth_date;
+  const age = getAge(birth);
 
-  if (userData) {
-    useEffect(() => {
-      fetchUserList(userData.user.id);
-    }, [fetchUserList]);
-  }
+  const list = [
+    {
+      title: '프로필 사진',
+      img: `${pb.files.getUrl(user, user.avatar)}`,
+    },
+    {
+      title: '닉네임',
+      description: `${user.nickname}`,
+    },
+    {
+      title: '성별',
+      description: `${user.gender}`,
+    },
+    {
+      title: '연령',
+      description: `${age}`,
+    },
+    {
+      title: '직업',
+      description: `${profile.job}`,
+    },
+    {
+      title: '자격',
+      description: `${profile.license}`,
+    },
+  ];
 
   return (
     <div className="w-full bg-white rounded-lg font-semibold">
@@ -27,7 +52,7 @@ function ProfileInfo() {
         </Link>
       </div>
       <ul className="flex flex-col">
-        {userList.map((item, index) => (
+        {list.map((item, index) => (
           <li key={index} className="flex justify-between p-3 items-center">
             <span className="text-base">{item.title}</span>
             {item.img ? (
