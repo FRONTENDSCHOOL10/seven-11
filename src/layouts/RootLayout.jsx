@@ -1,10 +1,16 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import Header from '@/components/Header';
 import FooterNav from '@/components/FooterNav';
-import PostButton from '@/components/PostButton'; // PostButton 추가
+import PostButton from '@/components/PostButton';
+import { getStorageData } from '@/utils';
+import getDetailedAddress from '@/utils/getDetailedAddress';
 
 export default function RootLayout() {
   const location = useLocation();
+
+  const authInfo = getStorageData('authInfo');
+  const userAddress = authInfo?.user?.address || '';
+  const detailedAddress = getDetailedAddress(userAddress);
 
   const isChatroom = location.pathname.includes('/chat');
   const isHiddenHeader =
@@ -18,7 +24,7 @@ export default function RootLayout() {
   return (
     <div className="relative flex flex-col h-[693px] w-full">
       <Header
-        address=""
+        address={detailedAddress || ''}
         isChatroom={isChatroom}
         isHiddenHeader={isHiddenHeader}
       />
