@@ -1,6 +1,6 @@
 import pb from '@/api/pb';
 import { useEffect, useState } from 'react';
-import useUserStore from '../stores/useUserStore';
+import useUserStore from '../stores/useAuthorStore';
 
 function AuthorProfile() {
   // 기존 useUseStore 에서 postAuthorId 가져오기

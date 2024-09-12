@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import pb from '@/api/pb';
 import TopNav from '@/components/TopNav';
-import useUserStore from '../stores/useUserStore';
+import useUserStore from '../stores/useAuthorStore';
 import { string } from 'prop-types';
 
 StudyDetailPage.propTypes = {

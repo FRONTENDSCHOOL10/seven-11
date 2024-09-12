@@ -5,7 +5,7 @@ import pb from '@/api/pb';
 import ProfileCard from '@/components/MyPage/ProfileCard';
 import ProfileHeader from '@/components/MyPage/ProfileHeader';
 import ProfileInfo from '@/components/MyPage/ProfileInfo';
-import { getStorageData } from '@/utils';
+import { getStorageData } from '@/utils/storageData.js';
 import useProfileStore from '@/stores/useProfileStore';
 
 function EditProfile() {

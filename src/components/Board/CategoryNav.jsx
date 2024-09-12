@@ -12,36 +12,32 @@ function CategoryNav() {
       setSelectedCategory: s.setSelectedCategory,
     }));
 
-  const textClass = clsx(
-    selectedCategory === null ? 'text-white' : 'text-gray-400'
-  );
+  const getTextClass = (id) => {
+    return clsx(selectedCategory === id ? 'text-white' : 'text-gray-400');
+  };
 
   return (
     <div className="w-full h-[37px] bg-primary flex items-center justify-center font-semibold px-3">
       <Swiper spaceBetween={13.5} slidesPerView={4} className="">
         <SwiperSlide className="flex justify-center items-center text-center whitespace-nowrap w-full">
-          <a
-            className={`cursor-pointer w-full ${textClass}`}
+          <button
+            className={`cursor-pointer w-full ${getTextClass(null)}`}
             onClick={() => setSelectedCategory(null)}
           >
             전체
-          </a>
+          </button>
         </SwiperSlide>
         {categories.map((item) => (
           <SwiperSlide
             key={item.id}
             className="flex justify-center items-center text-center whitespace-nowrap"
           >
-            <a
-              className={`cursor-pointer ${
-                selectedCategory?.id === item.id
-                  ? 'text-white'
-                  : 'text-gray-400'
-              }`}
-              onClick={() => setSelectedCategory(item)}
+            <button
+              className={`cursor-pointer w-full ${getTextClass(item.id)}`}
+              onClick={() => setSelectedCategory(item.id)}
             >
               {item.category_name}
-            </a>
+            </button>
           </SwiperSlide>
         ))}
       </Swiper>
