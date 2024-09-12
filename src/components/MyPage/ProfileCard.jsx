@@ -1,7 +1,8 @@
 import { memo } from 'react';
+
+import { oneOf, string } from 'prop-types';
 import ProfileBadge from './ProfileBadge';
 import ProfileImg from './ProfileImg';
-import { oneOf, string } from 'prop-types';
 
 ProfileCard.propTypes = {
   userName: string.isRequired,

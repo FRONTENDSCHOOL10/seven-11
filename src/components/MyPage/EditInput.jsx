@@ -1,10 +1,11 @@
 import { string } from 'prop-types';
+import { memo } from 'react';
 
 EditInput.propTypes = {
   placeholder: string,
 };
 
-export default function EditInput({ placeholder }) {
+function EditInput({ placeholder }) {
   return (
     <input
       type="text"
@@ -13,3 +14,5 @@ export default function EditInput({ placeholder }) {
     />
   );
 }
+
+export default memo(EditInput);
