@@ -3,7 +3,6 @@ import { getStorageData } from '@/utils';
 import { create } from 'zustand';
 
 const useProfileStore = create((set) => ({
-  user: getStorageData('authInfo').user,
   userList: [],
   loading: false,
   error: null,
