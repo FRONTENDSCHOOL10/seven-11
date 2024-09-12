@@ -16,20 +16,40 @@ function StudyPostItem({ item }) {
   const [chatroom, setChatroom] = useState(null);
 
   useEffect(() => {
-    const fetch = async () => {
-      const data = await pb.collection('Categories').getOne(item.category);
-      setCategory(data);
+    const fetchCategory = async () => {
+      if (item.category) {
+        try {
+          const data = await pb.collection('Categories').getOne(item.category);
+          setCategory(data);
+        } catch (error) {
+          console.error(
+            '카테고리 정보를 가져오는 중 오류가 발생했습니다:',
+            error
+          );
+        }
+      }
     };
-    fetch();
-  }, []);
+    fetchCategory();
+  }, [item.category]); // 이 값이 변경될때만 새로운 카테고리 데이터 가져오도록
 
   useEffect(() => {
-    const fetch = async () => {
-      const chatroom = await pb.collection('ChatRooms').getOne(item.chatroom);
-      setChatroom(chatroom);
+    const fetchChatroom = async () => {
+      if (item.chatroom) {
+        try {
+          const chatroom = await pb
+            .collection('ChatRooms')
+            .getOne(item.chatroom);
+          setChatroom(chatroom);
+        } catch (error) {
+          console.error(
+            '채팅방 정보를 가져오는 중 오류가 발생했습니다:',
+            error
+          );
+        }
+      }
     };
-    fetch();
-  }, []);
+    fetchChatroom();
+  }, [item.chatroom]);
 
   // 주소 가져오기
   const address = item.place;
@@ -41,11 +61,11 @@ function StudyPostItem({ item }) {
   return (
     <Link
       to="#"
-      className="h-full bg-white p-3 flex justify-between border-b border-gray-400"
+      className="h-full bg-white p-3 flex justify-between border-b border-gray-200"
     >
       <div>
         <Badge
-          label={category ? category.category_name : ''}
+          label={category ? category.category_name : '카테고리 없음'}
           isPrimary={false}
         />
         <h3>{item.title}</h3>
