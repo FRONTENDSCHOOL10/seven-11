@@ -1,0 +1,46 @@
+{
+  "type": "module",
+  "private": true,
+  "name": "seven-11-final-project",
+  "version": "0.0.1",
+  "description": "Likelion 11 seven-11 React Final Project Study Platform",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview",
+    "remove": "rm -rf dist",
+    "lint": "eslint \"./src/**\" --report-unused-disable-directives --ignore-pattern .gitignore"
+  },
+  "devDependencies": {
+    "@eslint/compat": "1.1.1",
+    "@eslint/js": "9.8.0",
+    "@types/node": "22.0.0",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "@vitejs/plugin-react": "4.3.1",
+    "eslint": "9.8.0",
+    "eslint-plugin-react": "7.35.0",
+    "eslint-plugin-react-hooks": "4.6.2",
+    "eslint-plugin-react-refresh": "0.4.9",
+    "globals": "15.8.0",
+    "prettier": "3.3.3",
+    "prop-types": "15.8.1",
+    "vite": "5.3.5"
+  },
+  "dependencies": {
+    "autoprefixer": "10.4.20",
+    "clsx": "2.1.1",
+    "gsap": "3.12.5",
+    "pocketbase": "0.21.5",
+    "postcss": "8.4.41",
+    "postcss-import": "16.1.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-helmet-async": "2.0.5",
+    "react-router-dom": "6.26.1",
+    "swiper": "11.1.11",
+    "tailwindcss": "3.4.10",
+    "use-immer": "0.10.0",
+    "zustand": "4.5.5"
+  }
+}
