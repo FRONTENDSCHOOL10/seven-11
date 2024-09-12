@@ -16,12 +16,15 @@ function InputText({ inputType, placeholder, onChange, name }) {
     setInputValue(userInputValue);
     onChange?.(userInputValue);
   };
+
+  const isAuthComplete = name === 'password' ? 'off' : '';
   return (
     <div className="border rounded border-black w-[295px] h-[38px] ">
       <input
         className="pl-3 text-base w-full h-full rounded"
+        autoComplete={isAuthComplete}
         type={inputType}
-        id="InputText"
+        id={name}
         name={name}
         placeholder={placeholder}
         onInput={handleInput}
