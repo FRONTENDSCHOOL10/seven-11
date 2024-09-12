@@ -1,19 +1,10 @@
 import QuestionList from '@/components/QuestionList';
 import SelectButton from '@/components/SelectButton';
-import useCategoryStore from '@/stores/useCategoryStore'; // useCategoryStore 임포트
-import { getStorageData } from '@/utils/getStorageData'; // authInfo를 가져오기 위한 유틸 함수
-import { Suspense, useEffect } from 'react';
+import useCategoryStore from '@/stores/useCategoryStore';
+import { Suspense } from 'react';
 
 export function Component() {
-  const { categories, fetchCategories } = useCategoryStore();
-  const authInfo = getStorageData('authInfo');
-  const userId = authInfo?.user?.id;
-
-  useEffect(() => {
-    if (userId) {
-      fetchCategories(userId);
-    }
-  }, [userId, fetchCategories]);
+  const { categories } = useCategoryStore();
 
   const options = [
     { value: '전체', label: '전체' },
@@ -25,9 +16,10 @@ export function Component() {
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <div className="border-b border-gray-300 pl-3 py-2 ">
+      <div className="border-b border-gray-300 pl-3 py-2">
         <SelectButton options={options} />
       </div>
+
       <QuestionList
         tag="일본어"
         title="깊은 복사 얕은..."
