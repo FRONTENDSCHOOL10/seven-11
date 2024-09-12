@@ -7,7 +7,8 @@ import { Helmet } from 'react-helmet-async';
 
 export default function HomePage() {
   const [studyList, setStudyList] = useState([]);
-  const { categories, fetchCategories } = useCategoryStore();
+  const categories = useCategoryStore((state) => state.categories);
+  const fetchCategories = useCategoryStore((state) => state.fetchCategories);
 
   const fetchCategoriesOnce = useCallback(async () => {
     if (categories.length === 0) {
