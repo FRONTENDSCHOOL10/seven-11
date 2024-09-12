@@ -1,25 +1,17 @@
-import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
 import pb from '@/api/pb';
-import useCategoryStore from '@/stores/useCategoryStore';
-import { getStorageData } from '@/utils';
-import {
-  BannerSwiper,
-  CategoryDropdown,
-  PostButton,
-  PostOptionList,
-} from '@/components';
+import { BannerSwiper } from '@/components';
 import { CategoryNav, StudyPostItem } from '@/components/Board';
+import useCategoryStore from '@/stores/useCategoryStore';
+import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 export default function HomePage() {
   const [studyList, setStudyList] = useState([]);
-  const user = getStorageData('authInfo').user;
   const { categories, fetchCategories } = useCategoryStore();
 
   useEffect(() => {
     fetchCategories();
-  }, []);
+  }, [fetchCategories]);
 
   const studyListFetch = async () => {
     try {
