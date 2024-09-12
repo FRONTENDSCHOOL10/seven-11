@@ -47,7 +47,7 @@ export default function HomePage() {
           content="우리 동네 스터디 모집글을 확인하세요."
         />
       </Helmet>
-      <div className="flex gap-3 flex-col">
+      <div className=" flex gap-3 flex-col">
         <BannerSwiper />
         <CategoryNav />
         <Link to={'board/post'}>게시글 작성</Link>
@@ -57,7 +57,6 @@ export default function HomePage() {
           <StudyPostItem key={item.id} item={item} studyList={item} />
         ))}
         <PostOptionList />
-        <PostButton />
       </div>
     </>
   );

@@ -1,6 +1,6 @@
 import { bool, func } from 'prop-types';
 import useAuthorStore from '../stores/useAuthorStore';
-import { getStorageData } from '@/utils/getStorageData';
+import { getStorageData } from '@/utils/storageData';
 
 function MoreModal({ isVisible }) {
   const { isAuthor } = useAuthorStore();
