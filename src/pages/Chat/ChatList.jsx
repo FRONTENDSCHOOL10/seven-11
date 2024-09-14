@@ -4,7 +4,12 @@ import useChatListStore from '@/stores/useChatListStore';
 import { Chat } from '@/components/Chat';
 
 export default function ChatList() {
-  const { chatList, loading, error, fetchChatList } = useChatListStore();
+  const { chatList, loading, error, fetchChatList } = useChatListStore((s) => ({
+    chatList: s.chatList,
+    loading: s.loading,
+    error: s.error,
+    fetchChatList: s.fetchChatList,
+  }));
 
   useEffect(() => {
     fetchChatList();

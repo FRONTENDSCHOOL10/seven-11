@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import {
   ContentNav,
@@ -9,15 +9,18 @@ import {
 } from '@/components/MyPage';
 import ProfileRootLayout from '@/layouts/ProfileRootLayout';
 import useProfileStore from '@/stores/useProfileStore';
-import { getStorageData } from '@/utils';
 
 export default function MyPage() {
-  const user = getStorageData('authInfo').user;
-  const { profile, fetchUserProfile } = useProfileStore();
+  const { profile, fetchUserProfile } = useProfileStore((s) => ({
+    profile: s.profile,
+    fetchUserProfile: s.fetchUserProfile,
+  }));
 
-  useEffect(() => {
+  const fetchOnce = useCallback(() => {
     fetchUserProfile();
-  }, []);
+  }, [fetchUserProfile]);
+
+  useEffect(() => fetchOnce(), [fetchOnce]);
 
   if (!profile || Object.keys(profile).length === 0) {
     return <div>페이지 로딩중...</div>;
