@@ -4,7 +4,7 @@ import { setStorageData } from '@/utils/';
 import { isValidEmail, isValidLoginPwd } from '@/utils/validation';
 import { useCallback, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-// import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function Login() {
