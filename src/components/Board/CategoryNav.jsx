@@ -17,11 +17,11 @@ function CategoryNav() {
   };
 
   return (
-    <div className="w-full h-[37px] bg-primary flex items-center justify-center font-semibold px-3">
-      <Swiper spaceBetween={13.5} slidesPerView={4} className="">
-        <SwiperSlide className="flex justify-center items-center text-center whitespace-nowrap w-full">
+    <div className="w-80 h-[37px] bg-primary flex items-center font-semibold px-4">
+      <Swiper spaceBetween={25} slidesPerView="auto" className="w-full h-full">
+        <SwiperSlide className=" flex items-center justify-center whitespace-nowrap w-fit">
           <button
-            className={`cursor-pointer w-full ${getTextClass(null)}`}
+            className={`cursor-pointer ${getTextClass(null)}`}
             onClick={() => setSelectedCategory(null)}
           >
             전체
@@ -30,10 +30,10 @@ function CategoryNav() {
         {categories.map((item) => (
           <SwiperSlide
             key={item.id}
-            className="flex justify-center items-center text-center whitespace-nowrap"
+            className="flex items-center justify-center whitespace-nowrap w-fit  "
           >
             <button
-              className={`cursor-pointer w-full ${getTextClass(item.id)}`}
+              className={`cursor-pointer ${getTextClass(item.id)}`}
               onClick={() => setSelectedCategory(item.id)}
             >
               {item.category_name}
