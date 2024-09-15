@@ -16,47 +16,37 @@ function StudyPostItem({ item }) {
   const [chatroom, setChatroom] = useState(null);
 
   useEffect(() => {
-    const fetchCategory = async () => {
-      if (item.category) {
-        try {
-          const data = await pb.collection('Categories').getOne(item.category);
-          setCategory(data);
-        } catch (error) {
-          console.error(
-            '카테고리 정보를 가져오는 중 오류가 발생했습니다:',
-            error
-          );
+    const fetchCategoryAndChatroom = async () => {
+      try {
+        if (item.category) {
+          const categoryData = await pb
+            .collection('Categories')
+            .getOne(item.category);
+          setCategory(categoryData);
+        } else {
+          setCategory({ category_name: '카테고리 없음' });
         }
-      }
-    };
-    fetchCategory();
-  }, [item.category]); // 이 값이 변경될때만 새로운 카테고리 데이터 가져오도록
 
-  useEffect(() => {
-    const fetchChatroom = async () => {
-      if (item.chatroom) {
-        try {
-          const chatroom = await pb
+        if (item.chatroom) {
+          const chatroomData = await pb
             .collection('ChatRooms')
             .getOne(item.chatroom);
-          setChatroom(chatroom);
-        } catch (error) {
-          console.error(
-            '채팅방 정보를 가져오는 중 오류가 발생했습니다:',
-            error
-          );
+          setChatroom(chatroomData);
+        } else {
+          setChatroom(null); // 채팅방 정보가 없을 때 기본값 처리
         }
+      } catch (error) {
+        console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
       }
     };
-    fetchChatroom();
-  }, [item.chatroom]);
 
-  // 주소 가져오기
+    fetchCategoryAndChatroom();
+  }, [item.category, item.chatroom]);
+
   const address = item.place;
   const detailedAddress = getDetailedAddress(address);
 
-  // 참여중 인원수
-  const joinedPeople = chatroom ? chatroom.user.length : '';
+  const joinedPeople = chatroom ? chatroom.user.length : '0';
 
   return (
     <Link
@@ -73,7 +63,7 @@ function StudyPostItem({ item }) {
           <svg className="w-[14px] h-[14px]">
             <use href="/stack.svg#fullPeople" />
           </svg>
-          <span>{`${item.gender} 참여가능`}</span>
+          <span>{`${item.gender || '모두'} 참여가능`}</span>
         </div>
         <LocationTime
           time={getTimeDifference(item.created)}
@@ -86,7 +76,7 @@ function StudyPostItem({ item }) {
             <use href="/stack.svg#people" />
           </svg>
           <span>
-            {joinedPeople}/{item.people}
+            {joinedPeople}/{item.people || '0'}
           </span>
         </div>
       </div>
