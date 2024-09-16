@@ -24,7 +24,7 @@ export default function SelectCategory() {
             }
             bgColor="bg-[#F0FBFF]"
             border="border-none"
-            font="text-[11px]"
+            font="text-[13px]"
             rounded="rounded-[10px]"
             height="h-[40px]"
           />

@@ -4,7 +4,7 @@ import { setStorageData } from '@/utils/';
 import { isValidEmail, isValidLoginPwd } from '@/utils/validation';
 import { useCallback, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-// import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function Login() {
@@ -114,7 +114,8 @@ export default function Login() {
             <div className="flex flex-col gap-1">
               <InputText
                 name="email"
-                inputType={'email'}
+                inputType="email"
+                value={email} // value를 추가하여 상태 전달
                 onChange={handleEmailInput}
                 placeholder="이메일을 작성해주세요"
               />
@@ -126,7 +127,8 @@ export default function Login() {
             <div className="flex flex-col gap-1">
               <InputText
                 name="password"
-                inputType={'password'}
+                inputType="password"
+                value={password} // value를 추가하여 상태 전달
                 onChange={handlePasswordInput}
                 placeholder="비밀번호를 작성해주세요"
               />
