@@ -2,8 +2,7 @@ import { useEffect } from 'react';
 import { getTimeDifference } from '@/utils/getTimeDifference';
 import useChatListStore from '@/stores/useChatListStore';
 import { Chat } from '@/components/Chat';
-import pb from '@/api/pb';
-
+import FadeLoader from 'react-spinners/FadeLoader';
 export default function ChatList() {
   const {
     chatList,
@@ -31,7 +30,12 @@ export default function ChatList() {
     }
   }, [chatList, fetchStudyPosts]);
 
-  if (loading) return <p>로딩중...</p>;
+  if (loading)
+    return (
+      <div className="h-[80vh] flex justify-center items-center">
+        <FadeLoader color="#79b2d1" />
+      </div>
+    );
   if (error) return <p>데이터 가져오기를 실패했습니다.: {error.message}</p>;
 
   return (
