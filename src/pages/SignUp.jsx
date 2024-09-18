@@ -9,6 +9,7 @@ import pb from '@/api/pb'; // PocketBase 인스턴스 가져오기
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // 리다이렉트를 위한 useNavigate 훅
 import toast, { Toaster } from 'react-hot-toast';
+import AddressSearch from '@/components/AddressSearch';
 
 export default function SignUp() {
   const [email, setEmail] = useState('');
@@ -19,21 +20,40 @@ export default function SignUp() {
   const [month, setMonth] = useState('');
   const [day, setDay] = useState('');
   const [gender, setGender] = useState([]); // 성별을 배열로 관리
+  const [job, setJob] = useState(''); // 직업 상태 추가
   const [isEmailChecked, setIsEmailChecked] = useState(false); // 이메일 중복 확인 여부
   const [isNicknameChecked, setIsNicknameChecked] = useState(false); // 닉네임 중복 확인 여부
   const navigate = useNavigate(); // 리다이렉트 훅
+  const [address, setAddress] = useState('');
+
+  const handleAddressSelect = (selectedAddress) => {
+    setAddress(selectedAddress); // 선택된 주소를 저장
+  };
+
+  // 이메일 형식을 확인하기 위한 정규 표현식
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   // 이메일 중복 확인 로직
   const handleCheckEmail = async () => {
+    if (!email.trim()) {
+      toast.error('이메일을 입력해 주세요.');
+      return;
+    }
+
+    if (!emailRegex.test(email)) {
+      toast.error('올바른 이메일을 작성해 주세요.');
+      return;
+    }
+
     try {
       const result = await pb.collection('users').getList();
       const emailExists = result.items.some((item) => item.email === email);
 
       if (emailExists) {
-        toast.error('이미 존재하는 이메일입니다.');
+        toast.error('이미 존재하는 이메일 입니다.');
         setIsEmailChecked(false);
       } else {
-        toast.success('사용 가능한 이메일입니다.');
+        toast.success('사용 가능한 이메일 입니다.');
         setIsEmailChecked(true);
       }
     } catch (error) {
@@ -44,6 +64,11 @@ export default function SignUp() {
 
   // 닉네임 중복 확인 로직
   const handleCheckNickname = async () => {
+    if (!nickname.trim()) {
+      toast.error('닉네임을 입력해 주세요.');
+      return;
+    }
+
     try {
       const result = await pb.collection('users').getList();
       const nicknameExists = result.items.some(
@@ -80,14 +105,15 @@ export default function SignUp() {
     setDay(selectedDay); // 선택된 일 업데이트
   };
 
+  // 회원가입 처리 로직
   const handleSignUp = async () => {
     if (!isEmailChecked) {
-      toast.error('이메일 중복 확인을 완료해주세요.');
+      toast.error('이메일 중복 확인을 완료해 주세요.');
       return;
     }
 
     if (!isNicknameChecked) {
-      toast.error('닉네임 중복 확인을 완료해주세요.');
+      toast.error('닉네임 중복 확인을 완료해 주세요.');
       return;
     }
 
@@ -97,17 +123,16 @@ export default function SignUp() {
         return;
       }
 
-      const formattedMonth = month.padStart(2, '0'); // 월을 2자리로 맞춤
-      const formattedDay = day.padStart(2, '0'); // 일을 2자리로 맞춤
-      const birth_date = `${year}-${formattedMonth}-${formattedDay}`;
+      const birth_date = `${year}-${month}-${day}`;
 
       const data = {
         email,
         password,
-        passwordConfirm,
         nickname,
         birth_date,
         gender,
+        job, // 직업 데이터 추가
+        address, // 선택한 주소 추가
       };
 
       console.log('회원가입 데이터:', data); // 전송할 데이터 출력
@@ -128,8 +153,8 @@ export default function SignUp() {
       <div className="flex flex-col items-center justify-center">
         {/* 회원가입 제목 섹션 */}
         <section className="ml-3 my-2 text-left self-start">
-          <SubTitle title="안녕하세요!" />
-          <SubTitle title="이메일로 회원가입해주세요." />
+          <SubTitle title="안녕하세요..!" />
+          <SubTitle title="이메일로 회원가입 해주세요." />
           <div className="my-2">
             <SmallText title="회원 정보는 안전하게 보관되며 서로에게 공개되지 않아요." />
           </div>
@@ -143,7 +168,7 @@ export default function SignUp() {
           <div className="my-3">
             <InputText
               inputType="email"
-              placeholder="이메일을 작성해주세요"
+              placeholder="이메일을 작성해 주세요."
               value={email}
               onChange={(value) => {
                 setEmail(value);
@@ -153,7 +178,7 @@ export default function SignUp() {
             />
           </div>
           <div className="my-3">
-            <CheckButton label="이메일 중복확인" onClick={handleCheckEmail} />
+            <CheckButton label="중복확인" onClick={handleCheckEmail} />
           </div>
         </section>
 
@@ -165,7 +190,7 @@ export default function SignUp() {
           <div className="my-3">
             <InputText
               inputType="password"
-              placeholder="비밀번호를 작성해주세요"
+              placeholder="비밀번호를 작성해 주세요."
               value={password}
               onChange={(value) => setPassword(value)}
               name="password"
@@ -174,7 +199,7 @@ export default function SignUp() {
           <div className="my-3">
             <InputText
               inputType="password"
-              placeholder="비밀번호를 한번 더 작성해주세요"
+              placeholder="비밀번호를 한번 더 작성해 주세요."
               value={passwordConfirm}
               onChange={(value) => setPasswordConfirm(value)}
               name="passwordConfirm"
@@ -190,7 +215,7 @@ export default function SignUp() {
           <div className="my-3">
             <InputText
               inputType="text"
-              placeholder="닉네임을 작성해주세요"
+              placeholder="닉네임을 작성해 주세요."
               value={nickname}
               onChange={(value) => {
                 setNickname(value);
@@ -200,19 +225,23 @@ export default function SignUp() {
             />
           </div>
           <div className="my-3">
-            <CheckButton
-              label="닉네임 중복확인"
-              onClick={handleCheckNickname}
-            />
+            <CheckButton label="중복확인" onClick={handleCheckNickname} />
           </div>
         </section>
 
+        {/* 직업 입력 섹션 */}
         <section>
           <div className="mt-1.5">
             <SubTitle title="직업" />
           </div>
           <div className="my-3">
-            <InputText placeholder="직업을 입력해주세요" />
+            <InputText
+              inputType="text"
+              placeholder="직업을 입력해 주세요."
+              value={job}
+              onChange={(value) => setJob(value)} // 직업 입력 상태 변경
+              name="job"
+            />
           </div>
         </section>
 
@@ -248,9 +277,7 @@ export default function SignUp() {
           <div className="mt-1.5">
             <SubTitle title="주소" />
           </div>
-          <div className="my-3">
-            <CheckButton label="주소 찾기" />
-          </div>
+          <AddressSearch onAddressSelect={handleAddressSelect} />
         </section>
 
         {/* 회원가입 버튼 */}
