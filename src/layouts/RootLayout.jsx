@@ -22,13 +22,13 @@ export default function RootLayout() {
     location.pathname === '/home' || location.pathname === '/home/board';
 
   return (
-    <div className="relative flex flex-col h-[693px] w-full">
+    <div className="relative flex flex-col h-[693px] w-[320px]">
       <Header
         address={detailedAddress || ''}
         isChatroom={isChatroom}
         isHiddenHeader={isHiddenHeader}
       />
-      <main className="flex-grow">
+      <main className="">
         <Outlet />
       </main>
       {showPostButton && <PostButton />}

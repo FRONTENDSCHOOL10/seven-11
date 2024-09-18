@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function PostMenuModal() {
   return (
-    <div className="absolute bottom-8 right-8 text-base  ">
+    <div className="absolute bottom-5 right-8 text-base  ">
       <ul>
         <li className="mb-1">
           <Link to={'/home/qna-post'}>
