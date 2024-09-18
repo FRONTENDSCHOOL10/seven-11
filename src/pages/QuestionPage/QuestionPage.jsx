@@ -7,9 +7,10 @@ import { Helmet } from 'react-helmet-async';
 
 export function Component() {
   const [questionList, setQuestionList] = useState([]);
-  const { categories } = useCategoryStore();
-  const selectedCategory = useCategoryStore((state) => state.selectedCategory);
+  const { categories, selectedCategory, setSelectedCategory } =
+    useCategoryStore();
 
+  // 카테고리 옵션 설정
   const options = [
     { value: '전체', label: '전체' },
     ...categories.map((category) => ({
@@ -18,6 +19,7 @@ export function Component() {
     })),
   ];
 
+  // 질문 게시글 리스트 가져오기
   const questionListFetch = useCallback(async () => {
     if (questionList.length === 0) {
       try {
@@ -33,13 +35,11 @@ export function Component() {
     questionListFetch();
   }, [questionListFetch]);
 
-  const filteredQuestionList = selectedCategory
-    ? questionList.filter((item) => item.category === selectedCategory)
-    : questionList; // 선택된 카테고리가 없으면 전체 게시글 표시
-
-  if (!categories || categories.length === 0) {
-    return <div>페이지 로딩중...</div>;
-  }
+  // 선택된 카테고리로 필터링된 질문 리스트
+  const filteredQuestionList =
+    selectedCategory === '전체' || !selectedCategory
+      ? questionList
+      : questionList.filter((item) => item.category === selectedCategory);
 
   return (
     <>
@@ -47,16 +47,23 @@ export function Component() {
         <title>작심하루 - 질문게시판</title>
         <meta
           name="description"
-          content="질문 게시판을 통해 궁금증에 대한 답변을 찾아 보세요. "
+          content="질문 게시판을 통해 궁금증에 대한 답변을 찾아 보세요."
         />
       </Helmet>
       <Suspense fallback={<div>Loading...</div>}>
         <div className="border-b border-gray-300 pl-3 py-2">
-          <SelectButton options={options} />
+          <SelectButton
+            options={options}
+            onSelect={(value) => setSelectedCategory(value)}
+          />
         </div>
-        {filteredQuestionList.map((item) => (
-          <QuestionList key={item.id} item={item} questionList={item} />
-        ))}
+        {filteredQuestionList.length === 0 ? (
+          <div>질문 게시글이 없습니다.</div>
+        ) : (
+          filteredQuestionList.map((item) => (
+            <QuestionList key={item.id} item={item} />
+          ))
+        )}
       </Suspense>
     </>
   );
