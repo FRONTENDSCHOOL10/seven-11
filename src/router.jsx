@@ -13,6 +13,7 @@ import {
   StudyPost,
   Chatroom,
   UserProfile,
+  StudyDetailPage,
 } from './pages/index';
 import navigation from './navigation';
 
@@ -63,8 +64,15 @@ export const routes = [
     element: <RootLayout />,
     children: configRoutes(navigation),
   },
+  {
+    path: '/home/study-detail/:postId',
+    element: <StudyDetailPage />,
+  },
+  // {
+  //   path: '/home/board/qna-detail/:postId',
+  //   element: <QuestionDetailPage />,
+  // },
 
-  // 스터디 디테일: home/study-detail/:postId
   // Q&A 디테일: home/board/qna-detail/:postId
 ];
 

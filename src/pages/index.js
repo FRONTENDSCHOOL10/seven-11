@@ -17,3 +17,4 @@ export { default as UserProfile } from './Profile/UserProfile';
 export { default as EditProfile } from './Profile/EditProfile';
 export { default as ProfileDetail } from './Profile/ProfileDetail';
 export { default as MyPage } from './Profile/MyPage';
+export { default as StudyDetailPage } from './StudyDetail';
