@@ -1,11 +1,14 @@
+import pb from '@/api/pb';
 import QuestionList from '@/components/QuestionList';
 import SelectButton from '@/components/SelectButton';
 import useCategoryStore from '@/stores/useCategoryStore';
-import { Suspense } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 export function Component() {
+  const [questionList, setQuestionList] = useState([]);
   const { categories } = useCategoryStore();
+  const selectedCategory = useCategoryStore((state) => state.selectedCategory);
 
   const options = [
     { value: '전체', label: '전체' },
@@ -14,6 +17,29 @@ export function Component() {
       label: category.category_name,
     })),
   ];
+
+  const questionListFetch = useCallback(async () => {
+    if (questionList.length === 0) {
+      try {
+        const data = await pb.collection('Question_Posts').getFullList();
+        setQuestionList(data);
+      } catch (error) {
+        console.error('질문 게시글 리스트를 가져오는 데 실패했습니다.:', error);
+      }
+    }
+  }, [questionList]);
+
+  useEffect(() => {
+    questionListFetch();
+  }, [questionListFetch]);
+
+  const filteredQuestionList = selectedCategory
+    ? questionList.filter((item) => item.category === selectedCategory)
+    : questionList; // 선택된 카테고리가 없으면 전체 게시글 표시
+
+  if (!categories || categories.length === 0) {
+    return <div>페이지 로딩중...</div>;
+  }
 
   return (
     <>
@@ -28,20 +54,9 @@ export function Component() {
         <div className="border-b border-gray-300 pl-3 py-2">
           <SelectButton options={options} />
         </div>
-
-        <QuestionList
-          tag="일본어"
-          title="깊은 복사 얕은..."
-          description="제가 이해한... "
-          timeAgo="15분 전"
-          imageUrl="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwyXeKDN29AmZgZPLS7n0Bepe8QmVappBwZCeA3XWEbWNdiDFB"
-        />
-        <QuestionList
-          tag="자바스크립트"
-          title="깊은 복사 얕은 복사의 차이를 ..."
-          description="제가 이해한 내용은 얕은 복사는..."
-          timeAgo="15분 전"
-        />
+        {filteredQuestionList.map((item) => (
+          <QuestionList key={item.id} item={item} questionList={item} />
+        ))}
       </Suspense>
     </>
   );
