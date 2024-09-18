@@ -19,7 +19,49 @@ export default function SignUp() {
   const [month, setMonth] = useState('');
   const [day, setDay] = useState('');
   const [gender, setGender] = useState([]); // 성별을 배열로 관리
+  const [isEmailChecked, setIsEmailChecked] = useState(false); // 이메일 중복 확인 여부
+  const [isNicknameChecked, setIsNicknameChecked] = useState(false); // 닉네임 중복 확인 여부
   const navigate = useNavigate(); // 리다이렉트 훅
+
+  // 이메일 중복 확인 로직
+  const handleCheckEmail = async () => {
+    try {
+      const result = await pb.collection('users').getList();
+      const emailExists = result.items.some((item) => item.email === email);
+
+      if (emailExists) {
+        toast.error('이미 존재하는 이메일입니다.');
+        setIsEmailChecked(false);
+      } else {
+        toast.success('사용 가능한 이메일입니다.');
+        setIsEmailChecked(true);
+      }
+    } catch (error) {
+      console.error('이메일 중복 확인 실패:', error);
+      toast.error('이메일 중복 확인 중 오류가 발생했습니다.');
+    }
+  };
+
+  // 닉네임 중복 확인 로직
+  const handleCheckNickname = async () => {
+    try {
+      const result = await pb.collection('users').getList();
+      const nicknameExists = result.items.some(
+        (item) => item.nickname === nickname
+      );
+
+      if (nicknameExists) {
+        toast.error('이미 존재하는 닉네임입니다.');
+        setIsNicknameChecked(false);
+      } else {
+        toast.success('사용 가능한 닉네임입니다.');
+        setIsNicknameChecked(true);
+      }
+    } catch (error) {
+      console.error('닉네임 중복 확인 실패:', error);
+      toast.error('닉네임 중복 확인 중 오류가 발생했습니다.');
+    }
+  };
 
   const handleGenderChange = (selectedGenders) => {
     setGender(selectedGenders);
@@ -39,36 +81,43 @@ export default function SignUp() {
   };
 
   const handleSignUp = async () => {
+    if (!isEmailChecked) {
+      toast.error('이메일 중복 확인을 완료해주세요.');
+      return;
+    }
+
+    if (!isNicknameChecked) {
+      toast.error('닉네임 중복 확인을 완료해주세요.');
+      return;
+    }
+
     try {
       if (password !== passwordConfirm) {
         toast.error('비밀번호가 일치하지 않습니다.');
         return;
       }
 
-      // 생년월일 조합 (날짜 형식 확인)
       const formattedMonth = month.padStart(2, '0'); // 월을 2자리로 맞춤
       const formattedDay = day.padStart(2, '0'); // 일을 2자리로 맞춤
       const birth_date = `${year}-${formattedMonth}-${formattedDay}`;
 
-      // PocketBase에 새로운 사용자 등록
       const data = {
         email,
         password,
-        passwordConfirm, // 비밀번호 확인 필드
-        nickname, // 닉네임 필드
-        birth_date, // 생년월일 필드 추가 (YYYY-MM-DD 형식)
-        gender, // 배열로 성별 필드 추가
+        passwordConfirm,
+        nickname,
+        birth_date,
+        gender,
       };
 
       console.log('회원가입 데이터:', data); // 전송할 데이터 출력
 
-      // PocketBase에 회원가입 요청 보내기
       const record = await pb.collection('users').create(data);
       console.log('회원가입 성공:', record);
       toast.success('회원가입 성공!');
       navigate('/check-email');
     } catch (error) {
-      console.error('회원가입 실패:', error); // 에러를 콘솔에 출력
+      console.error('회원가입 실패:', error);
       toast.error(`회원가입에 실패했습니다: ${error.message}`);
     }
   };
@@ -95,13 +144,16 @@ export default function SignUp() {
             <InputText
               inputType="email"
               placeholder="이메일을 작성해주세요"
-              value={email} // 상태값을 value로 전달
-              onChange={(value) => setEmail(value)} // 입력값이 변경될 때 상태 업데이트
+              value={email}
+              onChange={(value) => {
+                setEmail(value);
+                setIsEmailChecked(false);
+              }}
               name="email"
             />
           </div>
           <div className="my-3">
-            <CheckButton label="중복확인" />
+            <CheckButton label="이메일 중복확인" onClick={handleCheckEmail} />
           </div>
         </section>
 
@@ -115,7 +167,7 @@ export default function SignUp() {
               inputType="password"
               placeholder="비밀번호를 작성해주세요"
               value={password}
-              onChange={(value) => setPassword(value)} // 비밀번호 상태 업데이트
+              onChange={(value) => setPassword(value)}
               name="password"
             />
           </div>
@@ -124,7 +176,7 @@ export default function SignUp() {
               inputType="password"
               placeholder="비밀번호를 한번 더 작성해주세요"
               value={passwordConfirm}
-              onChange={(value) => setPasswordConfirm(value)} // 비밀번호 확인 상태 업데이트
+              onChange={(value) => setPasswordConfirm(value)}
               name="passwordConfirm"
             />
           </div>
@@ -140,12 +192,27 @@ export default function SignUp() {
               inputType="text"
               placeholder="닉네임을 작성해주세요"
               value={nickname}
-              onChange={(value) => setNickname(value)} // 닉네임 상태 업데이트
+              onChange={(value) => {
+                setNickname(value);
+                setIsNicknameChecked(false);
+              }}
               name="nickname"
             />
           </div>
           <div className="my-3">
-            <CheckButton label="중복확인" />
+            <CheckButton
+              label="닉네임 중복확인"
+              onClick={handleCheckNickname}
+            />
+          </div>
+        </section>
+
+        <section>
+          <div className="mt-1.5">
+            <SubTitle title="직업" />
+          </div>
+          <div className="my-3">
+            <InputText placeholder="직업을 입력해주세요" />
           </div>
         </section>
 
@@ -155,7 +222,7 @@ export default function SignUp() {
             <SubTitle title="성별" />
           </div>
           <div className="my-3">
-            <GenderRadio onChange={handleGenderChange} /> {/* 성별 선택 */}
+            <GenderRadio onChange={handleGenderChange} />
           </div>
         </section>
 
@@ -177,7 +244,6 @@ export default function SignUp() {
           </div>
         </section>
 
-        {/* 주소 찾기 버튼 */}
         <section>
           <div className="mt-1.5">
             <SubTitle title="주소" />
@@ -188,7 +254,7 @@ export default function SignUp() {
         </section>
 
         {/* 회원가입 버튼 */}
-        <div className=" mb-3">
+        <div className="mb-3">
           <NormalButton
             btnType="submit"
             label="회원가입"

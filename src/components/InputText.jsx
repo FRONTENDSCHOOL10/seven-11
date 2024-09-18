@@ -3,8 +3,8 @@ import { memo } from 'react';
 
 InputText.propTypes = {
   placeholder: string,
-  value: string.isRequired, // 부모 컴포넌트에서 전달된 값을 사용
-  onChange: func.isRequired, // onChange 콜백 함수 필요
+  value: string, // 부모 컴포넌트에서 전달된 값을 사용
+  onChange: func, // onChange 콜백 함수 필요
   inputType: oneOf(['email', 'text', 'password']),
   name: string,
 };
