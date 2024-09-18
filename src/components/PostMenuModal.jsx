@@ -2,7 +2,7 @@ import { memo } from 'react';
 
 function PostMenuModal() {
   return (
-    <div className="absolute bottom-16 right-0 text-base  ">
+    <div className="absolute bottom-7 right-8 text-base  ">
       <ul>
         <li className="mb-1">
           <button className="flex items-center justify-center gap-1 px-5 py-2.5 bg-primary rounded-xl w-[107px]">
