@@ -68,7 +68,7 @@ const useChatListStore = create((set) => ({
   },
 
   setToggleModal: () => {
-    set((state) => ({ isOpenedModal: !state.isOpenedModal }));
+    set((s) => ({ isOpenedModal: !s.isOpenedModal }));
   },
 }));
 

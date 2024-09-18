@@ -4,6 +4,7 @@ import {
   getChatNoticeTime,
   getChatTime,
   getChatUpdateTime,
+  isSameDate,
 } from '@/utils/getChatTime';
 import { string, array, object } from 'prop-types';
 import {
@@ -20,10 +21,9 @@ ChatBoard.propTypes = {
 };
 
 function ChatBoard({ roomId, users, studyPost }) {
-  const creatTime = studyPost && getChatNoticeTime(studyPost.created);
+  const creatTime = studyPost && getChatNoticeTime(studyPost.date);
   const [messages, setMessages] = useState([]);
 
-  // 채팅 메시지 불러오기
   useEffect(() => {
     pb.collection('Chat_Messages')
       .getFullList({
@@ -50,6 +50,8 @@ function ChatBoard({ roomId, users, studyPost }) {
   const authUser = pb.authStore.model;
   const authUserId = authUser?.id;
 
+  let lastMessageDate = null;
+
   return (
     <div className="flex flex-col gap-2 px-3">
       <ChatNotice
@@ -57,32 +59,34 @@ function ChatBoard({ roomId, users, studyPost }) {
         linkTo={studyPost && `/home/study-detail/${studyPost.id}`}
       />
       {messages.map((message) => {
-        const user = users.find((user) => user.id === message.user); // users 배열에서 사용자 찾기
+        const user = users.find((user) => user.id === message.user);
+        const currentMessageDate = new Date(message.created);
 
-        if (message.user === authUserId) {
-          return (
-            <div key={message.id}>
+        const showChatTime =
+          !lastMessageDate || !isSameDate(lastMessageDate, currentMessageDate);
+        lastMessageDate = currentMessageDate;
+
+        return (
+          <div key={message.id}>
+            {showChatTime && (
               <ChatTime time={getChatUpdateTime(message.created)} />
+            )}
+            {message.user === authUserId ? (
               <SentChat
                 time={getChatTime(message.created)}
                 message={message.message}
               />
-            </div>
-          );
-        }
-
-        return (
-          <div key={message.id}>
-            <ChatTime time={getChatUpdateTime(message.created)} />
-            <ChatMessage
-              message={message.message}
-              time={getChatTime(message.created)}
-              userImg={
-                user ? pb.files.getUrl(user, user.avatar) : '/favicon.svg'
-              }
-              userName={user ? user.nickname : '알 수 없음'}
-              id={message.user}
-            />
+            ) : (
+              <ChatMessage
+                message={message.message}
+                time={getChatTime(message.created)}
+                userImg={
+                  user ? pb.files.getUrl(user, user.avatar) : '/favicon.svg'
+                }
+                userName={user ? user.nickname : '알 수 없음'}
+                id={message.user}
+              />
+            )}
           </div>
         );
       })}
