@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { arrayOf, shape, string } from 'prop-types';
+import { arrayOf, shape, string, func } from 'prop-types';
 
 SelectButton.propTypes = {
   options: arrayOf(
@@ -8,10 +8,16 @@ SelectButton.propTypes = {
       label: string.isRequired,
     })
   ).isRequired,
+  onSelect: func.isRequired,
 };
 
-export default function SelectButton({ options }) {
+export default function SelectButton({ options, onSelect }) {
   const [selected, setSelected] = useState(options[0].value);
+
+  const handleSelect = (value) => {
+    setSelected(value);
+    onSelect(value);
+  };
 
   return (
     <div className="flex space-x-2 overflow-x-auto no-scrollbar">
@@ -23,7 +29,7 @@ export default function SelectButton({ options }) {
               ? 'bg-primary border-primary text-white'
               : 'bg-transparent border-gray-400 text-black'
           }`}
-          onClick={() => setSelected(value)}
+          onClick={() => handleSelect(value)}
         >
           {label}
         </button>

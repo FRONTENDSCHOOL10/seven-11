@@ -1,12 +1,16 @@
+import pb from '@/api/pb';
 import QuestionList from '@/components/QuestionList';
 import SelectButton from '@/components/SelectButton';
 import useCategoryStore from '@/stores/useCategoryStore';
-import { Suspense } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 export function Component() {
-  const { categories } = useCategoryStore();
+  const [questionList, setQuestionList] = useState([]);
+  const { categories, selectedCategory, setSelectedCategory } =
+    useCategoryStore();
 
+  // 카테고리 옵션 설정
   const options = [
     { value: '전체', label: '전체' },
     ...categories.map((category) => ({
@@ -15,33 +19,51 @@ export function Component() {
     })),
   ];
 
+  // 질문 게시글 리스트 가져오기
+  const questionListFetch = useCallback(async () => {
+    if (questionList.length === 0) {
+      try {
+        const data = await pb.collection('Question_Posts').getFullList();
+        setQuestionList(data);
+      } catch (error) {
+        console.error('질문 게시글 리스트를 가져오는 데 실패했습니다.:', error);
+      }
+    }
+  }, [questionList]);
+
+  useEffect(() => {
+    questionListFetch();
+  }, [questionListFetch]);
+
+  // 선택된 카테고리로 필터링된 질문 리스트
+  const filteredQuestionList =
+    selectedCategory === '전체' || !selectedCategory
+      ? questionList
+      : questionList.filter((item) => item.category === selectedCategory);
+
   return (
     <>
       <Helmet>
         <title>작심하루 - 질문게시판</title>
         <meta
           name="description"
-          content="질문 게시판을 통해 궁금증에 대한 답변을 찾아 보세요. "
+          content="질문 게시판을 통해 궁금증에 대한 답변을 찾아 보세요."
         />
       </Helmet>
       <Suspense fallback={<div>Loading...</div>}>
         <div className="border-b border-gray-300 pl-3 py-2">
-          <SelectButton options={options} />
+          <SelectButton
+            options={options}
+            onSelect={(value) => setSelectedCategory(value)}
+          />
         </div>
-
-        <QuestionList
-          tag="일본어"
-          title="깊은 복사 얕은..."
-          description="제가 이해한... "
-          timeAgo="15분 전"
-          imageUrl="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwyXeKDN29AmZgZPLS7n0Bepe8QmVappBwZCeA3XWEbWNdiDFB"
-        />
-        <QuestionList
-          tag="자바스크립트"
-          title="깊은 복사 얕은 복사의 차이를 ..."
-          description="제가 이해한 내용은 얕은 복사는..."
-          timeAgo="15분 전"
-        />
+        {filteredQuestionList.length === 0 ? (
+          <div>질문 게시글이 없습니다.</div>
+        ) : (
+          filteredQuestionList.map((item) => (
+            <QuestionList key={item.id} item={item} />
+          ))
+        )}
       </Suspense>
     </>
   );
