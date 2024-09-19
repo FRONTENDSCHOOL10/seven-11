@@ -5,19 +5,17 @@ import pb from '@/api/pb';
 import ProfileCard from '@/components/MyPage/ProfileCard';
 import ProfileHeader from '@/components/MyPage/ProfileHeader';
 import ProfileInfo from '@/components/MyPage/ProfileInfo';
-import { getStorageData } from '@/utils/storageData.js';
 import useProfileStore from '@/stores/useProfileStore';
 
 function EditProfile() {
-  const user = getStorageData('authInfo').user;
-  const { profile, fetchUserProfile } = useProfileStore((s) => ({
-    profile: s.profile,
-    fetchUserProfile: s.fetchUserProfile,
+  const { user, fetchUserData } = useProfileStore((s) => ({
+    user: s.user,
+    fetchUserData: s.fetchUserData,
   }));
 
   const fetchOnce = useCallback(() => {
-    fetchUserProfile();
-  }, [fetchUserProfile]);
+    fetchUserData();
+  }, [fetchUserData]);
 
   useEffect(fetchOnce, [fetchOnce]);
 
@@ -41,11 +39,11 @@ function EditProfile() {
             </svg>
           </div>
           <ProfileCard
-            userName={user.nickname}
-            badge={profile?.level}
+            userName={user?.nickname}
+            badge={user?.level}
             userImg={pb.files.getUrl(user, user.avatar)}
           />
-          <ProfileInfo />
+          <ProfileInfo user={user} />
         </div>
       </div>
     </>

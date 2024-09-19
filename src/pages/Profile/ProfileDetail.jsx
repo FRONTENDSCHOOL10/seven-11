@@ -1,7 +1,6 @@
-import { memo } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 import pb from '@/api/pb';
 import { Helmet } from 'react-helmet-async';
-import { getStorageData } from '@/utils';
 import {
   Agreement,
   ProfileButton,
@@ -9,10 +8,20 @@ import {
   ProfileHeader,
   ProfileImg,
 } from '@/components/MyPage';
+import useProfileStore from '@/stores/useProfileStore';
 
 function ProfileDetail() {
-  const user = getStorageData('authInfo').user;
+  const { user, fetchUserData } = useProfileStore((s) => ({
+    user: s.user,
+    fetchUserData: s.fetchUserData,
+  }));
 
+  const fetchOnce = useCallback(() => {
+    fetchUserData();
+  }, [fetchUserData]);
+
+  useEffect(fetchOnce, [fetchOnce]);
+  
   return (
     <>
       <Helmet>

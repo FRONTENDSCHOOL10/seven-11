@@ -5,7 +5,7 @@ import ProfileBadge from './ProfileBadge';
 import ProfileImg from './ProfileImg';
 
 ProfileCard.propTypes = {
-  userName: string.isRequired,
+  userName: string,
   badge: oneOf(['뉴비', '고인물', '화석']),
   userImg: string,
 };

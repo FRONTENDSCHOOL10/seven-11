@@ -1,15 +1,15 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import ProfileImg from './ProfileImg';
-import useProfileStore from '@/stores/useProfileStore';
-import { getStorageData } from '@/utils';
 import pb from '@/api/pb';
 import getAge from '@/utils/getAge';
+import { object } from 'prop-types';
 
-function ProfileInfo() {
-  const profile = useProfileStore((s) => s.profile);
-  const user = getStorageData('authInfo').user;
+ProfileInfo.propTypes = {
+  user: object,
+};
 
+function ProfileInfo({ user }) {
   const birth = user.birth_date;
   const age = getAge(birth);
 
@@ -32,11 +32,11 @@ function ProfileInfo() {
     },
     {
       title: '직업',
-      description: `${profile.job}`,
+      description: `${user.job}`,
     },
     {
       title: '자격',
-      description: `${profile.license}`,
+      description: `${user.license}`,
     },
   ];
 

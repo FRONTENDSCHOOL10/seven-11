@@ -12,18 +12,18 @@ import ProfileRootLayout from '@/layouts/ProfileRootLayout';
 import useProfileStore from '@/stores/useProfileStore';
 
 export default function MyPage() {
-  const { profile, fetchUserProfile } = useProfileStore((s) => ({
-    profile: s.profile,
-    fetchUserProfile: s.fetchUserProfile,
+  const { user, fetchUserData } = useProfileStore((s) => ({
+    user: s.user,
+    fetchUserData: s.fetchUserData,
   }));
 
   const fetchOnce = useCallback(() => {
-    fetchUserProfile();
-  }, [fetchUserProfile]);
+    fetchUserData();
+  }, [fetchUserData]);
 
-  useEffect(() => fetchOnce(), [fetchOnce]);
+  useEffect(fetchOnce, [fetchOnce]);
 
-  if (!profile || Object.keys(profile).length === 0) {
+  if (!user || Object.keys(user).length === 0) {
     return (
       <div className="h-[80vh] flex justify-center items-center">
         <FadeLoader color="#79b2d1" />
@@ -40,7 +40,7 @@ export default function MyPage() {
       <div>
         <MyProfile />
         <MyMenu />
-        <Temperature temp={profile.userTemp} />
+        <Temperature temp={user.userTemp} />
         <ContentNav />
         <InfoNav />
         <ProfileRootLayout />
