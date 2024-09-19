@@ -7,14 +7,14 @@ function PostMenuModal() {
       <ul>
         <li className="mb-1">
           <Link to={'/home/qna-post'}>
-            <button className="flex items-center justify-center gap-1 px-5 py-2.5  bg-primary rounded-xl w-[107px]">
+            <button className="flex items-center justify-center gap-1 px-5 py-2.5  bg-primary rounded-xl w-[107px] whitespace-nowrap">
               <span>🤔</span> 질문하기
             </button>
           </Link>
         </li>
         <li>
           <Link to={'/home/study-post'}>
-            <button className="flex items-center justify-center gap-1 px-5 py-2.5 bg-primary rounded-xl w-[107px]">
+            <button className="flex items-center justify-center gap-1 px-5 py-2.5 bg-primary rounded-xl w-[107px] whitespace-nowrap">
               <span>🙋‍♀️</span> 모집하기
             </button>
           </Link>
