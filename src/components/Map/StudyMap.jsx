@@ -129,7 +129,7 @@ function StudyMap() {
           </h3>
           <span className="text-base">근처에 스터디할 장소를 찾아보세요!</span>
         </div>
-        <ul>
+        <ul className='pb-[60px]'>
           {places.map((place, index) => (
             <li key={index} className="flex flex-col border-b p-3">
               <Link to={place.place_url} className="text-base font-bold">

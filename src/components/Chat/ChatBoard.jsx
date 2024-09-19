@@ -1,7 +1,6 @@
 import { memo, useEffect, useState } from 'react';
 import pb from '@/api/pb';
 import {
-  getChatNoticeTime,
   getChatTime,
   getChatUpdateTime,
   isSameDate,
@@ -9,7 +8,6 @@ import {
 import { string, array, object } from 'prop-types';
 import {
   ChatMessage,
-  ChatNotice,
   ChatTime,
   SentChat,
 } from '@/components/Chat/';
@@ -20,8 +18,7 @@ ChatBoard.propTypes = {
   studyPost: object,
 };
 
-function ChatBoard({ roomId, users, studyPost }) {
-  const creatTime = studyPost && getChatNoticeTime(studyPost.date);
+function ChatBoard({ roomId, users }) {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -53,11 +50,7 @@ function ChatBoard({ roomId, users, studyPost }) {
   let lastMessageDate = null;
 
   return (
-    <div className="flex flex-col gap-2 px-3">
-      <ChatNotice
-        notice={creatTime}
-        linkTo={studyPost && `/home/study-detail/${studyPost.id}`}
-      />
+    <div className="flex flex-col gap-2 px-3 pb-20">
       {messages.map((message) => {
         const user = users.find((user) => user.id === message.user);
         const currentMessageDate = new Date(message.created);
