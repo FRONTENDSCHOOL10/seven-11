@@ -1,4 +1,4 @@
-import { func } from 'prop-types';
+import { func, string } from 'prop-types';
 import { useState, useEffect, useRef } from 'react';
 import PlusIcon from './PlusIcon';
 import SendIcon from './SendIcon';
@@ -6,9 +6,10 @@ import '@/styles/components/component.css';
 
 SendMessageBar.propTypes = {
   onSend: func.isRequired,
+  placeholder: string,
 };
 
-export default function SendMessageBar({ onSend }) {
+export default function SendMessageBar({ onSend, placeholder }) {
   const [message, setMessage] = useState('');
   const [isTextareaExpanded, setIsTextareaExpanded] = useState(false);
   const maxLength = 200;
@@ -47,7 +48,7 @@ export default function SendMessageBar({ onSend }) {
         <textarea
           ref={textareaRef}
           className="w-full max-h-[72px] bg-transparent focus:outline-none text-base text-gray-700 resize-none overflow-y-auto no-scrollbar"
-          placeholder="댓글을 입력해주세요."
+          placeholder={placeholder}
           value={message}
           onChange={handleChange}
           rows={1}
