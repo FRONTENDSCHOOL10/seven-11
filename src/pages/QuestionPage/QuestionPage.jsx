@@ -57,13 +57,19 @@ export function Component() {
             onSelect={(value) => setSelectedCategory(value)}
           />
         </div>
-        {filteredQuestionList.length === 0 ? (
-          <div>질문 게시글이 없습니다.</div>
-        ) : (
-          filteredQuestionList.map((item) => (
-            <QuestionList key={item.id} item={item} />
-          ))
-        )}
+        <div className="h-[574.5px] overflow-y-auto">
+          <div>
+            {filteredQuestionList.length === 0 ? (
+              <div className="flex flex-col items-center justify-center h-[575px]">
+                질문 게시글이 없습니다.
+              </div>
+            ) : (
+              filteredQuestionList.map((item) => (
+                <QuestionList key={item.id} item={item} />
+              ))
+            )}
+          </div>
+        </div>
       </Suspense>
     </>
   );
