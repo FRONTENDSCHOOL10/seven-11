@@ -12,7 +12,16 @@ export default function AddressSearch({ onAddressSelect }) {
   const handleFindAddress = () => {
     new window.daum.Postcode({
       oncomplete: (data) => {
-        const fullAddress = data.address;
+        let fullAddress = '';
+
+        if (data.userSelectedType === 'R') {
+          // 사용자가 도로명 주소를 선택한 경우
+          fullAddress = data.roadAddress;
+        } else {
+          // 사용자가 지번 주소를 선택한 경우
+          fullAddress = data.jibunAddress;
+        }
+
         setAddress(fullAddress); // 선택한 주소를 상태에 저장
         if (onAddressSelect) {
           onAddressSelect(fullAddress); // 상위 컴포넌트로 선택된 주소 전달
