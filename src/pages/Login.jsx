@@ -114,7 +114,8 @@ export default function Login() {
             <div className="flex flex-col gap-1">
               <InputText
                 name="email"
-                inputType={'email'}
+                inputType="email"
+                value={email} // value를 추가하여 상태 전달
                 onChange={handleEmailInput}
                 placeholder="이메일을 작성해주세요"
               />
@@ -126,7 +127,8 @@ export default function Login() {
             <div className="flex flex-col gap-1">
               <InputText
                 name="password"
-                inputType={'password'}
+                inputType="password"
+                value={password} // value를 추가하여 상태 전달
                 onChange={handlePasswordInput}
                 placeholder="비밀번호를 작성해주세요"
               />
