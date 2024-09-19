@@ -61,8 +61,8 @@ export default function SelectCategory() {
           {categories.map((category) => (
             <CategoryButton
               key={category.id}
-              smallText={category.type}
-              largeText={category.name}
+              smallText={category.category_type}
+              largeText={category.category_name}
               isSelected={selectedCategories.includes(category.id)}
               onClick={() => handleCategorySelect(category.id)}
             />
