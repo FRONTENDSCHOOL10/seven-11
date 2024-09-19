@@ -1,8 +1,8 @@
 import { userSignIn } from '@/api/user';
 import { InputText, NormalButton } from '@/components';
-import { setStorageData } from '@/utils/';
+import { getStorageData, setStorageData } from '@/utils/';
 import { isValidEmail, isValidLoginPwd } from '@/utils/validation';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
@@ -14,6 +14,14 @@ export default function Login() {
     email: '',
     password: '',
   });
+
+  // 로그인 완료시 /home으로 이동
+  useEffect(() => {
+    const authInfo = getStorageData(AUTH_KEY);
+    if (authInfo?.token) {
+      navigate('/home');
+    }
+  }, [navigate]);
 
   const handleSignIn = useCallback(
     async (e) => {
@@ -31,7 +39,7 @@ export default function Login() {
             <div className="flex flex-row gap-2 text-base">
               <span>잘못된 회원정보 입니다.</span>
               <button
-                className=" rounded-sm font-semibold"
+                className="rounded-sm font-semibold"
                 onClick={() => toast.dismiss(t.id)}
               >
                 닫기
@@ -77,6 +85,7 @@ export default function Login() {
       );
     }
   };
+
   const pwdError = (password) => {
     if (password.length === 0) {
       return;

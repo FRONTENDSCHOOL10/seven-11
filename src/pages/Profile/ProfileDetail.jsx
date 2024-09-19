@@ -21,7 +21,7 @@ function ProfileDetail() {
   }, [fetchUserData]);
 
   useEffect(fetchOnce, [fetchOnce]);
-  
+
   return (
     <>
       <Helmet>
@@ -44,7 +44,7 @@ function ProfileDetail() {
           />
         </div>
         <div className="px-3">
-          <ProfileEditSection />
+          <ProfileEditSection user={user} />
         </div>
         <Agreement />
         <div className="flex gap-2 justify-between px-3 mt-[20px] mb-[18px]">

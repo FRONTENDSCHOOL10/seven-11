@@ -42,7 +42,7 @@ export default function MyPage() {
         <MyMenu />
         <Temperature temp={user.userTemp} />
         <ContentNav />
-        <InfoNav />
+        <InfoNav user={user}/>
         <ProfileRootLayout />
       </div>
     </>
