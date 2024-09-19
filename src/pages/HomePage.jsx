@@ -62,9 +62,13 @@ export default function HomePage() {
       <div className=" flex flex-col">
         <BannerSwiper />
         <CategoryNav />
-        {filteredStudyList.map((item) => (
-          <StudyPostItem key={item.id} item={item} studyList={item} />
-        ))}
+        <div className="h-[470px] overflow-y-auto no-scrollbar">
+          <div>
+            {filteredStudyList.map((item) => (
+              <StudyPostItem key={item.id} item={item} studyList={item} />
+            ))}
+          </div>
+        </div>
       </div>
     </>
   );
