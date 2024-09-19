@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 GenderRadio.propTypes = {
-  onChange: PropTypes.func.isRequired, // 부모 컴포넌트에서 호출될 onChange 함수
+  onChange: PropTypes.func, // 부모 컴포넌트에서 호출될 onChange 함수
 };
 
 function GenderRadio({ onChange }) {
   const [selectedGenders, setSelectedGenders] = useState([]); // 성별을 배열로 관리
 
   const genders = [
-    { label: '남성', value: 'male' },
-    { label: '여성', value: 'female' },
+    { label: '남성', value: '남성' },
+    { label: '여성', value: '여성' },
   ];
 
   const handleGenderChange = (gender) => {

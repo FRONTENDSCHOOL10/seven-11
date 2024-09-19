@@ -123,11 +123,14 @@ export default function SignUp() {
         return;
       }
 
-      const birth_date = `${year}-${month}-${day}`;
+      const formattedMonth = month.padStart(2, '0'); // 월을 2자리로 맞춤
+      const formattedDay = day.padStart(2, '0'); // 일을 2자리로 맞춤
+      const birth_date = `${year}-${formattedMonth}-${formattedDay}`;
 
       const data = {
         email,
         password,
+        passwordConfirm: password, // passwordConfirm을 password와 동일하게 설정
         nickname,
         birth_date,
         gender,
