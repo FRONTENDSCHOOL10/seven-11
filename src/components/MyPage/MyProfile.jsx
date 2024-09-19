@@ -1,21 +1,14 @@
-import { memo, useCallback, useEffect } from 'react';
+import { memo } from 'react';
 import ProfileImg from './ProfileImg';
 import ProfileBadge from './ProfileBadge';
 import pb from '@/api/pb';
-import useProfileStore from '@/stores/useProfileStore';
+import { object } from 'prop-types';
 
-function MyProfile() {
-  const { user, fetchUserData } = useProfileStore((s) => ({
-    user: s.user,
-    fetchUserData: s.fetchUserData,
-  }));
+MyProfile.propTypes = {
+  user: object,
+};
 
-  const fetchOnce = useCallback(() => {
-    fetchUserData();
-  }, [fetchUserData]);
-
-  useEffect(fetchOnce, [fetchOnce]);
-
+function MyProfile({ user }) {
   return (
     <div className="flex items-center flex-col gap-[9px] mt-[42px]">
       <ProfileImg

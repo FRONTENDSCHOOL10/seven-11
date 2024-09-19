@@ -38,11 +38,11 @@ export default function MyPage() {
         <meta name="description" content="내 정보를 확인하고 수정하세요." />
       </Helmet>
       <div>
-        <MyProfile />
+        <MyProfile user={user} />
         <MyMenu />
         <Temperature temp={user.userTemp} />
         <ContentNav />
-        <InfoNav user={user}/>
+        <InfoNav user={user} />
         <ProfileRootLayout />
       </div>
     </>

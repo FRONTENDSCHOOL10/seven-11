@@ -73,6 +73,11 @@ export const routes = [
   //   element: <QuestionDetailPage />,
   // },
 
+  {
+    path: '/profile/:id',
+    element: <UserProfile />,
+  },
+
   // Q&A 디테일: home/board/qna-detail/:postId
 ];
 
