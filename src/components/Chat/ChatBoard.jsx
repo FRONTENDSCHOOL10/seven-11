@@ -1,25 +1,91 @@
-import ChatMessage from './ChatMessage';
-import SentChat from '../../components/Chat/SentChat';
-import ChatTime from './ChatTime';
-import { memo } from 'react';
-import ChatNotice from '@/components/Chat/ChatNotice';
+import { memo, useEffect, useState } from 'react';
+import pb from '@/api/pb';
+import {
+  getChatNoticeTime,
+  getChatTime,
+  getChatUpdateTime,
+} from '@/utils/getChatTime';
+import { string, array, object } from 'prop-types';
+import {
+  ChatMessage,
+  ChatNotice,
+  ChatTime,
+  SentChat,
+} from '@/components/Chat/';
 
-function ChatBoard() {
+ChatBoard.propTypes = {
+  roomId: string,
+  users: array,
+  studyPost: object,
+};
+
+function ChatBoard({ roomId, users, studyPost }) {
+  const creatTime = studyPost && getChatNoticeTime(studyPost.created);
+  const [messages, setMessages] = useState([]);
+
+  // 채팅 메시지 불러오기
+  useEffect(() => {
+    pb.collection('Chat_Messages')
+      .getFullList({
+        sort: 'created',
+        filter: `room="${roomId}"`,
+      })
+      .then((records) => {
+        setMessages(records);
+      });
+
+    const unsubscribe = pb.collection('Chat_Messages').subscribe('*', (e) => {
+      if (e.action === 'create') {
+        setMessages((prevMessages) => [...prevMessages, e.record]);
+      }
+    });
+
+    return () => {
+      if (typeof unsubscribe === 'function') {
+        unsubscribe();
+      }
+    };
+  }, [roomId]);
+
+  const authUser = pb.authStore.model;
+  const authUserId = authUser?.id;
+
   return (
     <div className="flex flex-col gap-2 px-3">
-      <ChatNotice />
-      <ChatTime time={'2024년 8월 15일'} />
-      <ChatMessage
-        message={
-          '안녕하세요 교수님. 졸업 안시켜주면 한강 다이브쇼를 하겠습니다.'
-        }
-        time={'오후 7:16'}
-        userImg={'/favicon.svg'}
-        userName={'박윤선'}
-        id="1"
+      <ChatNotice
+        notice={creatTime}
+        linkTo={studyPost && `/home/study-detail/${studyPost.id}`}
       />
-      <ChatTime time={'2024년 9월 3일'} />
-      <SentChat time={'오후 7:16'} message={'그러세요 그럼'} />
+      {messages.map((message) => {
+        const user = users.find((user) => user.id === message.user); // users 배열에서 사용자 찾기
+
+        if (message.user === authUserId) {
+          return (
+            <div key={message.id}>
+              <ChatTime time={getChatUpdateTime(message.created)} />
+              <SentChat
+                time={getChatTime(message.created)}
+                message={message.message}
+              />
+            </div>
+          );
+        }
+
+        return (
+          <div key={message.id}>
+            <ChatTime time={getChatUpdateTime(message.created)} />
+            <ChatMessage
+              message={message.message}
+              time={getChatTime(message.created)}
+              userImg={
+                user ? pb.files.getUrl(user, user.avatar) : '/favicon.svg'
+              }
+              userName={user ? user.nickname : '알 수 없음'}
+              id={message.user}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 }
