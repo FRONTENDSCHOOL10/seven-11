@@ -145,7 +145,7 @@ export default function SignUp() {
         gender,
         job,
         address,
-        categories: selectedCategories, // 선택된 카테고리 추가
+        category: selectedCategories, // 선택된 카테고리 추가
       };
 
       console.log('회원가입 데이터:', data); // 전송할 데이터 출력
