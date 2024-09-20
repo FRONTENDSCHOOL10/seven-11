@@ -51,7 +51,7 @@ export default function HomePage() {
   }
 
   return (
-    <>
+    <div className="w-full">
       <Helmet>
         <title>작심하루 - 홈</title>
         <meta
@@ -59,10 +59,10 @@ export default function HomePage() {
           content="우리 동네 스터디 모집글을 확인하세요."
         />
       </Helmet>
-      <div className=" flex flex-col">
+      <div className="w-full flex flex-col">
         <BannerSwiper />
         <CategoryNav />
-        <div className="h-[470px] overflow-y-auto no-scrollbar">
+        <div className="h-[60%] bottom-3 overflow-y-auto no-scrollbar">
           <div>
             {filteredStudyList.map((item) => (
               <StudyPostItem key={item.id} item={item} studyList={item} />
@@ -70,6 +70,6 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
