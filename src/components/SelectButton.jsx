@@ -23,10 +23,10 @@ export default function SelectButton({ options, onSelect }) {
   };
 
   return (
-    <div className="w-full h-[45px] bg-white flex items-center">
+    <div className="w-full h-full bg-white flex items-center">
       <Swiper
-        spaceBetween={8} // 간격을 줄여서 더 타이트하게
-        slidesPerView="auto" // 슬라이드 크기를 자동으로 맞춤
+        spaceBetween={8} 
+        slidesPerView="auto" 
         modules={[Mousewheel]}
         mousewheel
         className="w-full"
