@@ -13,7 +13,7 @@ function FooterNav() {
 
   return (
     <div className="relative">
-      <nav className="fixed bottom-0 bg-white border-t box-border border-gray-100 min-w-[318px] z-40">
+      <nav className="fixed bottom-0 w-[318px] bg-white border-t box-border border-gray-100 z-40">
         <ul className="flex justify-around p-2">
           {items.map((item, index) => (
             <li key={index} className="flex-1 text-center">
@@ -36,13 +36,8 @@ function FooterNav() {
             </li>
           ))}
         </ul>
+        {showPostButton && <PostButton />}
       </nav>
-      {showPostButton && (
-        <div className="absolute bottom-[60px] w-full flex justify-center">
-          {/* PostButton positioned 10px above the FooterNav */}
-          <PostButton />
-        </div>
-      )}
     </div>
   );
 }
