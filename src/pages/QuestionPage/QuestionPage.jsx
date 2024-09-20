@@ -23,7 +23,9 @@ export function Component() {
   const questionListFetch = useCallback(async () => {
     if (questionList.length === 0) {
       try {
-        const data = await pb.collection('Question_Posts').getFullList();
+        const data = await pb.collection('Question_Posts').getFullList({
+          sort: '-created',
+        });
         setQuestionList(data);
       } catch (error) {
         console.error('질문 게시글 리스트를 가져오는 데 실패했습니다.:', error);
@@ -57,7 +59,7 @@ export function Component() {
             onSelect={(value) => setSelectedCategory(value)}
           />
         </div>
-        <div className="h-[574.5px] overflow-y-auto">
+        <div className="pb-[60px] overflow-y-auto no-scrollbar">
           <div>
             {filteredQuestionList.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-[575px]">

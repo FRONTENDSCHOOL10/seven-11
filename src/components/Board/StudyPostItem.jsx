@@ -51,7 +51,7 @@ function StudyPostItem({ item }) {
   return (
     <Link
       to="#"
-      className="h-full bg-white p-3 flex justify-between border-b border-gray-200"
+      className="w-full h-full bg-white p-3 flex justify-between border-b border-gray-200"
     >
       <div>
         <Badge

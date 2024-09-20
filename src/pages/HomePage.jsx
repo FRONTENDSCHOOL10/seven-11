@@ -22,7 +22,9 @@ export default function HomePage() {
   const studyListFetch = useCallback(async () => {
     if (studyList.length === 0) {
       try {
-        const data = await pb.collection('Study_Posts').getFullList();
+        const data = await pb.collection('Study_Posts').getFullList({
+          sort: '-created',
+        });
         setStudyList(data);
       } catch (error) {
         console.error(
