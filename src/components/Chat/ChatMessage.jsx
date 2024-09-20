@@ -20,7 +20,6 @@ function ChatMessage({ id, userName, userImg, message, time }) {
           className="w-[26px] rounded-[5px]"
           alt={`${userName} user`}
         />
-        {/* {pb.files.getUrl(userImg, userImg.avatar)} */}
         <span className="flex items-start text-start text-sm">{userName}</span>
       </Link>
       <div className="w-[294px] flex gap-1">

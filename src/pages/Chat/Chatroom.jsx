@@ -4,8 +4,14 @@ import useChatListStore from '@/stores/useChatListStore';
 import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
 import pb from '@/api/pb';
-import { ChatBoard, ChatHeader, ChatModal } from '@/components/Chat';
+import {
+  ChatBoard,
+  ChatHeader,
+  ChatModal,
+  ChatNotice,
+} from '@/components/Chat';
 import { SendMessageBar } from '@/components';
+import { getChatNoticeTime } from '@/utils';
 
 export default function Chatroom() {
   const open = useChatListStore((s) => s.isOpenedModal);
@@ -80,6 +86,8 @@ export default function Chatroom() {
     }
   };
 
+  const creatTime = studyPost && getChatNoticeTime(studyPost.date);
+
   return (
     <>
       <Helmet>
@@ -93,21 +101,35 @@ export default function Chatroom() {
           }
         />
       </Helmet>
-      <div
-        className={`w-full min-h-[630px] max-h-[1000px] h-full flex flex-col`}
-      >
-        <div className={`h-full ${bgClass} flex-grow`}>
-          <ChatHeader
-            title={studyPost ? studyPost.title : roomTitle}
-            people={userCount}
-          />
-          <ChatBoard
-            roomId={roomId.slice(0, -1)}
-            users={users}
-            studyPost={studyPost}
-          />
-          <div className="absolute bottom-0 left-0 w-full">
-            <SendMessageBar onSend={handleSend} placeholder={'메세지 보내기'} />
+      <div className={`w-full min-h-[630px] flex flex-col relative`}>
+        <div className={`h-full flex-grow`}>
+          <div className="fixed w-[318px]">
+            <ChatHeader
+              title={studyPost ? studyPost.title : roomTitle}
+              people={userCount}
+            />
+            <div className="flex justify-center pt-2">
+              <ChatNotice
+                notice={creatTime}
+                linkTo={studyPost && `/home/study-detail/${studyPost.id}`}
+              />
+            </div>
+          </div>
+
+          <div className={`min-h-[690px] max-h-screen ${bgClass}`}>
+            <div className="h-[500px] pt-[110px]">
+              <ChatBoard
+                roomId={roomId.slice(0, -1)}
+                users={users}
+                studyPost={studyPost}
+              />
+            </div>
+            <div className="fixed bottom-0 bg-white px-2 ">
+              <SendMessageBar
+                onSend={handleSend}
+                placeholder={'메세지 보내기'}
+              />
+            </div>
           </div>
         </div>
         <ChatModal

@@ -43,9 +43,9 @@ function ChatModal({ isOpened, users, roomId, authUserId }) {
 
   return (
     <div
-      className={`${display} absolute bg-white w-[266px] h-full top-0 right-0`}
+      className={`${display} fixed bg-white w-[266px] h-[698px] translate-x-[52.5px]`}
     >
-      <div className="flex flex-row justify-between border-b  p-2">
+      <div className="flex flex-row justify-between border-b p-2">
         <h3 className="text-[14px]">참여중인 이웃</h3>
         <CancelIcon />
       </div>
@@ -55,6 +55,7 @@ function ChatModal({ isOpened, users, roomId, authUserId }) {
             key={user.id}
             userName={user.nickname}
             userImg={pb.files.getUrl(user, user.avatar)}
+            userLink={`/profile/${user.id}`}
           />
         );
       })}

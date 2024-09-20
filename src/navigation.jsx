@@ -1,10 +1,4 @@
-import {
-  EditProfile,
-  HomePage,
-  MyPage,
-  ProfileDetail,
-  UserProfile,
-} from '@/pages';
+import { EditProfile, HomePage, MyPage, ProfileDetail } from '@/pages';
 import ProfileRootLayout from './layouts/ProfileRootLayout';
 
 const navigation = [
@@ -47,12 +41,6 @@ const navigation = [
         text: '마이 페이지',
         index: true,
         element: <MyPage />,
-        display: 'none',
-      },
-      {
-        text: '프로필 페이지',
-        path: 'profile',
-        element: <UserProfile />,
         display: 'none',
       },
       {

@@ -1,14 +1,19 @@
 import { signOut } from '@/api/user';
 import InfoContent from './InfoContent';
-import { getStorageData } from '@/utils';
 import { useNavigate } from 'react-router-dom';
+import { object } from 'prop-types';
 
-function InfoNav() {
-  const user = getStorageData('authInfo').user;
+InfoNav.propTypes = {
+  user: object,
+};
+
+function InfoNav({ user }) {
   const navigate = useNavigate();
   const handleLogout = () => {
-    signOut();
-    navigate('/');
+    if (confirm('로그아웃 하시겠습니까?')) {
+      signOut();
+      navigate('/');
+    }
   };
 
   return (
