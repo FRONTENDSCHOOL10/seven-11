@@ -60,6 +60,7 @@ export default function SignUp() {
       } else {
         toast.success('사용 가능한 이메일 입니다.');
         setIsEmailChecked(true);
+        console.log(result.items);
       }
     } catch (error) {
       console.error('이메일 중복 확인 실패:', error);
