@@ -2,44 +2,13 @@ import pb from '@/api/pb';
 import QuestionList from '@/components/QuestionList';
 import SelectButton from '@/components/SelectButton';
 import useCategoryStore from '@/stores/useCategoryStore';
-import { throttle } from '@/utils';
-import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 export function Component() {
   const [questionList, setQuestionList] = useState([]);
   const { categories, selectedCategory, setSelectedCategory } =
     useCategoryStore();
-
-  const scrollRef = useRef(null);
-  const [isDrag, setIsDrag] = useState(false);
-  const [startX, setStartX] = useState();
-
-  const onDragStart = (e) => {
-    e.preventDefault();
-    setIsDrag(true);
-    setStartX(e.pageX + scrollRef.current.scrollLeft);
-  };
-
-  const onDragEnd = () => {
-    setIsDrag(false);
-  };
-
-  const onDragMove = (e) => {
-    if (isDrag) {
-      const { scrollWidth, clientWidth, scrollLeft } = scrollRef.current;
-
-      scrollRef.current.scrollLeft = startX - e.pageX;
-
-      if (scrollLeft === 0) {
-        setStartX(e.pageX);
-      } else if (scrollWidth <= clientWidth + scrollLeft) {
-        setStartX(e.pageX + scrollLeft);
-      }
-    }
-  };
-  const delay = 100;
-  const onThrottleDragMove = throttle(onDragMove, delay);
 
   // 카테고리 옵션 설정
   const options = [
@@ -84,14 +53,7 @@ export function Component() {
         />
       </Helmet>
       <Suspense fallback={<div>Loading...</div>}>
-        <div
-          className="border-b border-gray-300 pl-3 py-2"
-          ref={scrollRef}
-          onMouseDown={onDragStart}
-          onMouseMove={onThrottleDragMove}
-          onMouseUp={onDragEnd}
-          onMouseLeave={onDragEnd}
-        >
+        <div className="border-b border-gray-300 pl-3 py-2">
           <SelectButton
             options={options}
             onSelect={(value) => setSelectedCategory(value)}
