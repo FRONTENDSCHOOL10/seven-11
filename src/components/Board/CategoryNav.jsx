@@ -17,13 +17,9 @@ function CategoryNav() {
   };
 
   return (
-    <div className="w-80 h-[37px] bg-primary flex items-center font-semibold px-4">
-      <Swiper
-        spaceBetween={25}
-        slidesPerView={4}
-        className="w-full h-full overflow-auto"
-      >
-        <SwiperSlide className=" flex items-center justify-center whitespace-nowrap w-fit">
+    <div className="w-full h-[37px] bg-primary flex items-center font-semibold px-4">
+      <Swiper spaceBetween={20} slidesPerView={4}>
+        <SwiperSlide className=" flex items-center justify-center whitespace-nowrap ">
           <button
             className={`cursor-pointer ${getTextClass(null)}`}
             onClick={() => setSelectedCategory(null)}
@@ -34,7 +30,7 @@ function CategoryNav() {
         {categories.map((item) => (
           <SwiperSlide
             key={item.id}
-            className="flex items-center justify-center whitespace-nowrap w-fit  "
+            className="flex items-center justify-center whitespace-nowrap   "
           >
             <button
               className={`cursor-pointer ${getTextClass(item.id)}`}
