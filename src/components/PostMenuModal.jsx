@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function PostMenuModal() {
   return (
-    <div className="absolute bottom-5 right-8 text-base  ">
+    <div className="absolute bottom-14 right-0 text-base  ">
       <ul>
         <li className="mb-1">
           <Link to={'/home/qna-post'}>
@@ -14,7 +14,7 @@ function PostMenuModal() {
         </li>
         <li>
           <Link to={'/home/study-post'}>
-            <button className="flex items-center justify-center gap-1 px-5 py-2.5 bg-primary rounded-xl w-[107px]">
+            <button className="flex  items-center justify-center gap-1 px-5 py-2.5 bg-primary rounded-xl w-[107px]">
               <span>🙋‍♀️</span> 모집하기
             </button>
           </Link>

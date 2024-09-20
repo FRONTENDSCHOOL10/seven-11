@@ -9,7 +9,7 @@ PostIcon.propTypes = {
 function PostIcon({ onClick, isClicked }) {
   return (
     <button type="button" onClick={onClick} aria-label="글 올리기 메뉴 보기">
-      <svg className="absolute w-12 h-12">
+      <svg className=" w-12 h-12">
         <use
           href={`/stack.svg#${isClicked ? 'postButtonClicked' : 'postButton'}`}
         />
