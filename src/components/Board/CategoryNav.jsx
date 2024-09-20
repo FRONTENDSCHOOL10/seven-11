@@ -18,7 +18,11 @@ function CategoryNav() {
 
   return (
     <div className="w-80 h-[37px] bg-primary flex items-center font-semibold px-4">
-      <Swiper spaceBetween={25} slidesPerView="auto" className="w-full h-full">
+      <Swiper
+        spaceBetween={25}
+        slidesPerView={4}
+        className="w-full h-full overflow-auto"
+      >
         <SwiperSlide className=" flex items-center justify-center whitespace-nowrap w-fit">
           <button
             className={`cursor-pointer ${getTextClass(null)}`}

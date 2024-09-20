@@ -47,7 +47,7 @@ function CategoryDropdown() {
   };
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full text-base">
       <button
         className="w-full px-3 py-4 bg-white border-b border-gray-300 text-left flex justify-between items-center text-base "
         onClick={toggleDropdown}
