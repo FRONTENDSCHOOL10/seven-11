@@ -1,9 +1,20 @@
 import { CheckButton } from '@/components';
 import SmallText from '@/components/SmallText';
 import SubTitle from '@/components/SubTitle';
-import { Link } from 'react-router-dom';
+import { getStorageData } from '@/utils';
+import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function LandingPage() {
+  const navigate = useNavigate();
+  const AUTH_KEY = 'authInfo';
+
+  useEffect(() => {
+    const authInfo = getStorageData(AUTH_KEY);
+    if (authInfo?.token) {
+      navigate('/home');
+    }
+  }, [navigate]);
   return (
     <>
       <div className="flex flex-col items-center justify-center content-center ">
