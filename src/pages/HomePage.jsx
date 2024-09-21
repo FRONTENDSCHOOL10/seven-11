@@ -1,5 +1,5 @@
 import pb from '@/api/pb';
-import { BannerSwiper, SelectButton } from '@/components';
+import { BannerSwiper } from '@/components';
 import { CategoryNav, StudyPostItem } from '@/components/Board';
 import useCategoryStore from '@/stores/useCategoryStore';
 import { useCallback, useEffect, useState } from 'react';
@@ -12,9 +12,6 @@ export default function HomePage() {
   const categories = useCategoryStore((state) => state.categories);
   const fetchCategories = useCategoryStore((state) => state.fetchCategories);
   const selectedCategory = useCategoryStore((state) => state.selectedCategory);
-  const setSelectedCategory = useCategoryStore(
-    (state) => state.setSelectedCategory
-  );
 
   // 카테고리 한 번만 가져오기
   const fetchCategoriesOnce = useCallback(async () => {
@@ -65,14 +62,6 @@ export default function HomePage() {
     );
   }
 
-  const options = [
-    { value: '전체', label: '전체' },
-    ...categories.map((category) => ({
-      value: category.id,
-      label: category.category_name,
-    })),
-  ];
-
   return (
     <div className="w-full ">
       <Helmet>
@@ -85,12 +74,6 @@ export default function HomePage() {
       <div className="w-full flex flex-col">
         <BannerSwiper />
         <CategoryNav />
-        <div className="border-b border-gray-300 pl-3 py-2">
-          <SelectButton
-            options={options}
-            onSelect={(value) => setSelectedCategory(value)}
-          />
-        </div>
         <div className="pb-[60px] overflow-y-auto no-scrollbar">
           <div>
             {filteredStudyList.length === 0 ? (
