@@ -57,7 +57,7 @@ export default function SelectCategory() {
           />
         </p>
 
-        <div className="flex flex-wrap m-2 max-h-[388px] overflow-y-auto gap-2 scrollbar-hide">
+        <div className="flex flex-wrap m-2 max-h-[388px] overflow-y-auto gap-2 no-scrollbar">
           {categories.map((category) => (
             <CategoryButton
               key={category.id}
