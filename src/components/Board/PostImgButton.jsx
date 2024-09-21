@@ -1,12 +1,19 @@
-import { func } from 'prop-types';
-import React, { useState } from 'react';
+import { func, array } from 'prop-types';
+import React, { useState, useEffect } from 'react';
 
 PostImgButton.propTypes = {
   onClick: func,
+  defaultThumbnail: array,
 };
 
-function PostImgButton({ onClick }) {
-  const [selectedImages, setSelectedImages] = useState([]);
+function PostImgButton({ onClick, defaultThumbnail = [] }) {
+  const [selectedImages, setSelectedImages] = useState(defaultThumbnail);
+
+  useEffect(() => {
+    if (defaultThumbnail.length > 0) {
+      setSelectedImages(defaultThumbnail);
+    }
+  }, [defaultThumbnail]);
 
   const handleImageUpload = (event) => {
     const files = Array.from(event.target.files);
@@ -26,8 +33,15 @@ function PostImgButton({ onClick }) {
     document.getElementById('fileInput').click();
   };
 
+  const handleDelete = (index) => {
+    const updatedImages = selectedImages.filter((_, i) => i !== index);
+    setSelectedImages(updatedImages);
+
+    onClick?.(updatedImages);
+  };
+
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col pb-3">
       <div
         className="flex flex-col justify-center items-center w-12 h-12 border border-gray-200 rounded-lg cursor-pointer"
         onClick={handleClick}
@@ -48,11 +62,23 @@ function PostImgButton({ onClick }) {
         </div>
       </div>
 
-      <div className="mt-4">
+      <div className="mt-2">
         {selectedImages.length > 0 && (
           <div>
             {selectedImages.map((image, index) => (
-              <p key={index}>{image.name}</p>
+              <div
+                key={index}
+                className="w-[240px] flex flex-row items-center gap-1"
+              >
+                <span className="text-sm truncate">
+                  {typeof image === 'string' ? image : image.name}
+                </span>
+                <button type="button" onClick={() => handleDelete(index)}>
+                  <svg className="w-[10px] h-[10px]">
+                    <use href="/stack.svg#close" />
+                  </svg>
+                </button>
+              </div>
             ))}
           </div>
         )}

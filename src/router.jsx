@@ -15,6 +15,7 @@ import {
   UserProfile,
   StudyDetailPage,
   QuestionDetailPage,
+  QuestionEdit,
 } from './pages/index';
 import navigation from './navigation';
 
@@ -46,6 +47,10 @@ export const routes = [
   {
     path: '/home/qna-post',
     element: <QuestionPost />,
+  },
+  {
+    path: '/home/qna-edit/:postId',
+    element: <QuestionEdit />,
   },
   {
     path: '/home/study-post',

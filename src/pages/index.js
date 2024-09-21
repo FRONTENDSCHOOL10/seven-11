@@ -10,6 +10,7 @@ export { default as Search } from './Search';
 export { default as StudyPost } from './StudyPost';
 export { default as QuestionPost } from './QuestionPage/QuestionPost';
 export { default as QuestionDetailPage } from './QuestionPage/QuestionDetailPage';
+export { default as QuestionEdit } from './QuestionPage/QuestionEdit';
 
 export { default as Chatroom } from './Chat/Chatroom';
 export { default as ChatList } from './Chat/ChatList';
