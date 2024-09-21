@@ -118,47 +118,50 @@ export default function QuestionDetailPage() {
         <div className="my-3">
           {category && <Badge label={category} isPrimary={true} />}
         </div>
-        <div className="flex flex-col gap-3">
-          <PostUser user={user} />
-          <button className="flex items-center gap-1 text-sm">
-            <svg className="w-3 h-3">
-              <use href="/stack.svg#plus" />
-            </svg>
-            <span>관심</span>
-          </button>
-          <h2 className="font-semibold text-lg mb-1">
-            <span className="text-primary">Q. </span>
-            {title}
-          </h2>
-        </div>
-        <p className="text-base mb-[21px]">{content}</p>
-        <div className="flex flex-col gap-2">
-          {thumbnail &&
-            thumbnail.map((img, index) => {
-              return (
-                <img
-                  src={`${pb.files.getUrl(post, img)}`}
-                  key={index}
-                  className="rounded-[4px]"
-                />
-              );
-            })}
+        <div className='h-[550px] overflow-auto no-scrollbar'>
+          <div className="flex flex-col gap-3">
+            <PostUser user={user} />
+            <button className="flex items-center gap-1 text-sm">
+              <svg className="w-3 h-3">
+                <use href="/stack.svg#plus" />
+              </svg>
+              <span>관심</span>
+            </button>
+            <h2 className="font-semibold text-lg mb-1">
+              <span className="text-primary">Q. </span>
+              {title}
+            </h2>
+          </div>
+          <p className="text-base mb-[21px]">{content}</p>
+          <div className="flex flex-col gap-2">
+            {thumbnail &&
+              thumbnail.map((img, index) => {
+                return (
+                  <img
+                    src={`${pb.files.getUrl(post, img)}`}
+                    key={index}
+                    className="rounded-[4px]"
+                  />
+                );
+              })}
+          </div>
         </div>
       </div>
 
-      <div className='fixed bottom-0 pl-2'>
+      <div className="bg-white">
         <SendMessageBar onSend={handleReply} />
       </div>
-
-      {replies.map((replyData, index) => (
-        <Reply
-          key={index}
-          content={replyData.reply}
-          replyId={replyData.id}
-          onDelete={handleDeleteReply}
-          onUpdate={handleUpdateReply}
-        />
-      ))}
+      <div className="overflow-auto">
+        {replies.map((replyData, index) => (
+          <Reply
+            key={index}
+            content={replyData.reply}
+            replyId={replyData.id}
+            onDelete={handleDeleteReply}
+            onUpdate={handleUpdateReply}
+          />
+        ))}
+      </div>
     </>
   );
 }
