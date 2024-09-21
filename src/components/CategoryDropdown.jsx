@@ -58,11 +58,11 @@ function CategoryDropdown() {
         </svg>
       </button>
       {isOpen && (
-        <ul className="absolute w-full  bg-white border border-gray-300 ">
+        <ul className="absolute w-full shadow-md  bg-white  border-gray-300 ">
           {categories.map((category, index) => (
             <li
               key={index}
-              className="px-4 py-2"
+              className="px-4 py-2 border-b"
               onClick={() => selectCategory(category)}
             >
               {category}
