@@ -1,4 +1,7 @@
 const getDetailedAddress = (address) => {
+  if (!address) {
+    return null;
+  }
   if (address.includes('동') || address.includes('군')) {
     const addressArray = address.split(' ');
     const detailed = addressArray.find(

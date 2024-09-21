@@ -18,7 +18,7 @@ export default function RootLayout() {
     location.pathname.includes('/user-info');
 
   return (
-    <div className="  flex flex-col h-full w-full">
+    <div className="flex flex-col h-screen w-full">
       <Header
         address={detailedAddress || ''}
         isChatroom={isChatroom}
