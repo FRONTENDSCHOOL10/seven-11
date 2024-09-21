@@ -5,7 +5,7 @@ PostImgButton.propTypes = {
   onClick: func,
 };
 
-const PostImgButton = ({ onClick }) => {
+function PostImgButton({ onClick }) {
   const [selectedImages, setSelectedImages] = useState([]);
 
   const handleImageUpload = (event) => {
@@ -59,6 +59,6 @@ const PostImgButton = ({ onClick }) => {
       </div>
     </div>
   );
-};
+}
 
 export default PostImgButton;
