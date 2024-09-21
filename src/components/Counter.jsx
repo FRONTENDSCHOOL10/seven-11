@@ -17,7 +17,7 @@ function Counter({ min = 2, max = 8 }) {
   };
 
   return (
-    <div className="w-[90px] h-[22px] flex items-center justify-between space-x-2 ">
+    <div className="w-[85px] h-[22px] flex items-center justify-between ">
       <button
         className="flex items-center justify-center w-6 h-6"
         onClick={handleDecrement}
@@ -36,7 +36,7 @@ function Counter({ min = 2, max = 8 }) {
         aria-label="인원수 늘리기"
       >
         <svg className="w-4 h-4">
-          <use href="/stack.svg#plusButton" />
+          <use href="/stack.svg#plusCounter" />
         </svg>
       </button>
     </div>
