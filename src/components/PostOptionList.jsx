@@ -9,7 +9,7 @@ function PostOptionList() {
     {
       icon: 'people',
       text: '인원',
-      optionType: 'counter',
+      optionType: 'people',
       value: options.people,
     },
     {

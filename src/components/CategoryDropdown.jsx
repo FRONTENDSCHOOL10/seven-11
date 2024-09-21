@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
 import pb from '@/api/pb';
+import { func } from 'prop-types';
 
-function CategoryDropdown() {
+CategoryDropdown.propTypes = {
+  onSelect: func.isRequired,
+};
+
+function CategoryDropdown({ onSelect }) {
   const [isOpen, setIsOpen] = useState(false);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] =
@@ -44,12 +49,14 @@ function CategoryDropdown() {
   const selectCategory = (category) => {
     setSelectedCategory(category);
     setIsOpen(false);
+    // 선택된 카테고리를 부모 컴포넌트로 전달
+    onSelect(category);
   };
 
   return (
     <div className="relative w-full text-base">
       <button
-        className="w-full px-3 py-4 bg-white border-b border-gray-300 text-left flex justify-between items-center text-base "
+        className="w-full px-3 py-4 bg-white border-b border-gray-300 text-left flex justify-between items-center text-base"
         onClick={toggleDropdown}
       >
         <span>{selectedCategory}</span>
@@ -58,7 +65,7 @@ function CategoryDropdown() {
         </svg>
       </button>
       {isOpen && (
-        <ul className="absolute cursor-pointer w-full shadow-md  bg-white  border-gray-300 ">
+        <ul className="absolute cursor-pointer w-full shadow-md bg-white border-gray-300">
           {categories.map((category, index) => (
             <li
               key={index}

@@ -35,7 +35,7 @@ export default function StudyPost() {
         date: options.date,
         time: options.time,
         gender: options.gender,
-        location: options.location,
+        place: options.location,
       };
 
       await pb.collection('Study_Posts').create(data);
@@ -76,11 +76,13 @@ export default function StudyPost() {
       </div>
       <PostOptionList />
 
-      <NormalButton
-        onClick={handleNextPage}
-        label={loading ? '저장 중...' : '다음'}
-        disabled={loading}
-      />
+      <div className="flex justify-center">
+        <NormalButton
+          onClick={handleNextPage}
+          label={'저장'}
+          disabled={loading}
+        />
+      </div>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { oneOf, string } from 'prop-types';
+import { func, oneOf, string } from 'prop-types';
 import { memo, useState } from 'react';
 import DaumPostcode from 'react-daum-postcode';
 import Counter from './Counter';
@@ -8,9 +8,9 @@ PostOption.propTypes = {
   icon: string.isRequired,
   text: string.isRequired,
   value: string,
-  optionType: oneOf(['date', 'time', 'select', 'counter', 'location'])
+  optionType: oneOf(['date', 'time', 'select', 'people', 'location'])
     .isRequired,
-  onChange: string.isRequired, // setOption 전달됨
+  onChange: func.isRequired, // setOption 전달됨
 };
 
 function PostOption({ icon, text, value, optionType, onChange }) {
@@ -71,7 +71,7 @@ function PostOption({ icon, text, value, optionType, onChange }) {
       )}
 
       {/* 인원수 옵션 */}
-      {optionType === 'counter' && <Counter min={2} max={8} />}
+      {optionType === 'people' && <Counter min={2} max={8} />}
 
       {/* 위치 선택 옵션 */}
       {optionType === 'location' && (
