@@ -57,6 +57,7 @@ export default function SignUp() {
       if (emailExists) {
         toast.error('이미 존재하는 이메일 입니다.');
         setIsEmailChecked(false);
+        console.log(result.items);
       } else {
         toast.success('사용 가능한 이메일 입니다.');
         setIsEmailChecked(true);
