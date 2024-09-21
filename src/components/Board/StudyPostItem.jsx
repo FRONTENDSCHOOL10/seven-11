@@ -33,7 +33,7 @@ function StudyPostItem({ item }) {
             .getOne(item.chatroom);
           setChatroom(chatroomData);
         } else {
-          setChatroom(null); // 채팅방 정보가 없을 때 기본값 처리
+          setChatroom(null);
         }
       } catch (error) {
         console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
@@ -50,7 +50,7 @@ function StudyPostItem({ item }) {
 
   return (
     <Link
-      to="#"
+      to={`/home/study-detail/${item.id}`} // 각 스터디의 상세 페이지로 이동하는 링크
       className="w-full h-full bg-white p-3 flex justify-between border-b border-gray-200"
     >
       <div>
