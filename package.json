@@ -21,7 +21,7 @@
     "eslint": "9.8.0",
     "eslint-plugin-react": "7.35.0",
     "eslint-plugin-react-hooks": "4.6.2",
-    "eslint-plugin-react-refresh": "0.4.9",
+    "eslint-plugin-react-refresh": "0.4F.9",
     "globals": "15.8.0",
     "prettier": "3.3.3",
     "prop-types": "15.8.1",
