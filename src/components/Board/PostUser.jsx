@@ -3,15 +3,18 @@ import { memo } from 'react';
 import { getTimeDifference } from '@/utils';
 import { object } from 'prop-types';
 import { Link } from 'react-router-dom';
+import usePostStore from '@/stores/usePostStore';
 
 PostUser.propTypes = {
   user: object,
 };
 
 function PostUser({ user }) {
-  const { nickname, avatar, created, id } = user;
+  const post = usePostStore((s) => s.post);
 
-  const timeDiff = getTimeDifference(created);
+  const { nickname, avatar, id } = user;
+
+  const timeDiff = getTimeDifference(post.created);
 
   return (
     <Link to={`/profile/${id}`} className="flex items-center gap-[10px]">
