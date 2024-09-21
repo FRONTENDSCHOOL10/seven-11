@@ -28,6 +28,7 @@ export default function StudyPost() {
 
     try {
       const data = {
+        user: pb.authStore.model.id,
         title,
         content,
         category,
@@ -35,15 +36,15 @@ export default function StudyPost() {
         date: options.date,
         time: options.time,
         gender: options.gender,
-        place: options.location,
+        location: options.location,
       };
 
       await pb.collection('Study_Posts').create(data);
       setLoading(false);
 
-      navigate('/next-page');
+      navigate('/home');
     } catch (error) {
-      console.error('스터디 등록 실패:', error);
+      console.error('스터디 등록 실패:', error.message);
       alert('스터디 등록 중 오류가 발생했습니다.');
       setLoading(false);
     }
@@ -64,7 +65,7 @@ export default function StudyPost() {
           onChange={(e) => setTitle(e.target.value)}
         />
       </div>
-      <CategoryDropdown onSelect={(value) => setCategory(value)} />
+      <CategoryDropdown onSelect={(id) => setCategory(id)} />
       <div className="">
         <textarea
           className="w-full px-3 py-4 min-h-[200px] border-b border-gray-200 text-base focus:outline-none resize-none"

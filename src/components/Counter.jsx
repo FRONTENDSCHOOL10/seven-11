@@ -1,18 +1,28 @@
-import { number } from 'prop-types';
-import { useState } from 'react';
+import { number, func } from 'prop-types';
+import { useState, useEffect } from 'react';
 
-function Counter({ min = 2, max = 8 }) {
-  const [count, setCount] = useState(min);
+function Counter({ min = 2, max = 8, value, onChange }) {
+  const [count, setCount] = useState(value || min);
+
+  useEffect(() => {
+    if (value !== undefined) {
+      setCount(value);
+    }
+  }, [value]);
 
   const handleIncrement = () => {
     if (count < max) {
-      setCount(count + 1);
+      const newCount = count + 1;
+      setCount(newCount);
+      onChange(newCount);
     }
   };
 
   const handleDecrement = () => {
     if (count > min) {
-      setCount(count - 1);
+      const newCount = count - 1;
+      setCount(newCount);
+      onChange(newCount);
     }
   };
 
@@ -46,6 +56,8 @@ function Counter({ min = 2, max = 8 }) {
 Counter.propTypes = {
   min: number,
   max: number,
+  value: number,
+  onChange: func.isRequired,
 };
 
 export default Counter;

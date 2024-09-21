@@ -12,7 +12,7 @@ const usePostOptionsStore = create((set) => {
       people: '2',
       date: formatDate,
       time: formatTime,
-      gender: '',
+      gender: '누구나',
       location: '',
     },
     setOption: (optionType, value) =>

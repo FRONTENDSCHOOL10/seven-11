@@ -43,7 +43,7 @@ function StudyPostItem({ item }) {
     fetchCategoryAndChatroom();
   }, [item.category, item.chatroom]);
 
-  const address = item.place;
+  const address = item.location;
   const detailedAddress = getDetailedAddress(address);
 
   const joinedPeople = chatroom ? chatroom.user.length : '0';
