@@ -58,7 +58,7 @@ function CategoryDropdown() {
         </svg>
       </button>
       {isOpen && (
-        <ul className="absolute w-full shadow-md  bg-white  border-gray-300 ">
+        <ul className="absolute cursor-pointer w-full shadow-md  bg-white  border-gray-300 ">
           {categories.map((category, index) => (
             <li
               key={index}
