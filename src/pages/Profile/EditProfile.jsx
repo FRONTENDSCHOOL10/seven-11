@@ -28,7 +28,7 @@ function EditProfile() {
           content="프로필 카드를 확인하여 유저 정보를 확인하고 수정할 수 있습니다."
         />
       </Helmet>
-      <div className="h-full">
+      <div className="h-[600px]">
         <ProfileHeader to={'/home/user-info'}>프로필수정</ProfileHeader>
 
         <div className="flex flex-col items-center p-3 h-full bg-gray-300 gap-[13px]">

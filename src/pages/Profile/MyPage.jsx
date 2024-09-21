@@ -41,7 +41,7 @@ export default function MyPage() {
         <MyProfile user={user} />
         <MyMenu />
         <Temperature temp={user.userTemp} />
-        <ContentNav />
+        <ContentNav title='내 관심사' />
         <InfoNav user={user} />
         <ProfileRootLayout />
       </div>

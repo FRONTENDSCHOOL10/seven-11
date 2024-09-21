@@ -14,6 +14,7 @@ import {
   Chatroom,
   UserProfile,
   StudyDetailPage,
+  QuestionDetailPage,
 } from './pages/index';
 import navigation from './navigation';
 
@@ -68,10 +69,10 @@ export const routes = [
     path: '/home/study-detail/:postId',
     element: <StudyDetailPage />,
   },
-  // {
-  //   path: '/home/board/qna-detail/:postId',
-  //   element: <QuestionDetailPage />,
-  // },
+  {
+    path: '/home/board/qna-detail/:postId',
+    element: <QuestionDetailPage />,
+  },
 
   {
     path: '/profile/:id',

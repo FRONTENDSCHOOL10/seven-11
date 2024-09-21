@@ -6,6 +6,9 @@ const getDetailedAddress = (address) => {
   }
 
   // "동" 또는 "군"이 포함된 경우 처리
+  if (!address) {
+    return null;
+  }
   if (address.includes('동') || address.includes('군')) {
     const addressArray = address.split(' ');
     const detailed = addressArray.find(
