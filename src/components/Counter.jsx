@@ -1,23 +1,33 @@
-import { number } from 'prop-types';
-import { useState } from 'react';
+import { number, func } from 'prop-types';
+import { useState, useEffect } from 'react';
 
-function Counter({ min = 2, max = 8 }) {
-  const [count, setCount] = useState(min);
+function Counter({ min = 2, max = 8, value, onChange }) {
+  const [count, setCount] = useState(value || min);
+
+  useEffect(() => {
+    if (value !== undefined) {
+      setCount(value);
+    }
+  }, [value]);
 
   const handleIncrement = () => {
     if (count < max) {
-      setCount(count + 1);
+      const newCount = count + 1;
+      setCount(newCount);
+      onChange(newCount);
     }
   };
 
   const handleDecrement = () => {
     if (count > min) {
-      setCount(count - 1);
+      const newCount = count - 1;
+      setCount(newCount);
+      onChange(newCount);
     }
   };
 
   return (
-    <div className="w-[90px] h-[22px] flex items-center justify-between space-x-2 ">
+    <div className="w-[85px] h-[22px] flex items-center justify-between ">
       <button
         className="flex items-center justify-center w-6 h-6"
         onClick={handleDecrement}
@@ -36,7 +46,7 @@ function Counter({ min = 2, max = 8 }) {
         aria-label="인원수 늘리기"
       >
         <svg className="w-4 h-4">
-          <use href="/stack.svg#plusButton" />
+          <use href="/stack.svg#plusCounter" />
         </svg>
       </button>
     </div>
@@ -46,6 +56,8 @@ function Counter({ min = 2, max = 8 }) {
 Counter.propTypes = {
   min: number,
   max: number,
+  value: number,
+  onChange: func.isRequired,
 };
 
 export default Counter;

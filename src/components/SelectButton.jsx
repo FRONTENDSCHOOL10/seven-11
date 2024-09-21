@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { arrayOf, shape, string, func } from 'prop-types';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import { Mousewheel } from 'swiper/modules';
 
 SelectButton.propTypes = {
   options: arrayOf(
@@ -20,20 +23,29 @@ export default function SelectButton({ options, onSelect }) {
   };
 
   return (
-    <div className="flex space-x-2 overflow-x-auto no-scrollbar">
-      {options.map(({ value, label }) => (
-        <button
-          key={value}
-          className={`px-3 py-2 rounded-full text-sm border box-border whitespace-nowrap ${
-            selected === value
-              ? 'bg-primary border-primary text-white'
-              : 'bg-transparent border-gray-400 text-black'
-          }`}
-          onClick={() => handleSelect(value)}
-        >
-          {label}
-        </button>
-      ))}
+    <div className="w-full h-full bg-white flex items-center">
+      <Swiper
+        spaceBetween={8} 
+        slidesPerView="auto" 
+        modules={[Mousewheel]}
+        mousewheel
+        className="w-full"
+      >
+        {options.map(({ value, label }) => (
+          <SwiperSlide key={value} className="!w-auto">
+            <button
+              className={`px-3 py-2 rounded-full text-sm border box-border whitespace-nowrap ${
+                selected === value
+                  ? 'bg-primary border-primary text-white'
+                  : 'bg-transparent border-gray-400 text-black'
+              }`}
+              onClick={() => handleSelect(value)}
+            >
+              {label}
+            </button>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 }
