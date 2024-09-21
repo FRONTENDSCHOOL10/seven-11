@@ -1,14 +1,17 @@
-import { useEffect } from 'react';
 import pb from '@/api/pb';
+import { Badge } from '@/components';
+import { ProfileCard } from '@/components/MyPage';
 import TopNav from '@/components/TopNav';
-import useUserStore from '../stores/useAuthorStore';
 import { string } from 'prop-types';
+import { useEffect, useState } from 'react';
+import useUserStore from '../stores/useAuthorStore';
 
 StudyDetailPage.propTypes = {
   studyPostId: string.isRequired,
 };
 
 function StudyDetailPage({ studyPostId }) {
+  const [category, setCategory] = useState(null);
   const setCurrentUserId = useUserStore((state) => state.setCurrentUserId);
   const setPostAuthorId = useUserStore((state) => state.setPostAuthorId);
 
@@ -37,8 +40,12 @@ function StudyDetailPage({ studyPostId }) {
 
   return (
     <>
-      <h1>스터디 상세 페이지</h1>
       <TopNav />
+      <Badge
+        label={category ? category.category_name : '카테고리 없음'}
+        isPrimary={false}
+      />
+      <ProfileCard />
     </>
   );
 }

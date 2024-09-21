@@ -4,14 +4,16 @@ import { CategoryNav, StudyPostItem } from '@/components/Board';
 import useCategoryStore from '@/stores/useCategoryStore';
 import { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { FadeLoader } from 'react-spinners';
 
 export default function HomePage() {
   const [studyList, setStudyList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
   const categories = useCategoryStore((state) => state.categories);
   const fetchCategories = useCategoryStore((state) => state.fetchCategories);
-  const selectedCategory = useCategoryStore((state) => state.selectedCategory); // 선택된 카테고리 가져오기
+  const selectedCategory = useCategoryStore((state) => state.selectedCategory);
 
-  // 카테고리 한번만 가져오기
+  // 카테고리 한 번만 가져오기
   const fetchCategoriesOnce = useCallback(async () => {
     if (categories.length === 0) {
       await fetchCategories();
@@ -22,6 +24,7 @@ export default function HomePage() {
   const studyListFetch = useCallback(async () => {
     if (studyList.length === 0) {
       try {
+        setIsLoading(true); // 로딩 시작
         const data = await pb.collection('Study_Posts').getFullList({
           sort: '-created',
         });
@@ -31,6 +34,8 @@ export default function HomePage() {
           '스터디 게시글 리스트를 가져오는 데 실패했습니다.:',
           error
         );
+      } finally {
+        setIsLoading(false); // 로딩 종료
       }
     }
   }, [studyList]);
@@ -48,8 +53,13 @@ export default function HomePage() {
     ? studyList.filter((item) => item.category === selectedCategory)
     : studyList; // 선택된 카테고리가 없으면 전체 게시글 표시
 
-  if (!categories || categories.length === 0) {
-    return <div>페이지 로딩중...</div>;
+  // 로딩 상태일 때 보여줄 화면
+  if (isLoading) {
+    return (
+      <div className="h-[80vh] flex justify-center items-center">
+        <FadeLoader color="#79b2d1" />
+      </div>
+    );
   }
 
   return (
@@ -66,9 +76,15 @@ export default function HomePage() {
         <CategoryNav />
         <div className="pb-[60px] overflow-y-auto no-scrollbar">
           <div>
-            {filteredStudyList.map((item) => (
-              <StudyPostItem key={item.id} item={item} studyList={item} />
-            ))}
+            {filteredStudyList.length === 0 ? (
+              <div className="w-full h-[575px] flex items-center justify-center">
+                스터디 게시글이 없습니다.
+              </div>
+            ) : (
+              filteredStudyList.map((item) => (
+                <StudyPostItem key={item.id} item={item} studyList={item} />
+              ))
+            )}
           </div>
         </div>
       </div>

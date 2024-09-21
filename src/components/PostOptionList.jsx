@@ -3,23 +3,23 @@ import usePostOptionStore from '@/stores/usePostOptionsStore'; // Zustand 스토
 
 function PostOptionList() {
   const options = usePostOptionStore((state) => state.options);
-  const setOption = usePostOptionStore((state) => state.setOption);
+  const setOption = usePostOptionStore((state) => state.setOption); // 상태 업데이트 함수
 
   const optionsConfig = [
     {
       icon: 'people',
       text: '인원',
-      optionType: 'counter',
+      optionType: 'people',
       value: options.people,
     },
-    { icon: 'date', text: '날짜', optionType: 'date', value: options.date },
-    { icon: 'time', text: '시간', optionType: 'time', value: options.time },
     {
       icon: 'gender',
       text: '성별',
       optionType: 'select',
       value: options.gender,
     },
+    { icon: 'date', text: '날짜', optionType: 'date', value: options.date },
+    { icon: 'time', text: '시간', optionType: 'time', value: options.time },
     {
       icon: 'map',
       text: '장소',
@@ -37,7 +37,7 @@ function PostOptionList() {
           text={option.text}
           value={option.value}
           optionType={option.optionType}
-          onChange={setOption} // Zustand의 상태 업데이트 함수 사용
+          onChange={setOption} // setOption을 PostOption에 전달
         />
       ))}
     </div>
