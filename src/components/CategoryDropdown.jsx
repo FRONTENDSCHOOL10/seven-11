@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
 import pb from '@/api/pb';
+import { func } from 'prop-types';
 
-function CategoryDropdown() {
+CategoryDropdown.propTypes = {
+  onSelect: func.isRequired,
+};
+
+function CategoryDropdown({ onSelect }) {
   const [isOpen, setIsOpen] = useState(false);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] =
@@ -10,10 +15,9 @@ function CategoryDropdown() {
   useEffect(() => {
     async function fetchCategories() {
       try {
-        // 현재 로그인한 유저 정보 가져오는 것
         const user = pb.authStore.model;
 
-        // 유저의 category 필드에서 카테고리 ID 배열 가져옴
+        // 유저의 category 필드에서 카테고리 ID 배열 가져오기
         const categoryIds = user.category;
 
         if (categoryIds && categoryIds.length > 0) {
@@ -22,11 +26,11 @@ function CategoryDropdown() {
               const category = await pb
                 .collection('Categories')
                 .getOne(categoryId);
-              return category.category_name; // 카테고리의 이름들 반환
+              return { id: category.id, name: category.category_name }; // 카테고리 ID와 이름 반환
             })
           );
 
-          // 가져온 카테고리 이름들 상태에 저장
+          // 카테고리 정보 저장
           setCategories(categoriesList);
         }
       } catch (error) {
@@ -42,30 +46,31 @@ function CategoryDropdown() {
   };
 
   const selectCategory = (category) => {
-    setSelectedCategory(category);
+    setSelectedCategory(category.name); // 이름만 상태로 저장
     setIsOpen(false);
+    onSelect(category.id); // 부모 컴포넌트에 ID만 전달
   };
 
   return (
     <div className="relative w-full text-base">
       <button
-        className="w-full px-3 py-4 bg-white border-b border-gray-300 text-left flex justify-between items-center text-base "
+        className="w-full px-3 py-4 bg-white border-b border-gray-300 text-left flex justify-between items-center text-base"
         onClick={toggleDropdown}
       >
-        <span>{selectedCategory}</span>
+        <span>{selectedCategory}</span> {/* 카테고리 이름만 표시 */}
         <svg className="w-4 h-4" aria-label="드롭다운 열기">
           <use href={'/stack.svg#down'} />
         </svg>
       </button>
       {isOpen && (
-        <ul className="absolute w-full  bg-white border border-gray-300 ">
-          {categories.map((category, index) => (
+        <ul className="absolute cursor-pointer w-full shadow-md bg-white border-gray-300">
+          {categories.map((category) => (
             <li
-              key={index}
-              className="px-4 py-2"
-              onClick={() => selectCategory(category)}
+              key={category.id}
+              className="px-4 py-2 border-b hover:bg-gray-100"
+              onClick={() => selectCategory(category)} // 카테고리 객체 전달
             >
-              {category}
+              {category.name} {/* 카테고리 이름만 표시 */}
             </li>
           ))}
         </ul>
