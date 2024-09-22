@@ -5,6 +5,7 @@ import { CategoryDropdown, LeftIcon, PostOptionList } from '@/components';
 import NormalButton from '@/components/NormalButton';
 import usePostOptionsStore from '@/stores/usePostOptionsStore';
 import { object, string } from 'prop-types';
+import { formatDate } from '@/utils/index'; // 유틸 함수 import
 
 StudyForm.propTypes = {
   mode: string,
@@ -13,12 +14,12 @@ StudyForm.propTypes = {
 
 function StudyForm({ mode = 'create', studyData }) {
   const navigate = useNavigate();
-  const { options, setOptions } = usePostOptionsStore();
+  const { options, setOption } = usePostOptionsStore();
 
   const [formData, setFormData] = useState({
     title: '',
     content: '',
-    category: '',
+    category: '', // 카테고리 추가
   });
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -28,25 +29,23 @@ function StudyForm({ mode = 'create', studyData }) {
       setFormData({
         title: studyData.title,
         content: studyData.content,
-        category: studyData.category,
+        category: studyData.category, // 카테고리 설정
       });
 
-      // Option 데이터를 studyData에서 설정
-      setOptions({
-        people: studyData.people,
-        date: studyData.date,
-        time: studyData.time,
-        gender: studyData.gender,
-        location: studyData.location,
-      });
+      // 각 옵션을 개별적으로 설정하고 날짜 변환 적용
+      setOption('people', studyData.people);
+      setOption('date', formatDate(studyData.date)); // 유틸 함수 사용
+      setOption('time', studyData.time);
+      setOption('gender', studyData.gender);
+      setOption('location', studyData.location);
     }
-  }, [studyData, mode, setOptions]);
+  }, [studyData, mode, setOption]);
 
   useEffect(() => {
     const { title, content, category } = formData;
     if (
-      title.trim() &&
-      content.trim() &&
+      (title?.trim() || '') &&
+      (content?.trim() || '') &&
       category &&
       options.people &&
       options.date &&
@@ -143,6 +142,7 @@ function StudyForm({ mode = 'create', studyData }) {
       </fieldset>
       <fieldset>
         <CategoryDropdown
+          selectedCategory={formData.category} // 기본 카테고리 설정
           onSelect={(id) => setFormData((prev) => ({ ...prev, category: id }))}
         />
       </fieldset>
@@ -157,7 +157,7 @@ function StudyForm({ mode = 'create', studyData }) {
         />
       </fieldset>
       <PostOptionList />
-      <div className="flex justify-center">
+      <div className="flex justify-center px-3">
         <NormalButton
           onClick={handleSubmit}
           label={'저장'}

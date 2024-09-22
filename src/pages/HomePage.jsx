@@ -26,6 +26,7 @@ export default function HomePage() {
     }
   }, [categories, fetchCategories]);
 
+
   // 스터디 리스트 가져오기
   const studyListFetch = useCallback(async () => {
     if (studyList.length === 0) {
@@ -39,7 +40,9 @@ export default function HomePage() {
         // 구가 일치하는 데이터만 불러오기
         const filteredData = data.filter((item) => {
           const postLocation = extractCityDistrict(item.location);
-          return postLocation === userLocation;
+          if (postLocation) {
+            return postLocation === userLocation;
+          }
         });
 
         setStudyList(filteredData);

@@ -8,3 +8,4 @@ export * from './validation.js';
 export * from './throttle.js';
 export * from './getChatTime.js';
 export * from './extractCityDistrict.js';
+export * from './formatDate.js';

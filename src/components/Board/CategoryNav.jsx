@@ -35,7 +35,7 @@ function CategoryNav() {
         modules={[Mousewheel]} // Mousewheel 모듈 추가
         mousewheel // 마우스 휠 사용 설정
         slidesPerView="auto" // 슬라이드 너비를 자동으로 계산
-        spaceBetween={20} // 슬라이드 간의 여백을 최소화 (원하는 값으로 조정 가능)
+        spaceBetween={35} // 슬라이드 간의 여백을 최소화 (원하는 값으로 조정 가능)
         className="w-full h-full"
       >
         <SwiperSlide className="flex items-center justify-center whitespace-nowrap !w-auto">
@@ -49,7 +49,7 @@ function CategoryNav() {
         {categories.map((item) => (
           <SwiperSlide
             key={item.id}
-            className="flex items-center justify-center whitespace-nowrap !w-auto" 
+            className="flex items-center justify-center whitespace-nowrap !w-auto"
           >
             <button
               className={`cursor-pointer ${getTextClass(item.id)}`}
