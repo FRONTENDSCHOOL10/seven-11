@@ -1,6 +1,6 @@
 import { CategoryDropdown, LeftIcon, PostOptionList } from '@/components';
 import NormalButton from '@/components/NormalButton';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import pb from '@/api/pb';
 import usePostOptionsStore from '@/stores/usePostOptionsStore';
@@ -11,24 +11,39 @@ export default function StudyPost() {
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const { options } = usePostOptionsStore();
 
-  const handleNextPage = async () => {
-    console.log('Title:', title);
-    console.log('Content:', content);
-    console.log('Category:', category);
-    console.log('Options:', options);
+  useEffect(() => {
+    if (
+      title.trim() &&
+      content.trim() &&
+      category &&
+      options.people &&
+      options.date &&
+      options.time &&
+      options.gender &&
+      options.location
+    ) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
+    }
+  }, [title, content, category, options]);
 
-    if (!title || !content || !category) {
-      alert('모든 필드를 채워주세요.');
+  const handleNextPage = async () => {
+    const user = pb.authStore.model;
+
+    if (!user) {
+      alert('로그인된 사용자 정보를 찾을 수 없습니다. 다시 로그인해 주세요.');
       return;
     }
 
     setLoading(true);
 
     try {
-      const data = {
-        user: pb.authStore.model.id,
+      const studyData = {
+        user: user.id,
         title,
         content,
         category,
@@ -39,16 +54,25 @@ export default function StudyPost() {
         location: options.location,
       };
 
-      // Study_Posts 컬렉션에 데이터 저장 및 저장된 데이터 가져오기
-      const createdPost = await pb.collection('Study_Posts').create(data);
+      const createdPost = await pb.collection('Study_Posts').create(studyData);
+
+      const chatRoomData = {
+        roomName: `${title}`,
+        user: [user.id],
+        study: createdPost.id,
+        message: [],
+      };
+
+      const createdChatRoom = await pb
+        .collection('ChatRooms')
+        .create(chatRoomData);
 
       setLoading(false);
 
-      // 생성된 게시글의 ID를 사용하여 study-detail 페이지로 이동
       navigate(`/home/study-detail/${createdPost.id}`);
     } catch (error) {
-      console.error('스터디 등록 실패:', error.message);
-      alert('스터디 등록 중 오류가 발생했습니다.');
+      console.error('스터디 등록 및 채팅방 생성 실패:', error.message);
+      alert('스터디 등록 및 채팅방 생성 중 오류가 발생했습니다.');
       setLoading(false);
     }
   };
@@ -84,7 +108,7 @@ export default function StudyPost() {
         <NormalButton
           onClick={handleNextPage}
           label={'저장'}
-          disabled={loading}
+          isDisabled={isButtonDisabled || loading}
         />
       </div>
     </>
