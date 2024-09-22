@@ -9,7 +9,7 @@ import pb from '@/api/pb'; // 수정된 pb.js 파일 임포트
 export default function Search() {
   const [selectedOption, setSelectedOption] = useState('');
   const [options, setOptions] = useState([{ value: '', label: '전체' }]);
-  const [questions, setQuestions] = useState([]);
+  const [results, setResults] = useState([]); // 질문 및 스터디 검색 결과 상태
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태 추가
@@ -37,21 +37,21 @@ export default function Search() {
     fetchCategories();
   }, []);
 
-  // 질문 데이터 불러오기
+  // 질문 및 스터디 데이터 불러오기
   useEffect(() => {
     if (selectedOption || searchTerm) {
-      fetchQuestions(selectedOption, searchTerm); // 검색어를 추가로 전달
+      fetchQuestionsAndStudies(selectedOption, searchTerm); // 검색어를 추가로 전달
     }
   }, [selectedOption, searchTerm]);
 
   // 선택된 카테고리 처리
   const handleSelect = (value) => {
     setSelectedOption(value);
-    setQuestions([]); // 새로운 카테고리 선택 시 질문 초기화
+    setResults([]); // 새로운 카테고리 선택 시 결과 초기화
   };
 
-  // 질문 목록 불러오기
-  const fetchQuestions = async (category, searchTerm) => {
+  // 질문 및 스터디 목록 불러오기
+  const fetchQuestionsAndStudies = async (category, searchTerm) => {
     setLoading(true);
     setError(null);
     try {
@@ -62,13 +62,26 @@ export default function Search() {
 
       const filterQuery = filter.join(' && '); // 필터 쿼리 조합
 
-      const records = await pb.collection('Question_Posts').getFullList({
-        filter: filterQuery, // 필터 적용
+      // Question_Posts에서 검색
+      const questions = await pb.collection('Question_Posts').getFullList({
+        filter: filterQuery,
       });
-      setQuestions(records);
+
+      // Study_Posts에서 검색
+      const studies = await pb.collection('Study_Posts').getFullList({
+        filter: filterQuery,
+      });
+
+      // 결과 병합
+      const combinedResults = [
+        ...questions.map((item) => ({ ...item, type: 'question' })),
+        ...studies.map((item) => ({ ...item, type: 'study' })),
+      ];
+
+      setResults(combinedResults);
     } catch (error) {
-      console.error('질문 데이터를 가져오는 데 실패했습니다:', error);
-      setError('질문 데이터를 가져오는 데 실패했습니다.');
+      console.error('데이터를 가져오는 데 실패했습니다:', error);
+      setError('데이터를 가져오는 데 실패했습니다.');
     } finally {
       setLoading(false);
     }
@@ -89,6 +102,7 @@ export default function Search() {
           <SearchBar
             location="검색할 내용을 입력해 주세요."
             onChange={setSearchTerm} // 검색어 변경 시 상태 업데이트
+            onClick={() => fetchQuestionsAndStudies(selectedOption, searchTerm)} // 검색 아이콘 클릭 시 검색 실행
           />
         </div>
 
@@ -102,13 +116,13 @@ export default function Search() {
 
         <div className="mt-6">
           {loading ? (
-            <p></p>
+            <p>로딩 중...</p>
           ) : error ? (
             <p>{error}</p>
-          ) : questions.length > 0 ? (
-            <QuestionList questions={questions} />
+          ) : results.length > 0 ? (
+            <ResultList results={results} />
           ) : (
-            <p></p>
+            <p>검색 결과가 없습니다.</p>
           )}
         </div>
       </div>
@@ -116,13 +130,16 @@ export default function Search() {
   );
 }
 
-function QuestionList({ questions }) {
+// 검색 결과 목록 컴포넌트
+function ResultList({ results }) {
   return (
     <ul>
-      {questions.map((question) => (
-        <li key={question.id} className="py-2 border-b">
-          <h3 className="text-lg font-semibold">{question.title}</h3>
-          <p className="text-sm">{question.content}</p>
+      {results.map((result) => (
+        <li key={result.id} className="py-2 border-b">
+          <h3 className="text-lg font-semibold">
+            [{result.type === 'question' ? '질문' : '스터디'}] {result.title}
+          </h3>
+          <p className="text-sm">{result.content}</p>
         </li>
       ))}
     </ul>
