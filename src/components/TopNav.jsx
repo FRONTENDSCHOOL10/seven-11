@@ -4,8 +4,13 @@ import ShareIcon from './ShareIcon';
 import MoreIcon from './MoreIcon';
 import CloseIcon from './CloseIcon';
 import MoreModal from './MoreModal';
+import { string } from 'prop-types';
 
-function TopNav() {
+TopNav.propTypes = {
+  to: string,
+};
+
+function TopNav({ to }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleMoreIconClick = () => {
@@ -19,7 +24,7 @@ function TopNav() {
   return (
     <>
       <div className="relative w-full px-4 py-2 flex items-center justify-between">
-        <LeftIcon />
+        <LeftIcon to={to} />
 
         <div className=" flex gap-3">
           <ShareIcon />

@@ -1,10 +1,9 @@
-import { memo, useState } from 'react';
+import { memo, useState, useEffect } from 'react';
 import PostImgButton from './PostImgButton';
 import SelectCategory from './SelectCategory';
 import pb from '@/api/pb';
 import { getStorageData } from '@/utils';
 import { useNavigate } from 'react-router-dom';
-import { convertHTMLToText } from '@/utils/convertHTMLToText';
 import { object, string } from 'prop-types';
 import NormalButton from '../NormalButton';
 
@@ -17,27 +16,26 @@ function QuestionForm({ mode = 'create', note }) {
   const user = getStorageData('authInfo').user;
   const userID = user.id;
   const navigate = useNavigate();
-  const [formData, setFormData] = useState(() => {
-    if (mode === 'create') {
-      return {
-        userID: userID,
-        title: '',
-        content: '',
-        category: '',
-        thumbnail: [],
-      };
-    }
 
+  const [formData, setFormData] = useState({
+    userID: userID,
+    title: '',
+    content: '',
+    category: '',
+    thumbnail: [],
+  });
+
+  useEffect(() => {
     if (mode === 'edit' && note) {
-      return {
+      setFormData({
         userID: note.userID,
         title: note.title,
-        content: convertHTMLToText(note.content),
+        content: note.content,
         category: note.category,
         thumbnail: note.thumbnail,
-      };
+      });
     }
-  });
+  }, [note, mode]);
 
   const handleSelectImg = (images) => {
     setFormData((prev) => ({
@@ -46,30 +44,24 @@ function QuestionForm({ mode = 'create', note }) {
     }));
   };
 
-
   const handleSubmit = async () => {
-    const form = new FormData();
-
-    form.append('userID', formData.userID);
-    form.append('title', formData.title);
-    form.append('content', formData.content);
-    form.append('category', formData.category);
-
-    formData.thumbnail.forEach((image) => {
-      form.append(`thumbnail`, image);
-    });
-
     try {
-      if (
-        formData.title === '' ||
-        formData.content === '' ||
-        formData.category === ''
-      ) {
+      if (!formData.title || !formData.content || !formData.category) {
         alert('모두 입력을 완료해주세요!');
         return;
       }
-      const response = await pb.collection('Question_Posts').create(form);
-      const postId = response.id;
+
+      let postId;
+
+      if (mode === 'create') {
+        const response = await pb.collection('Question_Posts').create(formData);
+        postId = response.id;
+      } else if (mode === 'edit') {
+        const response = await pb
+          .collection('Question_Posts')
+          .update(note.id, formData);
+        postId = response.id;
+      }
 
       navigate(`/home/board/qna-detail/${postId}`);
     } catch (error) {
@@ -77,15 +69,11 @@ function QuestionForm({ mode = 'create', note }) {
     }
   };
 
-  const handleSelectCategory = (value) => {
-    pb.collection('Categories')
-      .getFirstListItem(`category_name="${value}"`)
-      .then((category) =>
-        setFormData((prev) => ({
-          ...prev,
-          category: category.id,
-        }))
-      );
+  const handleSelectCategory = (selectedCategoryId) => {
+    setFormData((prev) => ({
+      ...prev,
+      category: selectedCategoryId,
+    }));
   };
 
   return (
@@ -95,30 +83,36 @@ function QuestionForm({ mode = 'create', note }) {
         <input
           className="w-full placeholder:text-gray-400 px-[27.5px] py-3 tex-lg font-semibold outline-none"
           placeholder="질문제목"
-          value={formData.title}
+          value={formData.title || ''}
           onChange={(e) =>
             setFormData((prev) => ({ ...prev, title: e.target.value }))
           }
         />
       </fieldset>
-      <SelectCategory onClick={handleSelectCategory} />
-      <div>
-        <fieldset>
-          <label className="sr-only">내용 입력</label>
-          <textarea
-            className="w-full h-[407px] px-3 py-2 resize-none placeholder-gray-400 text-base outline-none focus-visible:outline"
-            placeholder="내용을 입력해주세요."
-            value={formData.content}
-            onChange={(e) =>
-              setFormData((prev) => ({ ...prev, content: e.target.value }))
-            }
-          />
-        </fieldset>
-        <fieldset className="px-3">
-          <label className="sr-only">이미지 선택</label>
-          <PostImgButton onClick={handleSelectImg} />
-        </fieldset>
-      </div>
+      <fieldset>
+        <label className="sr-only">카테고리 선택</label>
+        <SelectCategory onClick={handleSelectCategory} note={formData} />
+      </fieldset>
+
+      <fieldset>
+        <label className="sr-only">내용 입력</label>
+        <textarea
+          className="w-full h-[407px] px-3 py-2 resize-none placeholder-gray-400 text-base outline-none focus-visible:outline"
+          placeholder="내용을 입력해주세요."
+          value={formData.content || ''}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, content: e.target.value }))
+          }
+        />
+      </fieldset>
+      <fieldset className="px-3">
+        <label className="sr-only">이미지 선택</label>
+        <PostImgButton
+          onClick={handleSelectImg}
+          defaultThumbnail={formData.thumbnail}
+        />
+      </fieldset>
+
       <div className="px-3">
         <NormalButton onClick={handleSubmit} label="저장" />
       </div>
