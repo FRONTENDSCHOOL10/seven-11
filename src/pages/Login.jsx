@@ -159,7 +159,7 @@ export default function Login() {
           />
           <div className="text-sm flex justify-center h-[45px] items-center gap-3">
             <span className="text-gray-300">회원이 아니신가요?</span>
-            <Link className="text-primary" to={'/signup'}>
+            <Link className="text-primary" to={'/categories'}>
               회원가입
             </Link>
           </div>

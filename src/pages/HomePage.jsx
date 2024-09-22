@@ -2,16 +2,22 @@ import pb from '@/api/pb';
 import { BannerSwiper } from '@/components';
 import { CategoryNav, StudyPostItem } from '@/components/Board';
 import useCategoryStore from '@/stores/useCategoryStore';
+import { getStorageData } from '@/utils';
+import extractCityDistrict from '@/utils/extractCityDistrict';
 import { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FadeLoader } from 'react-spinners';
 
 export default function HomePage() {
   const [studyList, setStudyList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
+  const [isLoading, setIsLoading] = useState(true);
   const categories = useCategoryStore((state) => state.categories);
   const fetchCategories = useCategoryStore((state) => state.fetchCategories);
   const selectedCategory = useCategoryStore((state) => state.selectedCategory);
+
+  const user = getStorageData('authInfo').user;
+
+  const userLocation = extractCityDistrict(user.address);
 
   // 카테고리 한 번만 가져오기
   const fetchCategoriesOnce = useCallback(async () => {
@@ -24,21 +30,29 @@ export default function HomePage() {
   const studyListFetch = useCallback(async () => {
     if (studyList.length === 0) {
       try {
-        setIsLoading(true); // 로딩 시작
+        setIsLoading(true);
+
         const data = await pb.collection('Study_Posts').getFullList({
           sort: '-created',
         });
-        setStudyList(data);
+
+        // 구가 일치하는 데이터만 불러오기
+        const filteredData = data.filter((item) => {
+          const postLocation = extractCityDistrict(item.location);
+          return postLocation === userLocation;
+        });
+
+        setStudyList(filteredData);
       } catch (error) {
         console.error(
           '스터디 게시글 리스트를 가져오는 데 실패했습니다.:',
           error
         );
       } finally {
-        setIsLoading(false); // 로딩 종료
+        setIsLoading(false);
       }
     }
-  }, [studyList]);
+  }, [studyList, userLocation]);
 
   useEffect(() => {
     fetchCategoriesOnce();
@@ -46,14 +60,13 @@ export default function HomePage() {
 
   useEffect(() => {
     studyListFetch();
-  }, [studyListFetch]);
+  }, []);
 
   // 선택된 카테고리로 게시글 필터링
   const filteredStudyList = selectedCategory
     ? studyList.filter((item) => item.category === selectedCategory)
-    : studyList; // 선택된 카테고리가 없으면 전체 게시글 표시
+    : studyList;
 
-  // 로딩 상태일 때 보여줄 화면
   if (isLoading) {
     return (
       <div className="h-[80vh] flex justify-center items-center">
@@ -63,7 +76,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="w-full ">
+    <div className="w-full">
       <Helmet>
         <title>작심하루 - 홈</title>
         <meta

@@ -33,15 +33,18 @@ export default function SelectCategory() {
       )
     : categories;
 
+  const handleSearch = (value) => {
+    console.log(value);
+  };
   return (
     <>
       <div className="my-2 flex items-center px-3 gap-1 py-1">
         <LeftIcon />
-        <SearchBar
+        {/* <SearchBar
           location="분야 (이름)로 검색"
           inputColor="bg-gray-100"
-          onChange={(value) => setSearchQuery(value)}
-        />
+          onChange={handleSearch}
+        /> */}
       </div>
 
       <section className="flex justify-center flex-wrap m-3">
@@ -62,7 +65,7 @@ export default function SelectCategory() {
           />
         </p>
 
-        <div className="grid grid-cols-2 gap-3 max-h-[480px] min-[320px] w-full overflow-y-auto no-scrollbar">
+        <div className="grid grid-cols-2 gap-3 max-h-[500px] min-[320px] w-full overflow-y-auto no-scrollbar">
           {filteredCategories.length > 0 ? (
             filteredCategories.map((category) => (
               <CategoryButton
