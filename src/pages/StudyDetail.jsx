@@ -16,8 +16,12 @@ function StudyDetailPage() {
   const [error, setError] = useState(null);
   const setCurrentUserId = useUserStore((state) => state.setCurrentUserId);
   const setPostAuthorId = useUserStore((state) => state.setPostAuthorId);
-  const postAuthorId = useUserStore((state) => state.postAuthorId); // 작성자 ID 가져오기
-  const currentUserId = useUserStore((state) => state.currentUserId); // 현재 로그인된 유저 ID 가져오기
+  const postAuthorId = useUserStore((state) => state.postAuthorId);
+  const currentUserId = useUserStore((state) => state.currentUserId);
+
+  // 참여중인 이웃 수를 저장할 상태
+  const [joinedPeople, setJoinedPeople] = useState(0);
+  const [peopleLimit, setPeopleLimit] = useState(0); // 추가: 스터디 인원 제한
 
   useEffect(() => {
     async function fetchStudyPostData() {
@@ -49,6 +53,15 @@ function StudyDetailPage() {
         setCategory(
           studyPost.expand?.category || { category_name: '카테고리 없음' }
         );
+
+        // 채팅방 인원수를 설정
+        const chatroom = studyPost.expand?.chatroom;
+        if (chatroom && chatroom.user) {
+          setJoinedPeople(chatroom.user.length);
+        }
+
+        // 스터디 인원 제한 설정
+        setPeopleLimit(studyPost.people || 0);
 
         setLoading(false); // 로딩 완료
       } catch (error) {
@@ -90,7 +103,7 @@ function StudyDetailPage() {
 
   return (
     <>
-      <TopNav />
+      <TopNav to="/home" />
       <div className="px-3">
         <Badge
           label={category ? category.category_name : '카테고리 없음'}
@@ -120,21 +133,26 @@ function StudyDetailPage() {
           {studyPostData.content || '내용이 없습니다.'}
         </div>
 
-        <div className="mt-5 font-semibold">참여중인 이웃 1/4</div>
-        <AuthorProfile />
+        {/* 참여중인 이웃 수 표시 */}
+        <div className="flex flex-col gap-2.5">
+          <p className="font-semibold">
+            참여중인 이웃 {joinedPeople}/{peopleLimit}
+          </p>
+          <AuthorProfile />
+        </div>
 
         <div className="mt-10 flex justify-center">
           {currentUserId === postAuthorId ? (
             <NormalButton
               label="채팅방으로 이동"
               onClick={goToChatRoom}
-              className="bg-blue-500 text-white py-3 px-10 rounded-lg"
+              className="bg-primary text-white py-3 px-10 rounded-lg"
             />
           ) : (
             <NormalButton
               label="참여하기"
               onClick={goToChatRoom}
-              className="bg-blue-500 text-white py-3 px-10 rounded-lg"
+              className="bg-primary text-white py-3 px-10 rounded-lg"
             />
           )}
         </div>
