@@ -1,4 +1,8 @@
+import { func } from 'prop-types';
 import { memo } from 'react';
+TrackLocation.propTypes = {
+  onClick: func,
+};
 
 function TrackLocation({ onClick }) {
   return (
