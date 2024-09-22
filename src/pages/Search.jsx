@@ -12,6 +12,7 @@ export default function Search() {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태 추가
 
   // 카테고리 목록 불러오기
   useEffect(() => {
@@ -38,10 +39,10 @@ export default function Search() {
 
   // 질문 데이터 불러오기
   useEffect(() => {
-    if (selectedOption) {
-      fetchQuestions(selectedOption);
+    if (selectedOption || searchTerm) {
+      fetchQuestions(selectedOption, searchTerm); // 검색어를 추가로 전달
     }
-  }, [selectedOption]);
+  }, [selectedOption, searchTerm]);
 
   // 선택된 카테고리 처리
   const handleSelect = (value) => {
@@ -50,15 +51,19 @@ export default function Search() {
   };
 
   // 질문 목록 불러오기
-  const fetchQuestions = async (category) => {
+  const fetchQuestions = async (category, searchTerm) => {
     setLoading(true);
     setError(null);
     try {
-      // 카테고리 id를 Question_Posts의 category 필드와 비교하도록 필터 설정
-      const filter = category !== '전체' ? `category='${category}'` : '';
-      console.log(filter);
+      // 카테고리와 검색어를 필터에 반영
+      const filter = [];
+      if (category !== '전체') filter.push(`category='${category}'`);
+      if (searchTerm) filter.push(`title~'${searchTerm}'`); // 부분 일치 검색
+
+      const filterQuery = filter.join(' && '); // 필터 쿼리 조합
+
       const records = await pb.collection('Question_Posts').getFullList({
-        filter: filter, // 필터 적용
+        filter: filterQuery, // 필터 적용
       });
       setQuestions(records);
     } catch (error) {
@@ -82,7 +87,10 @@ export default function Search() {
         <h1 className="text-xl font-semibold">서치페이지</h1>
         <div className="flex items-center py-2 gap-4">
           <LeftIcon />
-          <SearchBar location="검색할 내용을 입력해 주세요." />
+          <SearchBar
+            location="검색할 내용을 입력해 주세요."
+            onChange={setSearchTerm} // 검색어 변경 시 상태 업데이트
+          />
         </div>
 
         <div>

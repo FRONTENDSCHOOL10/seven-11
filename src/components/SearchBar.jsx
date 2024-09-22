@@ -1,11 +1,11 @@
 import { func, string } from 'prop-types';
 import SearchIcon from './SearchIcon';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 SearchBar.propTypes = {
   location: string.isRequired,
   inputColor: string,
-  onChange: func,
+  onChange: func, // onChange 함수 prop 추가
 };
 
 export default function SearchBar({
@@ -13,10 +13,17 @@ export default function SearchBar({
   inputColor = 'bg-gray-100',
   onChange,
 }) {
+  const [searchTerm, setSearchTerm] = useState(''); // 로컬 상태로 검색어 관리
   const inputRef = useRef(null);
 
-  const handleInput = () => {
-    onChange?.(inputRef.current.value);
+  // 입력값이 변경될 때 로컬 상태 업데이트
+  const handleInputChange = () => {
+    setSearchTerm(inputRef.current.value);
+  };
+
+  // SearchIcon 클릭 시 부모 컴포넌트에 전달
+  const handleSearchClick = () => {
+    onChange?.(searchTerm); // 검색어 전달
   };
 
   return (
@@ -28,9 +35,10 @@ export default function SearchBar({
         placeholder={location}
         className={`bg-transparent w-full focus:outline-none text-gray-400`}
         ref={inputRef}
-        onChange={handleInput} // 실시간 입력값 변경
+        onChange={handleInputChange} // 입력값 변경 시 로컬 상태 업데이트
       />
-      <SearchIcon onClick={handleInput} />
+      <SearchIcon onClick={handleSearchClick} />{' '}
+      {/* 아이콘 클릭 시 검색어 전달 */}
     </div>
   );
 }
