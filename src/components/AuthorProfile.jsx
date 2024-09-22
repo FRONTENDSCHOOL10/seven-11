@@ -11,13 +11,11 @@ function AuthorProfile() {
     address: '',
   });
 
-//  구까지만 표시
+  //  구까지만 표시
   const formatAddress = (fullAddress) => {
     if (!fullAddress) return '';
 
-
     const addressParts = fullAddress.split(' ');
-
 
     return addressParts.length >= 2
       ? `${addressParts[0]} ${addressParts[1]}`
@@ -48,11 +46,19 @@ function AuthorProfile() {
 
   return (
     <div className="flex items-center gap-2.5">
-      <img
-        src={authorData.avatar}
-        alt="작성자 프로필 사진"
-        className="w-[30px] h-[30px] rounded-full"
-      />
+      {authorData.avatar ? (
+        <img
+          src={authorData.avatar}
+          alt="작성자 프로필 사진"
+          className="w-[30px] h-[30px] rounded-full"
+        />
+      ) : (
+        <img
+          src="/logo.svg"
+          alt="작성자 프로필 사진"
+          className="w-[30px] h-[30px] rounded-full"
+        />
+      )}
       <div className="flex flex-col">
         <div className="flex items-center gap-1">
           <span className="text-sm font-bold">{authorData.nickname}</span>
