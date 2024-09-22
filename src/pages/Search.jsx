@@ -7,8 +7,8 @@ import { SubTitle } from '@/components';
 import pb from '@/api/pb'; // 수정된 pb.js 파일 임포트
 
 export default function Search() {
-  const [selectedOption, setSelectedOption] = useState('전체');
-  const [options, setOptions] = useState([{ value: '전체', label: '전체' }]);
+  const [selectedOption, setSelectedOption] = useState('');
+  const [options, setOptions] = useState([{ value: '', label: '전체' }]);
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -82,7 +82,7 @@ export default function Search() {
         <h1 className="text-xl font-semibold">서치페이지</h1>
         <div className="flex items-center py-2 gap-4">
           <LeftIcon />
-          <SearchBar location="근처에서 검색" />
+          <SearchBar location="검색할 내용을 입력해 주세요." />
         </div>
 
         <div>
@@ -101,7 +101,7 @@ export default function Search() {
           ) : questions.length > 0 ? (
             <QuestionList questions={questions} />
           ) : (
-            <p>해당 카테고리에 게시글이 없습니다.</p>
+            <p></p>
           )}
         </div>
       </div>
