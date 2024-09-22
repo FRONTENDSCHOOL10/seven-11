@@ -5,30 +5,32 @@ import { useRef } from 'react';
 SearchBar.propTypes = {
   location: string.isRequired,
   inputColor: string,
-  onClick: func,
+  onChange: func,
 };
 
 export default function SearchBar({
   location,
   inputColor = 'bg-gray-100',
-  onClick,
+  onChange,
 }) {
   const inputRef = useRef(null);
-  const handleClick = () => {
-    onClick?.(inputRef.current.value);
+
+  const handleInput = () => {
+    onChange?.(inputRef.current.value);
   };
+
   return (
     <div
-      className={`w-[293px] h-[34px] flex gap-1 items-center text-gray-400 px-2.5 py-1.5 rounded-md ${inputColor}`}
+      className={`w-full h-[34px] flex gap-1 items-center text-gray-400 px-2.5 py-1.5 rounded-md ${inputColor}`}
     >
       <input
         type="text"
         placeholder={location}
         className={`bg-transparent w-full focus:outline-none text-gray-400`}
         ref={inputRef}
-        defaultValue={''}
+        onChange={handleInput} // 실시간 입력값 변경
       />
-      <SearchIcon onClick={handleClick} />
+      <SearchIcon onClick={handleInput} />
     </div>
   );
 }

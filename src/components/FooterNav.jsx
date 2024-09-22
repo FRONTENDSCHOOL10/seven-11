@@ -13,7 +13,7 @@ function FooterNav() {
 
   return (
     <div className="relative">
-      <nav className="fixed bottom-0 w-[319px] bg-white border-t box-border border-gray-100 z-40">
+      <nav className="fixed bottom-0 min-w-[319px] w-full max-w-[428px] bg-white border-t box-border border-gray-100 z-40">
         <ul className="flex justify-around p-2">
           {items.map((item, index) => (
             <li key={index} className="flex-1 text-center">

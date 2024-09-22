@@ -28,7 +28,7 @@ function EditProfile() {
           content="프로필 카드를 확인하여 유저 정보를 확인하고 수정할 수 있습니다."
         />
       </Helmet>
-      <div className="h-[600px]">
+      <div className="min-h-[600px] h-screen">
         <ProfileHeader to={'/home/user-info'}>프로필수정</ProfileHeader>
 
         <div className="flex flex-col items-center p-3 h-full bg-gray-300 gap-[13px]">
@@ -41,7 +41,9 @@ function EditProfile() {
           <ProfileCard
             userName={user?.nickname}
             badge={user?.level}
-            userImg={pb.files.getUrl(user, user.avatar)}
+            userImg={
+              user.avatar ? pb.files.getUrl(user, user.avatar) : '/favicon.svg'
+            }
           />
           <ProfileInfo user={user} />
         </div>

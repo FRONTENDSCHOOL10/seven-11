@@ -149,7 +149,7 @@ export default function QuestionDetailPage() {
         </div>
       </div>
 
-      <div className="bg-white">
+      <div className="bg-white px-3">
         <SendMessageBar onSend={handleReply} />
       </div>
       <div className="overflow-auto">

@@ -134,12 +134,14 @@ function StudyMap() {
         id="myMap"
         className="absolute top-0 left-0 w-full min-h-[500px] h-full"
       ></div>
-      <div className="absolute z-30 top-2 left-3">
-        <SearchBar
-          location="ex) 회의실"
-          inputColor="bg-white shadow-custom"
-          onClick={handleSearch}
-        />
+      <div className="absolute z-30 top-2 w-full flex justify-center">
+        <div className="w-full max-w-[calc(100%-20px)]">
+          <SearchBar
+            location="ex) 회의실"
+            inputColor="bg-white shadow-custom"
+            onClick={handleSearch}
+          />
+        </div>
       </div>
       <div className=" absolute z-20 top-[34%] right-[4%] shadow-custom rounded-full">
         <TrackLocation onClick={handleFocus} />

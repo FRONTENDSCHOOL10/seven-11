@@ -44,7 +44,7 @@ export default function LandingPage() {
           font="text-[16px]"
           color="text-gray-300"
         />
-        <div className="mt-[160px]">
+        <div className="mt-[160px] w-full px-3">
           <Link to={'/categories'}>
             <CheckButton
               label="시작하기"

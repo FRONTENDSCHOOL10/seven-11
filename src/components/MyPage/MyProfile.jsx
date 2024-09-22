@@ -14,7 +14,9 @@ function MyProfile({ user }) {
       <ProfileImg
         width={68}
         height={68}
-        userImg={pb.files.getUrl(user, user.avatar)}
+        userImg={
+          user.avatar ? pb.files.getUrl(user, user.avatar) : '/favicon.svg'
+        }
         isHiddenSVG={true}
       />
       <div className="flex flex-col items-center">

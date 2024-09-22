@@ -9,12 +9,13 @@ function EditButton({ onClick, children }) {
   return (
     <button
       type="button"
-      className="py-1 px-[34px] border border-gray-300 rounded-[8px] text-base w-[143.5px] font-semibold"
+      className="flex-grow py-1 border border-gray-300 rounded-[8px] text-base font-semibold"
       onClick={onClick}
     >
       {children}
     </button>
   );
 }
+
 
 export default memo(EditButton);

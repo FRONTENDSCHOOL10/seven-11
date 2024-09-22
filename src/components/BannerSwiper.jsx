@@ -20,16 +20,16 @@ export default function BannerSwiper() {
         autoplay={{ delay: 4000 }}
       >
         <SwiperSlide>
-          <img src={Banner1} alt="배너 1" />
+          <img src={Banner1} className="w-full" alt="배너 1" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={Banner2} alt="배너 2" />
+          <img src={Banner2} className="w-full" alt="배너 2" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={Banner3} alt="배너 3" />
+          <img src={Banner3} className="w-full" alt="배너 3" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={Banner4} alt="배너 4" />
+          <img src={Banner4} className="w-full" alt="배너 4" />
         </SwiperSlide>
       </Swiper>
     </div>
