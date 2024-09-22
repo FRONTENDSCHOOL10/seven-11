@@ -1,24 +1,23 @@
-import { memo, useEffect } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import pb from '@/api/pb';
 
 import ProfileCard from '@/components/MyPage/ProfileCard';
 import ProfileHeader from '@/components/MyPage/ProfileHeader';
 import ProfileInfo from '@/components/MyPage/ProfileInfo';
-import { getStorageData } from '@/utils/storageData.js';
 import useProfileStore from '@/stores/useProfileStore';
 
 function EditProfile() {
-  const user = getStorageData('authInfo').user;
-  const { profile, fetchUserProfile } = useProfileStore();
+  const { user, fetchUserData } = useProfileStore((s) => ({
+    user: s.user,
+    fetchUserData: s.fetchUserData,
+  }));
 
-  useEffect(() => {
-    fetchUserProfile();
-  }, []);
+  const fetchOnce = useCallback(() => {
+    fetchUserData();
+  }, [fetchUserData]);
 
-  if (!profile || Object.keys(profile).length === 0) {
-    return <div>페이지 로딩중...</div>;
-  }
+  useEffect(fetchOnce, [fetchOnce]);
 
   return (
     <>
@@ -29,7 +28,7 @@ function EditProfile() {
           content="프로필 카드를 확인하여 유저 정보를 확인하고 수정할 수 있습니다."
         />
       </Helmet>
-      <div className="h-full">
+      <div className="min-h-[600px] h-screen">
         <ProfileHeader to={'/home/user-info'}>프로필수정</ProfileHeader>
 
         <div className="flex flex-col items-center p-3 h-full bg-gray-300 gap-[13px]">
@@ -40,11 +39,13 @@ function EditProfile() {
             </svg>
           </div>
           <ProfileCard
-            userName={user.nickname}
-            badge={profile.level}
-            userImg={pb.files.getUrl(user, user.avatar)}
+            userName={user?.nickname}
+            badge={user?.level}
+            userImg={
+              user.avatar ? pb.files.getUrl(user, user.avatar) : '/favicon.svg'
+            }
           />
-          <ProfileInfo />
+          <ProfileInfo user={user} />
         </div>
       </div>
     </>

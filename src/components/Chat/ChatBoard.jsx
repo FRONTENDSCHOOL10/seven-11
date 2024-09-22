@@ -1,25 +1,86 @@
-import ChatMessage from './ChatMessage';
-import SentChat from '../../components/Chat/SentChat';
-import ChatTime from './ChatTime';
-import { memo } from 'react';
-import ChatNotice from '@/components/Chat/ChatNotice';
+import { memo, useEffect, useState } from 'react';
+import pb from '@/api/pb';
+import {
+  getChatTime,
+  getChatUpdateTime,
+  isSameDate,
+} from '@/utils/getChatTime';
+import { string, array, object } from 'prop-types';
+import { ChatMessage, ChatTime, SentChat } from '@/components/Chat/';
 
-function ChatBoard() {
+ChatBoard.propTypes = {
+  roomId: string,
+  users: array,
+  studyPost: object,
+};
+
+function ChatBoard({ roomId, users }) {
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    pb.collection('Chat_Messages')
+      .getFullList({
+        sort: 'created',
+        filter: `room="${roomId}"`,
+      })
+      .then((records) => {
+        setMessages(records);
+      });
+
+    const unsubscribe = pb.collection('Chat_Messages').subscribe('*', (e) => {
+      if (e.action === 'create') {
+        setMessages((prevMessages) => [...prevMessages, e.record]);
+      }
+    });
+
+    return () => {
+      if (typeof unsubscribe === 'function') {
+        unsubscribe();
+      }
+    };
+  }, [roomId]);
+
+  const authUser = pb.authStore.model;
+  const authUserId = authUser?.id;
+
+  let lastMessageDate = null;
+
   return (
-    <div className="flex flex-col gap-2 px-3">
-      <ChatNotice />
-      <ChatTime time={'2024년 8월 15일'} />
-      <ChatMessage
-        message={
-          '안녕하세요 교수님. 졸업 안시켜주면 한강 다이브쇼를 하겠습니다.'
-        }
-        time={'오후 7:16'}
-        userImg={'/favicon.svg'}
-        userName={'박윤선'}
-        id="1"
-      />
-      <ChatTime time={'2024년 9월 3일'} />
-      <SentChat time={'오후 7:16'} message={'그러세요 그럼'} />
+    <div className="flex flex-col gap-2 px-3 pb-20">
+      {messages.map((message) => {
+        const user = users.find((user) => user.id === message.user);
+        const currentMessageDate = new Date(message.created);
+
+        const showChatTime =
+          !lastMessageDate || !isSameDate(lastMessageDate, currentMessageDate);
+        lastMessageDate = currentMessageDate;
+
+        return (
+          <div key={message.id}>
+            {showChatTime && (
+              <ChatTime time={getChatUpdateTime(message.created)} />
+            )}
+            {message.user === authUserId ? (
+              <SentChat
+                time={getChatTime(message.created)}
+                message={message.message}
+              />
+            ) : (
+              <ChatMessage
+                message={message.message}
+                time={getChatTime(message.created)}
+                userImg={
+                  user.avatar
+                    ? pb.files.getUrl(user, user.avatar)
+                    : '/favicon.svg'
+                }
+                userName={user ? user.nickname : '알 수 없음'}
+                id={message.user}
+              />
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }

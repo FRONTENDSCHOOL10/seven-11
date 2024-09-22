@@ -3,21 +3,34 @@ import pb from '../api/pb.js';
 
 const useAuthorStore = create((set, get) => ({
   postAuthorId: null,
+  currentUserId: null,
 
   setPostAuthorId: (id) => {
-    console.log('postAuthorId:', id);
     set({ postAuthorId: id });
+  },
+
+  setCurrentUserId: (id) => {
+    console.log('Setting currentUserId:', id);
+    set({ currentUserId: id });
   },
 
   fetchPostAuthorId: async (collectionName, postId) => {
     try {
       const post = await pb.collection(collectionName).getOne(postId);
-      set({ postAuthorId: post?.authorId });
+      const authorId = post?.authorId || null;
+
+      if (authorId) {
+        set({ postAuthorId: authorId });
+      } else {
+        console.error('Author ID not found in post:', post);
+        set({ postAuthorId: null });
+      }
     } catch (error) {
       console.error(
         `${collectionName}에서 글쓴이 ID를 가져오는데 실패했습니다:`,
         error
       );
+      set({ postAuthorId: null });
     }
   },
 

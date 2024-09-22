@@ -13,6 +13,10 @@ import {
   StudyPost,
   Chatroom,
   UserProfile,
+  StudyDetailPage,
+  QuestionDetailPage,
+  QuestionEdit,
+  StudyEdit,
 } from './pages/index';
 import navigation from './navigation';
 
@@ -46,8 +50,16 @@ export const routes = [
     element: <QuestionPost />,
   },
   {
+    path: '/home/qna-edit/:postId',
+    element: <QuestionEdit />,
+  },
+  {
     path: '/home/study-post',
     element: <StudyPost />,
+  },
+  {
+    path: '/home/study-edit/:postId',
+    element: <StudyEdit />,
   },
 
   {
@@ -63,8 +75,20 @@ export const routes = [
     element: <RootLayout />,
     children: configRoutes(navigation),
   },
+  {
+    path: '/home/study-detail/:studyPostId',
+    element: <StudyDetailPage />,
+  },
+  {
+    path: '/home/board/qna-detail/:postId',
+    element: <QuestionDetailPage />,
+  },
 
-  // 스터디 디테일: home/study-detail/:postId
+  {
+    path: '/profile/:id',
+    element: <UserProfile />,
+  },
+
   // Q&A 디테일: home/board/qna-detail/:postId
 ];
 

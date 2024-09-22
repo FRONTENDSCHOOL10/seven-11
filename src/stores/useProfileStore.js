@@ -4,20 +4,13 @@ import { create } from 'zustand';
 
 const useProfileStore = create((set) => ({
   userList: [],
-  loading: false,
-  error: null,
-  profile: {},
+  user: {},
 
-  fetchUserProfile: async () => {
-    const user = getStorageData('authInfo').user;
-    try {
-      const record = await pb
-        .collection('User_Profile')
-        .getFirstListItem(`user.id="${user.id}"`);
-      set({ profile: record });
-    } catch (error) {
-      console.error('User_Profile를 가져오는 데 실패했습니다.:', error);
-    }
+  fetchUserData: () => {
+    const authUser = getStorageData('authInfo')?.user;
+    pb.collection('users')
+      .getOne(authUser.id)
+      .then((user) => set({ user }));
   },
 }));
 

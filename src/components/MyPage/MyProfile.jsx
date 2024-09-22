@@ -1,26 +1,28 @@
 import { memo } from 'react';
 import ProfileImg from './ProfileImg';
 import ProfileBadge from './ProfileBadge';
-import { getStorageData } from '@/utils';
 import pb from '@/api/pb';
-import useProfileStore from '@/stores/useProfileStore';
+import { object } from 'prop-types';
 
-function MyProfile() {
-  const user = getStorageData('authInfo').user;
-  const profile = useProfileStore((s) => s.profile);
+MyProfile.propTypes = {
+  user: object,
+};
 
+function MyProfile({ user }) {
   return (
     <div className="flex items-center flex-col gap-[9px] mt-[42px]">
       <ProfileImg
         width={68}
         height={68}
-        userImg={pb.files.getUrl(user, user.avatar)}
+        userImg={
+          user.avatar ? pb.files.getUrl(user, user.avatar) : '/favicon.svg'
+        }
         isHiddenSVG={true}
       />
       <div className="flex flex-col items-center">
         <div className="flex flex-row items-center gap-[6px]">
           <div className="text-lg font-semibold">{user.nickname}</div>
-          <ProfileBadge status={profile.level} />
+          <ProfileBadge status={user.level} />
         </div>
         <div className="text-sm text-gray-300">답변 35</div>
       </div>

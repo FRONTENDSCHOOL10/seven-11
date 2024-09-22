@@ -38,6 +38,7 @@ module.exports = {
         custom: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
         profile: '0px 4px 4px 0px rgba(0, 0, 0, 0.10)',
         pencil: '4px 4px 4px 0px rgba(0, 0, 0, 0.15)',
+        map: '0px -3px 4px 0px rgba(0, 0, 0, 0.25)',
       },
       borderRadius: {
         button: '10px',

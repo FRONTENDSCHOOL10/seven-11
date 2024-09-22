@@ -25,7 +25,7 @@ function CheckButton({
 }) {
   return (
     <button
-      className={`border rounded border-gray-300 text-base font-bold w-[295px] h-[38px] ${textColor} ${bgColor} ${border} ${font} ${rounded} ${height}`}
+      className={`border rounded border-gray-300 text-base font-bold min-w-[295px] w-full h-[38px] ${textColor} ${bgColor} ${border} ${font} ${rounded} ${height}`}
       type="button"
       id={id}
       onClick={onClick}

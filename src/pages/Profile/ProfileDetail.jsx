@@ -1,7 +1,6 @@
-import { memo } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 import pb from '@/api/pb';
 import { Helmet } from 'react-helmet-async';
-import { getStorageData } from '@/utils';
 import {
   Agreement,
   ProfileButton,
@@ -9,9 +8,19 @@ import {
   ProfileHeader,
   ProfileImg,
 } from '@/components/MyPage';
+import useProfileStore from '@/stores/useProfileStore';
 
 function ProfileDetail() {
-  const user = getStorageData('authInfo').user;
+  const { user, fetchUserData } = useProfileStore((s) => ({
+    user: s.user,
+    fetchUserData: s.fetchUserData,
+  }));
+
+  const fetchOnce = useCallback(() => {
+    fetchUserData();
+  }, [fetchUserData]);
+
+  useEffect(fetchOnce, [fetchOnce]);
 
   return (
     <>
@@ -28,14 +37,16 @@ function ProfileDetail() {
         </ProfileHeader>
         <div className="flex flex-col items-center mt-4">
           <ProfileImg
-            userImg={pb.files.getUrl(user, user.avatar)}
+            userImg={
+              user.avatar ? pb.files.getUrl(user, user.avatar) : '/favicon.svg'
+            }
             width={73}
             height={73}
             isHiddenSVG={false}
           />
         </div>
         <div className="px-3">
-          <ProfileEditSection />
+          <ProfileEditSection user={user} />
         </div>
         <Agreement />
         <div className="flex gap-2 justify-between px-3 mt-[20px] mb-[18px]">

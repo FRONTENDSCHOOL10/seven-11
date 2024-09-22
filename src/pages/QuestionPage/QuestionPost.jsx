@@ -1,3 +1,13 @@
+import { LeftIcon } from '@/components';
+import QuestionForm from '@/components/Board/QuestionForm';
+
 export default function QuestionPost() {
-  return <h1>게시글 작성 페이지</h1>;
+  return (
+    <>
+      <div className="pl-3 py-2">
+        <LeftIcon />
+      </div>
+      <QuestionForm mode="create" />
+    </>
+  );
 }

@@ -8,7 +8,11 @@ export { default as HomePage } from './HomePage';
 
 export { default as Search } from './Search';
 export { default as StudyPost } from './StudyPost';
+export { default as StudyEdit } from './StudyEdit';
+
 export { default as QuestionPost } from './QuestionPage/QuestionPost';
+export { default as QuestionDetailPage } from './QuestionPage/QuestionDetailPage';
+export { default as QuestionEdit } from './QuestionPage/QuestionEdit';
 
 export { default as Chatroom } from './Chat/Chatroom';
 export { default as ChatList } from './Chat/ChatList';
@@ -17,3 +21,4 @@ export { default as UserProfile } from './Profile/UserProfile';
 export { default as EditProfile } from './Profile/EditProfile';
 export { default as ProfileDetail } from './Profile/ProfileDetail';
 export { default as MyPage } from './Profile/MyPage';
+export { default as StudyDetailPage } from './StudyDetail';

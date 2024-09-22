@@ -1,20 +1,30 @@
-import { func, string } from 'prop-types';
+import clsx from 'clsx';
+import { bool, func, string } from 'prop-types';
 
 NormalButton.propTypes = {
   label: string.isRequired,
   onClick: func,
   btnType: string,
+  isDisabled: bool,
 };
 
-export default function NormalButton({ btnType, label, onClick }) {
-  let type = 'button';
-  if (btnType === 'submit') type = 'submit';
+export default function NormalButton({ btnType, label, onClick, isDisabled }) {
+  const type = btnType === 'submit' ? 'submit' : 'button';
+
+  const buttonClass = clsx(
+    'min-w-[296px] w-full h-[45px] p-3 text-white rounded-button text-base font-semibold',
+    {
+      'bg-gray-300': isDisabled,
+      'bg-primary ': !isDisabled,
+    }
+  );
 
   return (
     <button
       type={type}
-      onClick={onClick}
-      className="w-[296px] h-[45px] p-3 bg-primary text-white rounded-button text-base font-semibold  "
+      onClick={!isDisabled ? onClick : undefined}
+      className={buttonClass}
+      disabled={isDisabled}
     >
       {label}
     </button>

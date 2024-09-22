@@ -4,3 +4,7 @@ export * from './getAge.js';
 export * from './getDetailedAddress.js';
 export * from './storageData.js';
 export * from './getTimeDifference.js';
+export * from './validation.js';
+export * from './throttle.js';
+export * from './getChatTime.js';
+export * from './extractCityDistrict.js';

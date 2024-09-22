@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import useUserStore from '../stores/useAuthorStore';
 
 function AuthorProfile() {
-  // 기존 useUseStore 에서 postAuthorId 가져오기
   const postAuthorId = useUserStore((state) => state.postAuthorId);
 
   const [authorData, setAuthorData] = useState({
@@ -12,17 +11,28 @@ function AuthorProfile() {
     address: '',
   });
 
+  //  구까지만 표시
+  const formatAddress = (fullAddress) => {
+    if (!fullAddress) return '';
+
+    const addressParts = fullAddress.split(' ');
+
+    return addressParts.length >= 2
+      ? `${addressParts[0]} ${addressParts[1]}`
+      : fullAddress;
+  };
+
   useEffect(() => {
     async function fetchAuthorData() {
       try {
-        // 아까 postAuthorId를 사용하여 작성자 정보 가져옴
+        // 작성자 정보 가져오기
         const author = await pb.collection('users').getOne(postAuthorId);
-        console.log('Author Data:', author); // 데이터 확인
+        console.log('Author Data:', author);
 
         setAuthorData({
           nickname: author.nickname,
           avatar: pb.files.getUrl(author, author.avatar),
-          address: author.address,
+          address: formatAddress(author.address), // "구"까지만 가져옴
         });
       } catch (error) {
         console.error('작성자 정보를 불러오는 중 오류가 발생했습니다:', error);
@@ -36,11 +46,19 @@ function AuthorProfile() {
 
   return (
     <div className="flex items-center gap-2.5">
-      <img
-        src={authorData.avatar}
-        alt="작성자 프로필 사진"
-        className="w-[30px] h-[30px] rounded-full"
-      />
+      {authorData.avatar ? (
+        <img
+          src={authorData.avatar}
+          alt="작성자 프로필 사진"
+          className="w-[30px] h-[30px] rounded-full"
+        />
+      ) : (
+        <img
+          src="/logo.svg"
+          alt="작성자 프로필 사진"
+          className="w-[30px] h-[30px] rounded-full"
+        />
+      )}
       <div className="flex flex-col">
         <div className="flex items-center gap-1">
           <span className="text-sm font-bold">{authorData.nickname}</span>

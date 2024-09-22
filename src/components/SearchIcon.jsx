@@ -3,14 +3,14 @@ import { memo } from 'react';
 
 SearchIcon.propTypes = {
   to: oneOfType([string, object]),
-  onClick: func,
+  onClick: func, // 클릭 시 이벤트 핸들러 함수 전달
 };
 
 function SearchIcon({ to, onClick }) {
   const handleClick = (e) => {
     if (onClick) {
       e.preventDefault();
-      onClick();
+      onClick(); // 클릭 시 부모 컴포넌트의 onClick 실행
     }
   };
 

@@ -6,9 +6,12 @@ ChatExitNav.propTypes = {
 };
 
 function ChatExitNav({ handleExit }) {
+  const handleClick = () => {
+    handleExit?.();
+  };
   return (
     <div className="exit">
-      <button type="button" onClick={handleExit}>
+      <button type="button" onClick={handleClick}>
         <svg className="w-[26px] h-[26px]">
           <use href="/stack.svg#exit" />
         </svg>

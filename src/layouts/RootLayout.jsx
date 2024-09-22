@@ -1,9 +1,8 @@
-import { Outlet, useLocation } from 'react-router-dom';
-import Header from '@/components/Header';
 import FooterNav from '@/components/FooterNav';
-import PostButton from '@/components/PostButton';
+import Header from '@/components/Header';
 import { getStorageData } from '@/utils';
 import getDetailedAddress from '@/utils/getDetailedAddress';
+import { Outlet, useLocation } from 'react-router-dom';
 
 export default function RootLayout() {
   const location = useLocation();
@@ -18,20 +17,16 @@ export default function RootLayout() {
     location.pathname.includes('/profile') ||
     location.pathname.includes('/user-info');
 
-  const showPostButton =
-    location.pathname === '/home' || location.pathname === '/home/board';
-
   return (
-    <div className="relative flex flex-col h-[693px] w-full">
+    <div className="flex flex-col h-screen w-full">
       <Header
         address={detailedAddress || ''}
         isChatroom={isChatroom}
         isHiddenHeader={isHiddenHeader}
       />
-      <main className="flex-grow">
+      <main className="w-full">
         <Outlet />
       </main>
-      {showPostButton && <PostButton />}
       <FooterNav />
     </div>
   );

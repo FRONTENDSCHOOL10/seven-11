@@ -5,7 +5,7 @@ import ChatNowTime from './ChatNowTime';
 
 ChatMessage.propTypes = {
   userName: string.isRequired,
-  userImg: string.isRequired,
+  userImg: string,
   message: string.isRequired,
   time: string.isRequired,
   id: string.isRequired,
