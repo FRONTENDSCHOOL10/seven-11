@@ -1,59 +1,121 @@
 import pb from '@/api/pb';
-import { Badge } from '@/components';
-import TopNav from '@/components/TopNav';
-import { string } from 'prop-types';
+import { CategoryDropdown, LeftIcon, PostOptionList } from '@/components';
+import NormalButton from '@/components/NormalButton';
+import usePostOptionsStore from '@/stores/usePostOptionsStore';
 import { useEffect, useState } from 'react';
-import useUserStore from '../stores/useAuthorStore';
+import { useNavigate } from 'react-router-dom';
 
-StudyDetailPage.propTypes = {
-  studyPostId: string.isRequired,
-};
-
-function StudyDetailPage({ studyPostId }) {
-  const [category, setCategory] = useState(null);
-  const setCurrentUserId = useUserStore((state) => state.setCurrentUserId);
-  const setPostAuthorId = useUserStore((state) => state.setPostAuthorId);
+export default function StudyPost() {
+  const navigate = useNavigate();
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [category, setCategory] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true); // 버튼 활성화 상태
+  const { options } = usePostOptionsStore();
 
   useEffect(() => {
-    async function fetchStudyPostData() {
-      try {
-        // 사용자 인증 정보 새로고침
-        const user = await pb.collection('users').authRefresh();
-        const userId = user.id;
-        setCurrentUserId(userId);
+    if (
+      title.trim() &&
+      content.trim() &&
+      category &&
+      options.people &&
+      options.date &&
+      options.time &&
+      options.gender &&
+      options.location
+    ) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
+    }
+  }, [title, content, category, options]);
 
-        // 스터디 게시글 정보 가져오기, author와 category 정보를 확장해서 가져옴
-        const studyPostData = await pb
-          .collection('Study_Posts')
-          .getFirstListItem(`id="${studyPostId}"`, {
-            expand: 'author,category', // author와 category 필드 확장
-          });
+  const handleNextPage = async () => {
+    const user = pb.authStore.model;
 
-        const postAuthorId = studyPostData.expand.author.id;
-        setPostAuthorId(postAuthorId);
-
-        // 카테고리 정보 설정
-        const categoryData = studyPostData.expand.category;
-        if (categoryData) {
-          setCategory(categoryData); // 카테고리 정보를 상태로 저장
-        }
-      } catch (error) {
-        console.error('스터디 모집글 정보를 가져오는데 실패했습니다:', error);
-      }
+    if (!user) {
+      alert('로그인된 사용자 정보를 찾을 수 없습니다. 다시 로그인해 주세요.');
+      return;
     }
 
-    fetchStudyPostData();
-  }, [studyPostId, setCurrentUserId, setPostAuthorId]);
+    setLoading(true);
+
+    try {
+      // 1. 스터디 포스트 생성
+      const studyData = {
+        user: user.id,
+        title,
+        content,
+        category,
+        people: options.people,
+        date: options.date,
+        time: options.time,
+        gender: options.gender,
+        location: options.location,
+      };
+
+      const createdPost = await pb.collection('Study_Posts').create(studyData);
+
+      const chatRoomData = {
+        roomName: `${title}`,
+        user: [user.id],
+        study: createdPost.id,
+        message: [],
+      };
+
+      const createdChatRoom = await pb
+        .collection('ChatRooms')
+        .create(chatRoomData);
+
+      await pb.collection('Study_Posts').update(createdPost.id, {
+        chatroom: createdChatRoom.id,
+      });
+
+      setLoading(false);
+
+      navigate(`/home/study-detail/${createdPost.id}`);
+    } catch (error) {
+      console.error('스터디 등록 및 채팅방 생성 실패:', error.message);
+      alert('스터디 등록 및 채팅방 생성 중 오류가 발생했습니다.');
+      setLoading(false);
+    }
+  };
 
   return (
     <>
-      <TopNav />
-      <Badge
-        label={category ? category.category_name : '카테고리 없음'}
-        isPrimary={false}
-      />
+      <div className="w-full px-4 py-2">
+        <LeftIcon />
+      </div>
+      <div>
+        <input
+          type="text"
+          id="title"
+          className="block w-full px-3 py-2 text-lg focus:outline-none"
+          placeholder="스터디 제목을 입력하세요"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </div>
+      <CategoryDropdown onSelect={(id) => setCategory(id)} />
+      <div className="">
+        <textarea
+          className="w-full px-3 py-4 min-h-[200px] border-b border-gray-200 text-base focus:outline-none resize-none"
+          placeholder="활동 내용을 입력하세요"
+          value={content}
+          id="content"
+          onChange={(e) => setContent(e.target.value)}
+        />
+      </div>
+      <PostOptionList />
+
+      <div className="flex justify-center">
+        <NormalButton
+          onClick={handleNextPage}
+          label={'저장'}
+          isDisabled={isButtonDisabled}
+        />
+      </div>
     </>
   );
 }
-
-export default StudyDetailPage;
