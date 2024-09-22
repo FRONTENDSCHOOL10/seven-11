@@ -20,6 +20,7 @@ export default function ChatList() {
     fetchStudyPosts: s.fetchStudyPosts,
   }));
 
+
   useEffect(() => {
     fetchChatList();
   }, [fetchChatList]);

@@ -1,9 +1,4 @@
-// 사용자 주소에서 시, 구 정보 추출
-function extractCityDistrict(address) {
-  const addressParts = address.split(' ');
-  return addressParts.length >= 2
-    ? `${addressParts[0]} ${addressParts[1]}`
-    : null;
+export default function extractCityDistrict(address) {
+  const match = address.match(/(\S+구)/) || address.match(/(\S+군)/);
+  return match ? match[1] : null;
 }
-
-export default extractCityDistrict;

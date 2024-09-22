@@ -26,17 +26,31 @@ const useChatListStore = create((set) => ({
 
       const newChatList = await Promise.all(
         filteredChatList.map(async (chatRoom) => {
-          const lastMessageId = chatRoom.message[chatRoom.message.length - 1];
-          const lastMessage = await pb
+          const lastMessageId =
+            chatRoom.message.length > 0
+              ? chatRoom.message[chatRoom.message.length - 1]
+              : null;
+
+          if (!lastMessageId) {
+            return {
+              ...chatRoom,
+              message: '',
+            };
+          }
+
+          let lastMessage = await pb
             .collection('Chat_Messages')
             .getOne(lastMessageId);
+          lastMessage = lastMessage ? lastMessage.message : '';
 
           return {
             ...chatRoom,
-            message: lastMessage.message,
+            message: lastMessage,
           };
         })
       );
+
+      console.log(newChatList);
 
       set({ chatList: newChatList, loading: false });
     } catch (error) {
