@@ -18,7 +18,7 @@ function InputText({ inputType, placeholder, onChange, value, name }) {
   const isAutoComplete = name === 'password' ? 'off' : '';
 
   return (
-    <div className="border rounded border-black w-[295px] h-[38px]">
+    <div className="border rounded border-black min-w-[295px] w-full h-[38px]">
       <input
         className="pl-3 text-base w-full h-full rounded"
         autoComplete={isAutoComplete}

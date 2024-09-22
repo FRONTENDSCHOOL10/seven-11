@@ -19,6 +19,7 @@ export default function QuestionDetailPage() {
     deleteReply,
     updateReply,
   } = usePostStore();
+
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [userLoading, setUserLoading] = useState(true);
@@ -118,7 +119,7 @@ export default function QuestionDetailPage() {
         <div className="my-3">
           {category && <Badge label={category} isPrimary={true} />}
         </div>
-        <div className='h-[550px] overflow-auto no-scrollbar'>
+        <div className="h-[550px] overflow-auto no-scrollbar">
           <div className="flex flex-col gap-3">
             <PostUser user={user} />
             <button className="flex items-center gap-1 text-sm">
@@ -148,7 +149,7 @@ export default function QuestionDetailPage() {
         </div>
       </div>
 
-      <div className="bg-white">
+      <div className="bg-white px-3">
         <SendMessageBar onSend={handleReply} />
       </div>
       <div className="overflow-auto">

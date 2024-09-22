@@ -28,7 +28,7 @@ export default function AddressSearch({ onAddressSelect }) {
         <button
           type="button"
           onClick={handleFindAddress}
-          className="border rounded border-gray-300 text-base font-bold w-[295px] h-[38px]"
+          className="border rounded border-gray-300 text-base font-bold min-w-[295px] w-full h-[38px]"
         >
           {address ? address : '주소 찾기'}
         </button>

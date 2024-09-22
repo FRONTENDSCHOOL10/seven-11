@@ -16,7 +16,7 @@ function ProfileInfo({ user }) {
   const list = [
     {
       title: '프로필 사진',
-      img: `${pb.files.getUrl(user, user.avatar)}`,
+      img: `${user.avatar ? pb.files.getUrl(user, user.avatar) : '/favicon.svg'}`,
     },
     {
       title: '닉네임',

@@ -7,24 +7,19 @@ import LeftIcon from '@/components/LeftIcon';
 import pb from '@/api/pb'; // PocketBase 설정 파일 불러오기
 
 export default function SelectCategory() {
-  // 선택된 카테고리 상태 관리
   const [selectedCategories, setSelectedCategories] = useState([]);
-
-  // 모든 카테고리 데이터 상태
   const [categories, setCategories] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    // 포켓베이스에서 카테고리 데이터를 가져오기
     const fetchCategories = async () => {
-      const records = await pb.collection('Categories').getFullList(); // 'categories' 컬렉션의 전체 목록 가져오기
-      console.log(records);
-      setCategories(records); // 카테고리 상태 업데이트
+      const records = await pb.collection('Categories').getFullList();
+      setCategories(records);
     };
     fetchCategories();
   }, []);
 
   const handleCategorySelect = (id) => {
-    // 이미 선택된 경우 제외, 아닌 경우 추가
     if (selectedCategories.includes(id)) {
       setSelectedCategories((prev) => prev.filter((catId) => catId !== id));
     } else {
@@ -32,15 +27,25 @@ export default function SelectCategory() {
     }
   };
 
+  const filteredCategories = searchQuery
+    ? categories.filter((category) =>
+        category.category_name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : categories;
+
   return (
     <>
-      <div className="my-2 flex items-center px-2.5 py-1 gap-2">
+      <div className="my-2 flex items-center px-3 gap-1 py-1">
         <LeftIcon />
-        <SearchBar location="분야 (이름)로 검색" />
+        <SearchBar
+          location="분야 (이름)로 검색"
+          inputColor="bg-gray-100"
+          onChange={(value) => setSearchQuery(value)}
+        />
       </div>
 
-      <section className="flex justify-between flex-wrap m-3">
-        <p className="my-4 pointer-events-none">
+      <section className="flex justify-center flex-wrap m-3">
+        <p className="my-4 pointer-events-none w-full">
           <CheckButton
             label={
               <>
@@ -57,35 +62,44 @@ export default function SelectCategory() {
           />
         </p>
 
-        <div className="flex flex-wrap m-2 max-h-[388px] overflow-y-auto gap-2 no-scrollbar">
-          {categories.map((category) => (
-            <CategoryButton
-              key={category.id}
-              smallText={category.category_type}
-              largeText={category.category_name}
-              isSelected={selectedCategories.includes(category.id)}
-              onClick={() => handleCategorySelect(category.id)}
-            />
-          ))}
+        <div className="grid grid-cols-2 gap-3 max-h-[480px] min-[320px] w-full overflow-y-auto no-scrollbar">
+          {filteredCategories.length > 0 ? (
+            filteredCategories.map((category) => (
+              <CategoryButton
+                key={category.id}
+                smallText={category.category_type}
+                largeText={category.category_name}
+                isSelected={selectedCategories.includes(category.id)}
+                onClick={() => handleCategorySelect(category.id)}
+              />
+            ))
+          ) : (
+            <p className="text-gray-500">검색된 카테고리가 없습니다.</p>
+          )}
         </div>
 
-        <p className="my-4">
-          <Link to={'/signup'}>
+        <div className="my-4 w-full min-w-[320px] max-w-[430px] px-3 fixed bottom-0">
+          <Link to={selectedCategories.length >= 3 ? '/signup' : '#'}>
             <CheckButton
               label="이대로 저장할래요"
               textColor="text-white"
-              bgColor="bg-primary"
+              bgColor={
+                selectedCategories.length >= 3 ? 'bg-primary' : 'bg-gray-300'
+              }
               border="border-none"
               rounded="rounded-[8px]"
-              onClick={() =>
-                localStorage.setItem(
-                  'selectedCategories',
-                  JSON.stringify(selectedCategories)
-                )
-              }
+              onClick={() => {
+                if (selectedCategories.length >= 3) {
+                  localStorage.setItem(
+                    'selectedCategories',
+                    JSON.stringify(selectedCategories)
+                  );
+                }
+              }}
+              disabled={selectedCategories.length < 3}
             />
           </Link>
-        </p>
+        </div>
       </section>
     </>
   );

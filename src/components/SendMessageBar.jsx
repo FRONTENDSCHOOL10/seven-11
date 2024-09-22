@@ -44,7 +44,7 @@ export default function SendMessageBar({ onSend, placeholder }) {
       className={`w-full flex space-x-1.5 py-3 items-${isTextareaExpanded ? 'end' : 'center'} justify-center`}
     >
       <PlusIcon />
-      <div className="w-[244px] bg-gray-100 px-3 py-2 rounded-2xl flex items-center">
+      <div className="w-full bg-gray-100 px-3 py-2 rounded-2xl flex items-center">
         <textarea
           ref={textareaRef}
           className="w-full max-h-[72px] bg-transparent focus:outline-none text-base text-gray-700 resize-none overflow-y-auto no-scrollbar"

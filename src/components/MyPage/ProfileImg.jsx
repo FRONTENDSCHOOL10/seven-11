@@ -36,6 +36,7 @@ function ProfileImg({
         className={`${svg} rounded-full absolute bottom-0 right-0 bg-white shadow-pencil`}
         aria-label="프로필 이미지 수정"
         title="프로필 이미지 수정"
+        onClick={() => document.getElementById('profileImageInput').click()}
       >
         <svg
           className={`${svg} w-5 h-5 rounded-full absolute bottom-0 right-0 bg-white shadow-pencil`}

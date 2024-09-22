@@ -9,16 +9,21 @@ NormalButton.propTypes = {
 };
 
 export default function NormalButton({ btnType, label, onClick, isDisabled }) {
-  let type = 'button';
-  if (btnType === 'submit') type = 'submit';
+  const type = btnType === 'submit' ? 'submit' : 'button';
 
-  const disabledClass = clsx(isDisabled ? 'bg-gray-300' : 'bg-primary');
+  const buttonClass = clsx(
+    'min-w-[296px] w-full h-[45px] p-3 text-white rounded-button text-base font-semibold',
+    {
+      'bg-gray-300': isDisabled,
+      'bg-primary ': !isDisabled,
+    }
+  );
 
   return (
     <button
       type={type}
-      onClick={onClick}
-      className={`w-[296px] h-[45px] p-3 text-white rounded-button text-base font-semibold ${disabledClass}`}
+      onClick={!isDisabled ? onClick : undefined}
+      className={buttonClass}
       disabled={isDisabled}
     >
       {label}

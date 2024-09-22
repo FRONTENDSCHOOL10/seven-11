@@ -103,12 +103,12 @@ export default function Chatroom() {
       </Helmet>
       <div className={`w-full min-h-[630px] flex flex-col relative`}>
         <div className={`h-full flex-grow`}>
-          <div className="fixed w-[318px]">
+          <div className="fixed max-w-[430px] w-full">
             <ChatHeader
               title={studyPost ? studyPost.title : roomTitle}
               people={userCount}
             />
-            <div className="flex justify-center pt-2">
+            <div className="px-3 flex justify-center pt-2 w-full">
               <ChatNotice
                 notice={creatTime}
                 linkTo={studyPost && `/home/study-detail/${studyPost.id}`}
@@ -116,15 +116,15 @@ export default function Chatroom() {
             </div>
           </div>
 
-          <div className={`min-h-[690px] max-h-screen ${bgClass}`}>
-            <div className="h-[500px] pt-[110px]">
+          <div className={`min-h-[690px] h-screen ${bgClass}`}>
+            <div className="min-h-[500px] h-screen pt-[110px]">
               <ChatBoard
                 roomId={roomId.slice(0, -1)}
                 users={users}
                 studyPost={studyPost}
               />
             </div>
-            <div className="fixed bottom-0 bg-white px-2 ">
+            <div className="fixed max-w-[430px] w-full bottom-0 bg-white px-2 ">
               <SendMessageBar
                 onSend={handleSend}
                 placeholder={'메세지 보내기'}

@@ -42,9 +42,7 @@ function ChatModal({ isOpened, users, roomId, authUserId }) {
   };
 
   return (
-    <div
-      className={`${display} fixed bg-white w-[266px] h-screen translate-x-[52.5px]`}
-    >
+    <div className={`${display} fixed bg-white w-[266px] h-screen right-0`}>
       <div className="flex flex-row justify-between border-b p-2">
         <h3 className="text-[14px]">참여중인 이웃</h3>
         <CancelIcon />
@@ -54,7 +52,9 @@ function ChatModal({ isOpened, users, roomId, authUserId }) {
           <ChatUser
             key={user.id}
             userName={user.nickname}
-            userImg={pb.files.getUrl(user, user.avatar)}
+            userImg={
+              user.avatar ? pb.files.getUrl(user, user.avatar) : '/favicon.svg'
+            }
             userLink={`/profile/${user.id}`}
           />
         );

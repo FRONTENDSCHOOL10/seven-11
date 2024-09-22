@@ -4,11 +4,13 @@ import React, { useEffect, useState, useRef } from 'react';
 import Script from 'react-load-script';
 import { Link } from 'react-router-dom';
 import SearchBar from '../SearchBar';
+import TrackLocation from './TrackLocation';
 
 function StudyMap() {
   const [places, setPlaces] = useState([]); // 장소 데이터 저장
   const [center, setCenter] = useState(null); // 지도 중심 좌표를 저장할 상태
   const mapRef = useRef(null); // 지도 객체를 저장할 ref
+  const markersRef = useRef([]); // 마커들을 저장할 ref
 
   const authUser = getStorageData('authInfo').user;
 
@@ -29,16 +31,26 @@ function StudyMap() {
     });
   };
 
-  const searchPlaces = (keyword, location) => {
+  const clearMarkers = () => {
+    // 마커가 있으면 모두 제거
+    markersRef.current.forEach((marker) => marker.setMap(null));
+    markersRef.current = []; // 마커 배열 초기화
+  };
+
+  const searchPlaces = (keyword, location, clearList = false) => {
     const ps = new window.kakao.maps.services.Places();
-    let combinedPlaces = [];
     const bounds = new window.kakao.maps.LatLngBounds();
+
+    // 기존 마커 초기화 (검색 시에만 리스트도 초기화)
+    clearMarkers();
+    if (clearList) setPlaces([]); // 새로운 검색 시 리스트도 초기화
 
     ps.keywordSearch(
       keyword,
       (data, status) => {
         if (status === window.kakao.maps.services.Status.OK) {
-          data.forEach((place) => {
+          // 새로운 장소에 대해 마커 및 리스트 추가
+          const newPlaces = data.map((place) => {
             const markerPosition = new window.kakao.maps.LatLng(
               place.y,
               place.x
@@ -48,7 +60,9 @@ function StudyMap() {
               map: mapRef.current, // 생성된 지도에 마커 추가
             });
 
-            bounds.extend(markerPosition); // 마커 위치를 지도 경계에 추가
+            markersRef.current.push(marker); // 마커 배열에 추가
+
+            bounds.extend(markerPosition); // 마커 위치를 지도에 추가
 
             // 마커에 마우스를 가져다 대면 장소 이름 표시
             const infoWindow = new window.kakao.maps.InfoWindow({
@@ -67,14 +81,14 @@ function StudyMap() {
               window.open(place.place_url);
             });
 
-            combinedPlaces = [...combinedPlaces, place];
+            return place;
           });
+
+          // 검색된 장소 데이터를 상태에 누적 업데이트
+          setPlaces((prevPlaces) => [...prevPlaces, ...newPlaces]);
 
           // 지도 범위 재설정
           mapRef.current.setBounds(bounds);
-
-          // 검색된 장소 데이터를 상태로 저장
-          setPlaces(combinedPlaces);
         } else {
           alert('검색된 장소가 없습니다.');
         }
@@ -96,8 +110,9 @@ function StudyMap() {
 
     if (center) {
       const categories = ['스터디카페', '카페', '회의실'];
-      categories.forEach((category) => searchPlaces(category, center)); // 카테고리별 장소 검색
+      categories.forEach((category) => searchPlaces(category, center));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [center]);
 
   const handleSearch = (value) => {
@@ -105,7 +120,12 @@ function StudyMap() {
       alert('값을 입력해주세요!');
       return;
     }
-    searchPlaces(value, center);
+    // 검색 시 마커와 리스트 초기화하고, 새로운 키워드로 검색
+    searchPlaces(value, center, true);
+  };
+
+  const handleFocus = () => {
+    console.log('오');
   };
 
   return (
@@ -114,12 +134,17 @@ function StudyMap() {
         id="myMap"
         className="absolute top-0 left-0 w-full min-h-[500px] h-full"
       ></div>
-      <div className="absolute z-30 top-2 left-3">
-        <SearchBar
-          location="ex) 회의실"
-          inputColor="bg-white shadow-custom"
-          onClick={handleSearch}
-        />
+      <div className="absolute z-30 top-2 w-full flex justify-center">
+        <div className="w-full max-w-[calc(100%-20px)]">
+          <SearchBar
+            location="ex) 회의실"
+            inputColor="bg-white shadow-custom"
+            onClick={handleSearch}
+          />
+        </div>
+      </div>
+      <div className=" absolute z-20 top-[34%] right-[4%] shadow-custom rounded-full">
+        <TrackLocation onClick={handleFocus} />
       </div>
 
       <div className="absolute bottom-0 left-0 w-full bg-white overflow-y-auto rounded-t-xl shadow-map h-[58%] z-10 no-scrollbar">
@@ -129,7 +154,7 @@ function StudyMap() {
           </h3>
           <span className="text-base">근처에 스터디할 장소를 찾아보세요!</span>
         </div>
-        <ul className='pb-[60px]'>
+        <ul className="pb-[60px]">
           {places.map((place, index) => (
             <li key={index} className="flex flex-col border-b p-3">
               <Link to={place.place_url} className="text-base font-bold">
