@@ -10,7 +10,6 @@ const useAuthorStore = create((set, get) => ({
   },
 
   setCurrentUserId: (id) => {
-    console.log('Setting currentUserId:', id);
     set({ currentUserId: id });
   },
 

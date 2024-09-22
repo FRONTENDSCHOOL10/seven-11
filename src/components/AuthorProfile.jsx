@@ -27,7 +27,6 @@ function AuthorProfile() {
       try {
         // 작성자 정보 가져오기
         const author = await pb.collection('users').getOne(postAuthorId);
-        console.log('Author Data:', author);
 
         setAuthorData({
           nickname: author.nickname,
