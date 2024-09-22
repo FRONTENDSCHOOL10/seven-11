@@ -54,17 +54,14 @@ function StudyDetailPage() {
           studyPost.expand?.category || { category_name: '카테고리 없음' }
         );
 
-        // 채팅방 인원수를 설정
         const chatroom = studyPost.expand?.chatroom;
         if (chatroom && chatroom.user) {
           setJoinedPeople(chatroom.user.length);
         }
 
-        // 스터디 인원 제한 설정
         const limit = studyPost.people || 0;
         setPeopleLimit(limit);
 
-        // 상태 업데이트: 인원이 다 찼으면 모집완료, 그렇지 않으면 모집중
         if (chatroom?.user.length >= limit) {
           setStatus('모집완료');
         } else {
@@ -93,10 +90,48 @@ function StudyDetailPage() {
     if (chatRoomId) {
       navigate(`/home/chat/${chatRoomId}`);
     } else {
-      console.log('Expanded data:', studyPostData.expand);
+      console.log('채팅방을 찾을 수 없습니다.');
       alert(
         '채팅방을 찾을 수 없습니다. 채팅방이 아직 생성되지 않았을 수 있습니다.'
       );
+    }
+  };
+
+  const joinChatRoom = async () => {
+    try {
+      const chatRoomId = studyPostData.expand?.chatroom?.id;
+      if (chatRoomId) {
+        const currentUser = pb.authStore.model;
+
+        if (!currentUser) {
+          alert('로그인이 필요합니다.');
+          navigate('/login');
+          return;
+        }
+
+        const chatRoomData = await pb
+          .collection('ChatRooms')
+          .getOne(chatRoomId);
+        const updatedUsers = chatRoomData.user || [];
+
+        if (!updatedUsers.includes(currentUser.id)) {
+          updatedUsers.push(currentUser.id);
+
+          await pb.collection('ChatRooms').update(chatRoomId, {
+            user: updatedUsers,
+          });
+        }
+
+        goToChatRoom();
+      } else {
+        console.log('채팅방을 찾을 수 없습니다.');
+        alert(
+          '채팅방을 찾을 수 없습니다. 채팅방이 아직 생성되지 않았을 수 있습니다.'
+        );
+      }
+    } catch (error) {
+      console.error('채팅방 참가 중 오류 발생:', error);
+      alert('채팅방에 참가하는 중 오류가 발생했습니다.');
     }
   };
 
@@ -158,7 +193,7 @@ function StudyDetailPage() {
           ) : (
             <NormalButton
               label="참여하기"
-              onClick={goToChatRoom}
+              onClick={joinChatRoom}
               className={`${
                 status === '모집완료' ? 'bg-gray-300' : 'bg-primary'
               } text-white py-3 px-10 rounded-lg`}

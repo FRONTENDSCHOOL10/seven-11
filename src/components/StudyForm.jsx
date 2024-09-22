@@ -19,7 +19,7 @@ function StudyForm({ mode = 'create', studyData }) {
   const [formData, setFormData] = useState({
     title: '',
     content: '',
-    category: '', // 카테고리 추가
+    category: '',
   });
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
