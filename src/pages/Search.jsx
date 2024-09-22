@@ -5,6 +5,7 @@ import SelectButton from '@/components/SelectButton';
 import { Helmet } from 'react-helmet-async';
 import { SubTitle } from '@/components';
 import pb from '@/api/pb'; // 수정된 pb.js 파일 임포트
+import { Link } from 'react-router-dom';
 
 export default function Search() {
   const [selectedOption, setSelectedOption] = useState(''); // 초기값을 빈 문자열로 설정
@@ -142,14 +143,24 @@ export default function Search() {
 }
 
 // 검색 결과 목록 컴포넌트
+
 function ResultList({ results }) {
   return (
     <ul>
       {results.map((result) => (
         <li key={result.id} className="py-2 border-b">
-          <h3 className="text-lg font-semibold">
-            [{result.type === 'question' ? '질문' : '스터디'}] {result.title}
-          </h3>
+          {/* 글 제목을 클릭하면 해당 글의 상세 페이지로 이동 */}
+          <Link
+            to={
+              result.type === 'question'
+                ? `/home/board/qna-detail/${result.id}`
+                : `/home/study-detail/${result.id}`
+            }
+          >
+            <h3 className="text-lg font-semibold">
+              [{result.type === 'question' ? '질문' : '스터디'}] {result.title}
+            </h3>
+          </Link>
           <p className="text-sm">{result.content}</p>
         </li>
       ))}
