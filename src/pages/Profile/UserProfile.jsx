@@ -16,7 +16,6 @@ function UserProfile() {
       .then((r) => setUserData(r));
   }, [id]);
 
-  console.log(userData);
 
   const birth = userData?.birth_date;
   const age = getAge(birth);
@@ -28,8 +27,9 @@ function UserProfile() {
       </div>
       <MyProfile user={userData} />
       <div className="mt-3">
-        <Temperature temp={userData.userTemp} />
+        <Temperature temp={userData.userTemp || 36.5} />
       </div>
+
       <ContentNav isSvgHidden={true} title="회원정보" />
 
       <div className="flex flex-col px-[18px] pt-4 gap-[18px]">

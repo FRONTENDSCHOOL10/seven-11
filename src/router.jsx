@@ -16,6 +16,7 @@ import {
   StudyDetailPage,
   QuestionDetailPage,
   QuestionEdit,
+  StudyEdit,
 } from './pages/index';
 import navigation from './navigation';
 
@@ -55,6 +56,10 @@ export const routes = [
   {
     path: '/home/study-post',
     element: <StudyPost />,
+  },
+  {
+    path: '/home/study-edit/:postId',
+    element: <StudyEdit />,
   },
 
   {

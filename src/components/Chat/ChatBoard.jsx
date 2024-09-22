@@ -6,11 +6,7 @@ import {
   isSameDate,
 } from '@/utils/getChatTime';
 import { string, array, object } from 'prop-types';
-import {
-  ChatMessage,
-  ChatTime,
-  SentChat,
-} from '@/components/Chat/';
+import { ChatMessage, ChatTime, SentChat } from '@/components/Chat/';
 
 ChatBoard.propTypes = {
   roomId: string,
@@ -74,7 +70,9 @@ function ChatBoard({ roomId, users }) {
                 message={message.message}
                 time={getChatTime(message.created)}
                 userImg={
-                  user ? pb.files.getUrl(user, user.avatar) : '/favicon.svg'
+                  user.avatar
+                    ? pb.files.getUrl(user, user.avatar)
+                    : '/favicon.svg'
                 }
                 userName={user ? user.nickname : '알 수 없음'}
                 id={message.user}
