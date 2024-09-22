@@ -84,7 +84,6 @@ export default function Search() {
         />
       </Helmet>
       <div className="px-4 py-4">
-        <h1 className="text-xl font-semibold">서치페이지</h1>
         <div className="flex items-center py-2 gap-4">
           <LeftIcon />
           <SearchBar
