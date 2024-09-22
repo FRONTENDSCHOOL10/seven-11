@@ -13,7 +13,7 @@ StudyForm.propTypes = {
 
 function StudyForm({ mode = 'create', studyData }) {
   const navigate = useNavigate();
-  const { options, setOptions } = usePostOptionsStore();
+  const { options, setOption } = usePostOptionsStore(); // setOption을 사용
 
   const [formData, setFormData] = useState({
     title: '',
@@ -31,22 +31,20 @@ function StudyForm({ mode = 'create', studyData }) {
         category: studyData.category,
       });
 
-      // Option 데이터를 studyData에서 설정
-      setOptions({
-        people: studyData.people,
-        date: studyData.date,
-        time: studyData.time,
-        gender: studyData.gender,
-        location: studyData.location,
-      });
+      // 각 옵션을 개별적으로 설정
+      setOption('people', studyData.people);
+      setOption('date', studyData.date);
+      setOption('time', studyData.time);
+      setOption('gender', studyData.gender);
+      setOption('location', studyData.location);
     }
-  }, [studyData, mode, setOptions]);
+  }, [studyData, mode, setOption]);
 
   useEffect(() => {
     const { title, content, category } = formData;
     if (
-      title.trim() &&
-      content.trim() &&
+      (title?.trim() || '') && // title이 undefined가 아니고 공백이 아닌 경우만
+      (content?.trim() || '') && // content가 undefined가 아니고 공백이 아닌 경우만
       category &&
       options.people &&
       options.date &&
