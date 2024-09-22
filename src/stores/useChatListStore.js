@@ -50,8 +50,6 @@ const useChatListStore = create((set) => ({
         })
       );
 
-      console.log(newChatList);
-
       set({ chatList: newChatList, loading: false });
     } catch (error) {
       console.error('채팅 메시지 데이터를 가져오는 데 실패했습니다:', error);
