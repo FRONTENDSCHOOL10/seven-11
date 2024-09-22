@@ -10,12 +10,14 @@ export default function Search() {
   const [selectedOption, setSelectedOption] = useState('전체');
   const [options, setOptions] = useState([{ value: '전체', label: '전체' }]);
   const [questions, setQuestions] = useState([]);
-  const [loading, setLoading] = useState(false); // 로딩 상태 추가
-  const [error, setError] = useState(null); // 에러 상태 추가
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
+  // 카테고리 목록 불러오기
   useEffect(() => {
     const fetchCategories = async () => {
       setLoading(true);
+      setError(null); // 에러 상태 초기화
       try {
         const records = await pb.collection('Categories').getFullList();
         const categories = records.map((category) => ({
@@ -34,31 +36,30 @@ export default function Search() {
     fetchCategories();
   }, []);
 
+  // 질문 데이터 불러오기
   useEffect(() => {
-    fetchQuestions(selectedOption);
+    if (selectedOption) {
+      fetchQuestions(selectedOption);
+    }
   }, [selectedOption]);
 
+  // 선택된 카테고리 처리
   const handleSelect = (value) => {
     setSelectedOption(value);
-    console.log('Selected category:', value); // 선택된 카테고리 확인
+    setQuestions([]); // 새로운 카테고리 선택 시 질문 초기화
   };
 
+  // 질문 목록 불러오기
   const fetchQuestions = async (category) => {
     setLoading(true);
     setError(null);
     try {
-      let filter = '';
-      if (category !== '전체') {
-        // filter 변수에 카테고리 필드명을 포함하여 설정
-        filter = `'${category}'`; // 카테고리 id로 필터링
-        console.log(category);
-      }
-
+      // 카테고리 id를 Question_Posts의 category 필드와 비교하도록 필터 설정
+      const filter = category !== '전체' ? `category='${category}'` : '';
+      console.log(filter);
       const records = await pb.collection('Question_Posts').getFullList({
         filter: filter, // 필터 적용
       });
-
-      console.log('Fetched questions:', records); // 데이터 확인
       setQuestions(records);
     } catch (error) {
       console.error('질문 데이터를 가져오는 데 실패했습니다:', error);
