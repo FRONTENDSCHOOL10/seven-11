@@ -10,7 +10,6 @@ export default function StudyPost() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('');
-  const [loading, setLoading] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true); // 버튼 활성화 상태
   const { options } = usePostOptionsStore();
 
@@ -38,8 +37,6 @@ export default function StudyPost() {
       alert('로그인된 사용자 정보를 찾을 수 없습니다. 다시 로그인해 주세요.');
       return;
     }
-
-    setLoading(true);
 
     try {
       // 1. 스터디 포스트 생성
@@ -72,13 +69,10 @@ export default function StudyPost() {
         chatroom: createdChatRoom.id,
       });
 
-      setLoading(false);
-
       navigate(`/home/study-detail/${createdPost.id}`);
     } catch (error) {
       console.error('스터디 등록 및 채팅방 생성 실패:', error.message);
       alert('스터디 등록 및 채팅방 생성 중 오류가 발생했습니다.');
-      setLoading(false);
     }
   };
 

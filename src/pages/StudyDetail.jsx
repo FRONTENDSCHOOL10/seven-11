@@ -1,5 +1,5 @@
 import pb from '@/api/pb';
-import { AuthorProfile, Badge, IconTextSmall } from '@/components';
+import { AuthorProfile, Badge, IconTextSmall, StatusBadge } from '@/components'; // StatusBadge 추가
 import TopNav from '@/components/TopNav';
 import NormalButton from '@/components/NormalButton'; // 버튼 추가
 import { useEffect, useState } from 'react';
@@ -19,9 +19,9 @@ function StudyDetailPage() {
   const postAuthorId = useUserStore((state) => state.postAuthorId);
   const currentUserId = useUserStore((state) => state.currentUserId);
 
-  // 참여중인 이웃 수를 저장할 상태
   const [joinedPeople, setJoinedPeople] = useState(0);
-  const [peopleLimit, setPeopleLimit] = useState(0); // 추가: 스터디 인원 제한
+  const [peopleLimit, setPeopleLimit] = useState(0);
+  const [status, setStatus] = useState('모집중');
 
   useEffect(() => {
     async function fetchStudyPostData() {
@@ -61,9 +61,17 @@ function StudyDetailPage() {
         }
 
         // 스터디 인원 제한 설정
-        setPeopleLimit(studyPost.people || 0);
+        const limit = studyPost.people || 0;
+        setPeopleLimit(limit);
 
-        setLoading(false); // 로딩 완료
+        // 상태 업데이트: 인원이 다 찼으면 모집완료, 그렇지 않으면 모집중
+        if (chatroom?.user.length >= limit) {
+          setStatus('모집완료');
+        } else {
+          setStatus('모집중');
+        }
+
+        setLoading(false);
       } catch (error) {
         console.error('스터디 모집글 정보를 가져오는데 실패했습니다:', error);
         setError('스터디 정보를 가져오는데 문제가 발생했습니다.');
@@ -79,7 +87,6 @@ function StudyDetailPage() {
     return date.toLocaleDateString();
   };
 
-  // 채팅방 이동 함수
   const goToChatRoom = () => {
     const chatRoomId = studyPostData.expand?.chatroom?.id;
 
@@ -111,7 +118,8 @@ function StudyDetailPage() {
         />
 
         <div className="font-bold text-lg mt-2">
-          모집중 {studyPostData.title || '스터디 제목 없음'}
+          <StatusBadge status={status} />{' '}
+          {studyPostData.title || '스터디 제목 없음'}
         </div>
 
         <div className="mt-3">
@@ -133,7 +141,6 @@ function StudyDetailPage() {
           {studyPostData.content || '내용이 없습니다.'}
         </div>
 
-        {/* 참여중인 이웃 수 표시 */}
         <div className="flex flex-col gap-2.5">
           <p className="font-semibold">
             참여중인 이웃 {joinedPeople}/{peopleLimit}
@@ -152,7 +159,10 @@ function StudyDetailPage() {
             <NormalButton
               label="참여하기"
               onClick={goToChatRoom}
-              className="bg-primary text-white py-3 px-10 rounded-lg"
+              className={`${
+                status === '모집완료' ? 'bg-gray-300' : 'bg-primary'
+              } text-white py-3 px-10 rounded-lg`}
+              isDisabled={status === '모집완료'}
             />
           )}
         </div>
