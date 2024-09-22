@@ -157,7 +157,7 @@ function StudyForm({ mode = 'create', studyData }) {
         />
       </fieldset>
       <PostOptionList />
-      <div className="flex justify-center">
+      <div className="flex justify-center px-3">
         <NormalButton
           onClick={handleSubmit}
           label={'저장'}
