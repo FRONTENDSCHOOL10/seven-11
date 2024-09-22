@@ -70,9 +70,7 @@ function ChatBoard({ roomId, users }) {
                 message={message.message}
                 time={getChatTime(message.created)}
                 userImg={
-                  user.avatar
-                    ? pb.files.getUrl(user, user.avatar)
-                    : '/favicon.svg'
+                  user ? pb.files.getUrl(user, user.avatar) : '/favicon.svg'
                 }
                 userName={user ? user.nickname : '알 수 없음'}
                 id={message.user}
