@@ -6,11 +6,7 @@ import {
   isSameDate,
 } from '@/utils/getChatTime';
 import { string, array, object } from 'prop-types';
-import {
-  ChatMessage,
-  ChatTime,
-  SentChat,
-} from '@/components/Chat/';
+import { ChatMessage, ChatTime, SentChat } from '@/components/Chat/';
 
 ChatBoard.propTypes = {
   roomId: string,

@@ -20,14 +20,19 @@ export default function Chatroom() {
     fetchStudyPosts: s.fetchStudyPosts,
   }));
   const bgClass = clsx(open ? 'bg-[#46464699] opacity-65' : '');
-  const { roomId } = useParams();
+  let { roomId } = useParams();
+
+  if (roomId.includes('}')) {
+    roomId = roomId.slice(0, -1);
+  }
+
   const [room, setRoom] = useState({ user: [], roomName: '채팅방' });
   const [users, setUsers] = useState([]); // users 상태
 
   useEffect(() => {
     // 채팅방 정보 가져오기
     pb.collection('ChatRooms')
-      .getOne(roomId.slice(0, -1))
+      .getOne(roomId)
       .then((record) => {
         setRoom(record);
 
@@ -67,18 +72,16 @@ export default function Chatroom() {
     try {
       const newMessage = await pb.collection('Chat_Messages').create({
         message,
-        room: roomId.slice(0, -1),
+        room: roomId,
         user: authUserId,
       });
 
       // Chatrooms 업데이트
-      const roomData = await pb
-        .collection('ChatRooms')
-        .getOne(roomId.slice(0, -1));
+      const roomData = await pb.collection('ChatRooms').getOne(roomId);
 
       const updatedMessages = [...(roomData.message || []), newMessage.id];
 
-      await pb.collection('ChatRooms').update(roomId.slice(0, -1), {
+      await pb.collection('ChatRooms').update(roomId, {
         message: updatedMessages,
       });
     } catch (error) {
@@ -118,13 +121,9 @@ export default function Chatroom() {
 
           <div className={`min-h-[690px] h-screen ${bgClass}`}>
             <div className="min-h-[500px] h-screen pt-[110px]">
-              <ChatBoard
-                roomId={roomId.slice(0, -1)}
-                users={users}
-                studyPost={studyPost}
-              />
+              <ChatBoard roomId={roomId} users={users} studyPost={studyPost} />
             </div>
-            <div className="fixed max-w-[430px] w-full bottom-0 bg-white px-2 ">
+            <div className="fixed max-w-[428px] w-full bottom-0 bg-white px-2 ">
               <SendMessageBar
                 onSend={handleSend}
                 placeholder={'메세지 보내기'}
