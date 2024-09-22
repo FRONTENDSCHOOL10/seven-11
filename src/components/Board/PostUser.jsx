@@ -19,7 +19,7 @@ function PostUser({ user }) {
   return (
     <Link to={`/profile/${id}`} className="flex items-center gap-[10px]">
       <img
-        src={user ? pb.files.getUrl(user, avatar) : '/favicon.svg'}
+        src={user.avatar ? pb.files.getUrl(user, avatar) : '/favicon.svg'}
         className="w-[30px] h-[30px] rounded-full"
       />
       <div className="flex flex-col text-sm">

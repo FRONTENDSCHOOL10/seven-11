@@ -149,19 +149,21 @@ export default function QuestionDetailPage() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 max-w-[428px] w-full bg-white px-3">
-        <SendMessageBar onSend={handleReply} />
-      </div>
-      <div className="overflow-auto">
-        {replies.map((replyData, index) => (
-          <Reply
-            key={index}
-            content={replyData.reply}
-            replyId={replyData.id}
-            onDelete={handleDeleteReply}
-            onUpdate={handleUpdateReply}
-          />
-        ))}
+      <div className="fixed bottom-0 max-w-[428px] w-full">
+        <div className="bg-white px-3">
+          <SendMessageBar onSend={handleReply} />
+        </div>
+        <div className="overflow-auto">
+          {replies.map((replyData, index) => (
+            <Reply
+              key={index}
+              content={replyData.reply}
+              replyId={replyData.id}
+              onDelete={handleDeleteReply}
+              onUpdate={handleUpdateReply}
+            />
+          ))}
+        </div>
       </div>
     </>
   );
