@@ -34,25 +34,27 @@ function Reply({ content, replyId, onDelete, onUpdate }) {
   };
 
   return (
-    <div className="w-full flex border-b pl-[10px] mt-2">
-      <div className="flex flex-col items-center justify-center">
+    <div className="w-full flex border-b px-[10px] mt-2">
+      <div className="flex flex-col items-center justify-center mr-3">
         <img
           src={pb.files.getUrl(user, user.avatar)}
           className="w-[30px] h-[30px] rounded-full"
         />
-        <span className="text-sm">{user.nickname}</span>
+        <span className="text-sm text-center mt-1">{user.nickname}</span>
       </div>
-      <div className="flex justify-between items-center ml-3">
-        {isEditing ? (
-          <input
-            type="text"
-            className="w-[190px] p-2 mr-2 border rounded"
-            value={editedContent}
-            onChange={(e) => setEditedContent(e.target.value)}
-          />
-        ) : (
-          <p className="w-[190px] p-2 mr-2">{content}</p>
-        )}
+      <div className="flex flex-grow justify-between items-center">
+        <div className="flex flex-col">
+          {isEditing ? (
+            <input
+              type="text"
+              className="min-w-[190px] w-[200px] p-2 border rounded"
+              value={editedContent}
+              onChange={(e) => setEditedContent(e.target.value)}
+            />
+          ) : (
+            <p className="min-w-[190px] w-auto p-2">{content}</p>
+          )}
+        </div>
         <div className="flex gap-1 text-sm text-white">
           {isEditing ? (
             <button
@@ -80,5 +82,7 @@ function Reply({ content, replyId, onDelete, onUpdate }) {
     </div>
   );
 }
+
+
 
 export default memo(Reply);

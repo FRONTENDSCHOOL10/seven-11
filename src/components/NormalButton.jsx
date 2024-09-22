@@ -12,7 +12,7 @@ export default function NormalButton({ btnType, label, onClick, isDisabled }) {
   const type = btnType === 'submit' ? 'submit' : 'button';
 
   const buttonClass = clsx(
-    'w-[296px] h-[45px] p-3 text-white rounded-button text-base font-semibold',
+    'min-w-[296px] w-full h-[45px] p-3 text-white rounded-button text-base font-semibold',
     {
       'bg-gray-300': isDisabled,
       'bg-primary ': !isDisabled,

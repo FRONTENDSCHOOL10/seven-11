@@ -11,7 +11,7 @@ function ProfileEditSection({ user }) {
   return (
     <div className="flex flex-col gap-[11px] mb-[13px]">
       <EditTitle>닉네임</EditTitle>
-      <div className="flex flex-row justify-center gap-2 w-full max-w-md mx-auto">
+      <div className="flex flex-row justify-between gap-3 w-full max-w-md mx-auto">
         <EditInput placeholder={user?.nickname || '닉네임을 입력하세요'} />
         <EditButton>중복확인</EditButton>
       </div>

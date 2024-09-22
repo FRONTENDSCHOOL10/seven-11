@@ -4,7 +4,7 @@ import { HelmetProvider } from 'react-helmet-async';
 function App() {
   return (
     <HelmetProvider>
-      <div className="App min-h-[698px] h-screen relative w-[320px] overflow-auto no-scrollbar mx-auto border border-gray-100">
+      <div className="App h-screen relative min-w-[320px] max-w-[430px] overflow-auto no-scrollbar mx-auto border border-gray-100">
         <RouterProvider router={router} />
       </div>
     </HelmetProvider>

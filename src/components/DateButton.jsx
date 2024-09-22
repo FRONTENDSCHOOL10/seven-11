@@ -1,4 +1,10 @@
+import { func, string } from 'prop-types';
 import { useState } from 'react';
+
+DateButton.propTypes = {
+  label: string,
+  onChange: func,
+};
 
 function DateButton({ label, onChange }) {
   const [selectedValue, setSelectedValue] = useState('');
@@ -13,7 +19,7 @@ function DateButton({ label, onChange }) {
     <select
       value={selectedValue}
       onChange={handleSelect}
-      className="border rounded p-2 w-[93px] appearance-none text-center"
+      className="border rounded p-2 min-w-[93px] w-full appearance-none text-center"
     >
       <option value="">{label}</option>
       {label === '년' &&

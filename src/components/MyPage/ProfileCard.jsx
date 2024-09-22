@@ -12,7 +12,7 @@ ProfileCard.propTypes = {
 
 function ProfileCard({ userName, badge, userImg }) {
   return (
-    <div className="flex w-full bg-white gap-[168px] justify-center p-3 rounded-lg">
+    <div className="flex w-full bg-white justify-between py-3 px-4 rounded-lg">
       <div className="flex flex-col items-start justify-center gap-1">
         <span className="font-semibold">{userName}</span>
         <ProfileBadge status={badge} />

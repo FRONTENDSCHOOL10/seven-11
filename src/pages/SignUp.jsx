@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // 리다이렉트를 위한 useNavigate 훅
 import toast, { Toaster } from 'react-hot-toast';
 import AddressSearch from '@/components/AddressSearch';
+import getPbImageURL from '@/api/getPbImageURL';
 
 export default function SignUp() {
   const [email, setEmail] = useState('');
@@ -148,24 +149,28 @@ export default function SignUp() {
         job,
         address,
         category: selectedCategories, // 선택된 카테고리 추가
+        level: '뉴비',
+        userTemp: 36.5,
+        emailVisibility: true,
       };
 
-      console.log('회원가입 데이터:', data); // 전송할 데이터 출력
+      console.log('회원가입 데이터:', data);
 
       const record = await pb.collection('users').create(data);
       console.log('회원가입 성공:', record);
+      await pb.collection('users').requestVerification(record.email);
       toast.success('회원가입 성공!');
       navigate('/check-email');
     } catch (error) {
       console.error('회원가입 실패:', error);
-      toast.error(`회원가입에 실패했습니다: ${error.message}`);
+      toast.error(`회원가입에 실패했습니다`);
     }
   };
 
   return (
     <>
       <Toaster /> {/* 알림 표시 */}
-      <div className="flex flex-col items-center justify-center">
+      <div className="w-full flex flex-col items-center justify-center">
         {/* 회원가입 제목 섹션 */}
         <section className="ml-3 my-2 text-left self-start">
           <SubTitle title="안녕하세요..!" />
@@ -176,8 +181,8 @@ export default function SignUp() {
         </section>
 
         {/* 이메일 입력 섹션 */}
-        <section>
-          <div className="mt-1.5">
+        <section className="w-full px-3">
+          <div className="mt-1.5 ">
             <SubTitle title="이메일" />
           </div>
           <div className="my-3">
@@ -198,7 +203,7 @@ export default function SignUp() {
         </section>
 
         {/* 비밀번호 입력 섹션 */}
-        <section>
+        <section className="w-full px-3">
           <div className="mt-1.5">
             <SubTitle title="비밀번호" />
           </div>
@@ -223,7 +228,7 @@ export default function SignUp() {
         </section>
 
         {/* 닉네임 입력 섹션 */}
-        <section>
+        <section className="w-full px-3">
           <div className="mt-1.5">
             <SubTitle title="닉네임" />
           </div>
@@ -245,7 +250,7 @@ export default function SignUp() {
         </section>
 
         {/* 직업 입력 섹션 */}
-        <section>
+        <section className="w-full px-3">
           <div className="mt-1.5">
             <SubTitle title="직업" />
           </div>
@@ -261,7 +266,7 @@ export default function SignUp() {
         </section>
 
         {/* 성별, 생년월일 등 추가 입력 섹션 */}
-        <section>
+        <section className="w-full px-3">
           <div className="mt-1.5">
             <SubTitle title="성별" />
           </div>
@@ -271,24 +276,24 @@ export default function SignUp() {
         </section>
 
         {/* 생년월일 선택 섹션 */}
-        <section>
+        <section className="w-full px-3">
           <div className="my-2 mx-0.5">
             <SubTitle title="생년월일" />
           </div>
-          <div className="flex">
-            <div className="mx-1 my-1">
+          <div className="flex justify-start gap-3">
+            <div className="my-1">
               <DateButton label="년" onChange={handleYearChange} />
             </div>
-            <div className="mx-1 my-1">
+            <div className="my-1">
               <DateButton label="월" onChange={handleMonthChange} />
             </div>
-            <div className="mx-1 my-1">
+            <div className="my-1">
               <DateButton label="일" onChange={handleDayChange} />
             </div>
           </div>
         </section>
 
-        <section>
+        <section className="w-full px-3">
           <div className="mt-1.5">
             <SubTitle title="주소" />
           </div>
@@ -296,7 +301,7 @@ export default function SignUp() {
         </section>
 
         {/* 회원가입 버튼 */}
-        <div className="mb-3">
+        <div className="mb-3 w-full px-3">
           <NormalButton
             btnType="submit"
             label="회원가입"

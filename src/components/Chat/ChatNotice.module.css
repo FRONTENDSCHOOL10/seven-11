@@ -1,5 +1,5 @@
 .component {
-  @apply w-[293px] h-[58px] bg-[#a2b2ba] rounded-[10px] py-[13px];
+  @apply w-full h-[58px] bg-[#a2b2ba] rounded-[10px] py-[13px];
 }
 
 .container {

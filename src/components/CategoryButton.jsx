@@ -5,16 +5,16 @@ CategoryButton.propTypes = {
   smallText: PropTypes.string,
   largeText: PropTypes.string,
   isSelected: PropTypes.bool,
-  onClick: PropTypes.func.isRequired, // onClick 함수 prop 추가
+  onClick: PropTypes.func.isRequired,
 };
 
 function CategoryButton({ smallText, largeText, isSelected, onClick }) {
   return (
     <button
-      className={`flex items-center justify-between w-[135px] h-[61px] rounded-lg p-2 flex-wrap my-1 
+      className={`flex items-center justify-between w-full h-[60px] rounded-lg p-2 flex-wrap 
         ${isSelected ? 'bg-primary' : 'bg-gray-300'}`}
       type="button"
-      onClick={onClick} // 클릭 시 onClick 함수 호출
+      onClick={onClick}
     >
       <div className="flex flex-col text-left">
         <p className="text-white text-xs">{smallText}</p>

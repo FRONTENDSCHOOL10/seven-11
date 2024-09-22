@@ -1,3 +1,4 @@
+import pb from '@/api/pb';
 import { userSignIn } from '@/api/user';
 import { InputText, NormalButton } from '@/components';
 import { getStorageData, setStorageData } from '@/utils/';
@@ -26,10 +27,17 @@ export default function Login() {
   const handleSignIn = useCallback(
     async (e) => {
       e.preventDefault();
+
       try {
         const { email, password } = formState;
         const authData = await userSignIn(email, password);
         const { record: user, token } = authData;
+
+        if (!user.verified) {
+          toast.error('이메일 인증 메일을 확인해주세요.');
+          return;
+        }
+
         const authInfo = { user, token };
         setStorageData(AUTH_KEY, authInfo);
         navigate('/home');
@@ -124,7 +132,7 @@ export default function Login() {
               <InputText
                 name="email"
                 inputType="email"
-                value={email} // value를 추가하여 상태 전달
+                value={email}
                 onChange={handleEmailInput}
                 placeholder="이메일을 작성해주세요"
               />
@@ -137,7 +145,7 @@ export default function Login() {
               <InputText
                 name="password"
                 inputType="password"
-                value={password} // value를 추가하여 상태 전달
+                value={password}
                 onChange={handlePasswordInput}
                 placeholder="비밀번호를 작성해주세요"
               />
