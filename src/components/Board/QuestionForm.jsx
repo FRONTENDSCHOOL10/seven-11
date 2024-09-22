@@ -113,7 +113,7 @@ function QuestionForm({ mode = 'create', note }) {
         />
       </fieldset>
 
-      <div className="px-3">
+      <div className="fixed bottom-0 max-w-[428px] w-full px-3">
         <NormalButton onClick={handleSubmit} label="저장" />
       </div>
     </form>
