@@ -93,8 +93,8 @@ export default function Search() {
           />
         </div>
 
-        <div>
-          <SubTitle title="친구들이 많이 찾고 있어요." font="text-[14px]" />
+        <div className="mt-2">
+          <SubTitle title="친구들이 많이 찾고 있어요!" font="text-[14px]" />
         </div>
 
         <div className="mt-4">
@@ -103,7 +103,7 @@ export default function Search() {
 
         <div className="mt-6">
           {loading ? (
-            <p>로딩 중...</p>
+            <p></p>
           ) : error ? (
             <p>{error}</p>
           ) : questions.length > 0 ? (

@@ -173,7 +173,7 @@ export default function SignUp() {
       <div className="w-full flex flex-col items-center justify-center">
         {/* 회원가입 제목 섹션 */}
         <section className="ml-3 my-2 text-left self-start">
-          <SubTitle title="안녕하세요..!" />
+          <SubTitle title="안녕하세요." />
           <SubTitle title="이메일로 회원가입 해주세요." />
           <div className="my-2">
             <SmallText title="회원 정보는 안전하게 보관되며 서로에게 공개되지 않아요." />
