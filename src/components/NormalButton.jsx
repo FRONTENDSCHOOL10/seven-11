@@ -14,17 +14,17 @@ export default function NormalButton({ btnType, label, onClick, isDisabled }) {
   const buttonClass = clsx(
     'w-[296px] h-[45px] p-3 text-white rounded-button text-base font-semibold',
     {
-      'bg-gray-300': isDisabled, 
-      'bg-primary': !isDisabled, 
+      'bg-gray-300': isDisabled,
+      'bg-primary ': !isDisabled,
     }
   );
 
   return (
     <button
       type={type}
-      onClick={isDisabled ? undefined : onClick} 
+      onClick={!isDisabled ? onClick : undefined}
       className={buttonClass}
-      disabled={isDisabled} 
+      disabled={isDisabled}
     >
       {label}
     </button>

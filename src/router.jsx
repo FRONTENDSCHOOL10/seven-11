@@ -66,7 +66,7 @@ export const routes = [
     children: configRoutes(navigation),
   },
   {
-    path: '/home/study-detail/:postId',
+    path: '/home/study-detail/:studyPostId',
     element: <StudyDetailPage />,
   },
   {

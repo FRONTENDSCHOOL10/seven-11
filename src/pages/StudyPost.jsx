@@ -1,9 +1,9 @@
+import pb from '@/api/pb';
 import { CategoryDropdown, LeftIcon, PostOptionList } from '@/components';
 import NormalButton from '@/components/NormalButton';
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import pb from '@/api/pb';
 import usePostOptionsStore from '@/stores/usePostOptionsStore';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function StudyPost() {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ export default function StudyPost() {
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('');
   const [loading, setLoading] = useState(false);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true); // 버튼 활성화 상태
   const { options } = usePostOptionsStore();
 
   useEffect(() => {
@@ -42,6 +42,7 @@ export default function StudyPost() {
     setLoading(true);
 
     try {
+      // 1. 스터디 포스트 생성
       const studyData = {
         user: user.id,
         title,
@@ -66,6 +67,10 @@ export default function StudyPost() {
       const createdChatRoom = await pb
         .collection('ChatRooms')
         .create(chatRoomData);
+
+      await pb.collection('Study_Posts').update(createdPost.id, {
+        chatroom: createdChatRoom.id,
+      });
 
       setLoading(false);
 
@@ -108,7 +113,7 @@ export default function StudyPost() {
         <NormalButton
           onClick={handleNextPage}
           label={'저장'}
-          isDisabled={isButtonDisabled || loading}
+          isDisabled={isButtonDisabled}
         />
       </div>
     </>
