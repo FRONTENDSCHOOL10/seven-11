@@ -43,7 +43,7 @@ export default function Chatroom() {
         if (record.user && record.user.length > 0) {
           fetchUsers(record.user); // 사용자 데이터 불러오기
         }
-      });
+      }); 
   }, [roomId, fetchStudyPosts]);
 
   // 사용자 데이터를 fetch하는 함수
