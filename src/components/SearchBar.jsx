@@ -1,6 +1,6 @@
 import { func, string } from 'prop-types';
 import SearchIcon from './SearchIcon';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 SearchBar.propTypes = {
   location: string.isRequired,
@@ -13,6 +13,7 @@ export default function SearchBar({
   inputColor = 'bg-gray-100',
   onClick,
 }) {
+  const [searchTerm, setSearchTerm] = useState(''); // 로컬 상태로 검색어 관리
   const inputRef = useRef(null);
   const handleClick = () => {
     onClick?.(inputRef.current.value);
