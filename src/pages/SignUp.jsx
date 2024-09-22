@@ -6,7 +6,7 @@ import NormalButton from '@/components/NormalButton';
 import DateButton from '@/components/DateButton';
 import SmallText from '@/components/SmallText';
 import pb from '@/api/pb'; // PocketBase 인스턴스 가져오기
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // 리다이렉트를 위한 useNavigate 훅
 import toast, { Toaster } from 'react-hot-toast';
 import AddressSearch from '@/components/AddressSearch';
@@ -23,12 +23,17 @@ export default function SignUp() {
   const [job, setJob] = useState(''); // 직업 상태 추가
   const [isEmailChecked, setIsEmailChecked] = useState(false); // 이메일 중복 확인 여부
   const [isNicknameChecked, setIsNicknameChecked] = useState(false); // 닉네임 중복 확인 여부
-  const navigate = useNavigate(); // 리다이렉트 훅
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState(''); // 주소 상태 추가
+  const [selectedCategories, setSelectedCategories] = useState([]); // 선택된 카테고리 상태 관리
 
-  const handleAddressSelect = (selectedAddress) => {
-    setAddress(selectedAddress); // 선택된 주소를 저장
-  };
+  const navigate = useNavigate(); // 리다이렉트 훅
+
+  // 컴포넌트 마운트 시 선택된 카테고리 로드
+  useEffect(() => {
+    const categories =
+      JSON.parse(localStorage.getItem('selectedCategories')) || [];
+    setSelectedCategories(categories);
+  }, []);
 
   // 이메일 형식을 확인하기 위한 정규 표현식
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -52,9 +57,11 @@ export default function SignUp() {
       if (emailExists) {
         toast.error('이미 존재하는 이메일 입니다.');
         setIsEmailChecked(false);
+        console.log(result.items);
       } else {
         toast.success('사용 가능한 이메일 입니다.');
         setIsEmailChecked(true);
+        console.log(result.items);
       }
     } catch (error) {
       console.error('이메일 중복 확인 실패:', error);
@@ -105,6 +112,10 @@ export default function SignUp() {
     setDay(selectedDay); // 선택된 일 업데이트
   };
 
+  const handleAddressSelect = (selectedAddress) => {
+    setAddress(selectedAddress); // 선택된 주소를 저장
+  };
+
   // 회원가입 처리 로직
   const handleSignUp = async () => {
     if (!isEmailChecked) {
@@ -130,12 +141,13 @@ export default function SignUp() {
       const data = {
         email,
         password,
-        passwordConfirm: password, // passwordConfirm을 password와 동일하게 설정
+        passwordConfirm: password,
         nickname,
         birth_date,
         gender,
-        job, // 직업 데이터 추가
-        address, // 선택한 주소 추가
+        job,
+        address,
+        category: selectedCategories, // 선택된 카테고리 추가
       };
 
       console.log('회원가입 데이터:', data); // 전송할 데이터 출력

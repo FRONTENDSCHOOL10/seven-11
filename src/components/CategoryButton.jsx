@@ -1,24 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 CategoryButton.propTypes = {
   smallText: PropTypes.string,
   largeText: PropTypes.string,
+  isSelected: PropTypes.bool,
+  onClick: PropTypes.func.isRequired, // onClick 함수 prop 추가
 };
 
-function CategoryButton({ smallText, largeText }) {
-  const [isSelected, setIsSelected] = useState(false);
-
-  const handleIconClick = () => {
-    setIsSelected(!isSelected);
-  };
-
+function CategoryButton({ smallText, largeText, isSelected, onClick }) {
   return (
     <button
-      className={`flex items-center justify-between w-[143px] h-[61px] rounded-lg p-2 flex-wrap my-2 
+      className={`flex items-center justify-between w-[135px] h-[61px] rounded-lg p-2 flex-wrap my-1 
         ${isSelected ? 'bg-primary' : 'bg-gray-300'}`}
       type="button"
-      onClick={handleIconClick}
+      onClick={onClick} // 클릭 시 onClick 함수 호출
     >
       <div className="flex flex-col text-left">
         <p className="text-white text-xs">{smallText}</p>

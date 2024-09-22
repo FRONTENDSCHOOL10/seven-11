@@ -6,7 +6,6 @@ const useAuthorStore = create((set, get) => ({
   currentUserId: null,
 
   setPostAuthorId: (id) => {
-    console.log('Setting postAuthorId:', id);
     set({ postAuthorId: id });
   },
 
