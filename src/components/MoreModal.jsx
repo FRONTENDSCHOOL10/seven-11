@@ -17,35 +17,47 @@ function MoreModal({ isVisible }) {
 
   const isUserAuthor = isAuthor(loggedInUserId);
 
-  // 경로에 따른 postId
-  const postId = location.pathname.startsWith('/home/study-detail')
-    ? '스터디 게시글 아이디 넣어주세요!!'
-    : post.id;
+  const isStudyPost = location.pathname.startsWith('/home/study-detail');
+  const postId = isStudyPost ? location.pathname.split('/').pop() : post.id;
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (confirm('정말 삭제하시겠습니까?')) {
-      pb.collection('Question_Posts').delete(postId);
-      navigate('/home/board');
+      try {
+        if (isStudyPost) {
+          await pb.collection('Study_Posts').delete(postId);
+          navigate('/home');
+        } else {
+          await pb.collection('Question_Posts').delete(postId);
+          navigate('/home/board');
+        }
+      } catch (error) {
+        console.error('삭제 중 오류 발생:', error);
+        alert('삭제에 실패했습니다.');
+      }
     }
   };
 
   const handleEdit = () => {
-    navigate(`/home/qna-edit/${postId}`);
+    if (isStudyPost) {
+      navigate(`/home/study-edit/${postId}`);
+    } else {
+      navigate(`/home/qna-edit/${postId}`);
+    }
   };
 
   return (
     <div className="absolute top-full right-0 flex items-end justify-end">
-      <div className=" w-[113px] flex flex-col  bg-white rounded-es border-l border-b border-gray-100 shadow-md ">
+      <div className="w-[113px] flex flex-col bg-white rounded-es border-l border-b border-gray-100 shadow-md">
         {isUserAuthor ? (
           <>
             <button
-              className="flex items-center justify-center  w-full h-[56px] text-base border-b border-gray-100 "
+              className="flex items-center justify-center w-full h-[56px] text-base border-b border-gray-100"
               onClick={handleEdit}
             >
               수정
             </button>
             <button
-              className="flex items-center justify-center  w-full h-[56px] text-base  "
+              className="flex items-center justify-center w-full h-[56px] text-base"
               onClick={handleDelete}
             >
               삭제
@@ -53,7 +65,7 @@ function MoreModal({ isVisible }) {
           </>
         ) : (
           <button
-            className="flex items-center justify-center  w-full h-[56px] text-base"
+            className="flex items-center justify-center w-full h-[56px] text-base"
             onClick={() => alert('신고')}
           >
             신고
