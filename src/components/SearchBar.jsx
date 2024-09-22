@@ -29,6 +29,7 @@ export default function SearchBar({
         ref={inputRef}
         defaultValue={''}
       />
+      <SearchIcon onClick={handleClick} />
     </div>
   );
 }
