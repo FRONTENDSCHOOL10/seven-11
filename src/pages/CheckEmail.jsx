@@ -32,7 +32,7 @@ export default function CheckEmail() {
             color="text-gray-300"
           />
         </div>
-        <div className="mt-[130px] mb-[20px]">
+        <div className="mt-[130px] mb-[20px] w-full px-3">
           <Link className="text-primary" to={'/login'}>
             <CheckButton
               label="로그인"

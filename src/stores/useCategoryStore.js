@@ -5,8 +5,8 @@ import { getStorageData } from '@/utils';
 const useCategoryStore = create((set) => ({
   categories: [],
   selectedCategory: null,
-  isLoading: false, // 로딩 상태
-  error: null, // 에러 상태
+  isLoading: false,
+  error: null,
 
   fetchCategories: async () => {
     set({ isLoading: true, error: null });
@@ -29,14 +29,12 @@ const useCategoryStore = create((set) => ({
       const categories = await Promise.all(
         categoryIdArray.map((id) => pb.collection('Categories').getOne(id))
       );
-      set({ categories, isLoading: false });
+      set({ categories });
     } catch (error) {
       console.error('카테고리를 가져오는 중 에러 발생:', error);
-      set({
-        categories: [],
-        isLoading: false,
-        error: '카테고리를 불러오는 데 실패했습니다.',
-      });
+      set({ error: '카테고리를 불러오는 데 실패했습니다.' });
+    } finally {
+      set({ isLoading: false });
     }
   },
 

@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom'; // 리다이렉트를 위한 use
 import toast, { Toaster } from 'react-hot-toast';
 import AddressSearch from '@/components/AddressSearch';
 import getPbImageURL from '@/api/getPbImageURL';
+import { downloadImage } from '@/utils/downloadImage';
 
 export default function SignUp() {
   const [email, setEmail] = useState('');
@@ -136,6 +137,10 @@ export default function SignUp() {
       const formattedDay = day.padStart(2, '0'); // 일을 2자리로 맞춤
       const birth_date = `${year}-${formattedMonth}-${formattedDay}`;
 
+      const img = await pb.collection('default').getOne('yzadwsf0sc5xo5n');
+      const defaultAvatarUrl = getPbImageURL(img, 'avatar');
+      const imgBlob = await downloadImage(defaultAvatarUrl);
+
       const data = {
         email,
         password,
@@ -149,6 +154,7 @@ export default function SignUp() {
         level: '뉴비',
         userTemp: 36.5,
         emailVisibility: true,
+        avatar: imgBlob,
       };
 
       const record = await pb.collection('users').create(data);

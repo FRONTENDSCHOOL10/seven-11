@@ -119,7 +119,7 @@ export default function QuestionDetailPage() {
         <div className="my-3">
           {category && <Badge label={category} isPrimary={true} />}
         </div>
-        <div className="h-[550px] overflow-auto no-scrollbar">
+        <div className="h-[698px] overflow-auto no-scrollbar">
           <div className="flex flex-col gap-3">
             <PostUser user={user} />
             <button className="flex items-center gap-1 text-sm">
@@ -149,7 +149,7 @@ export default function QuestionDetailPage() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 max-w-[428px] w-full">
+      <div className="fixed bottom-0 max-w-[428px] w-full bg-white ">
         <div className="bg-white px-3">
           <SendMessageBar onSend={handleReply} />
         </div>
