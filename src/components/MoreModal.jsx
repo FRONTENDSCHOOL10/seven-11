@@ -19,12 +19,25 @@ function MoreModal({ isVisible }) {
 
   const isStudyPost = location.pathname.startsWith('/home/study-detail');
   const postId = isStudyPost ? location.pathname.split('/').pop() : post.id;
-
   const handleDelete = async () => {
     if (confirm('정말 삭제하시겠습니까?')) {
       try {
         if (isStudyPost) {
+          // 스터디 게시글과 관련된 채팅방 ID 가져오기
+          const studyPost = await pb.collection('Study_Posts').getOne(postId, {
+            expand: 'chatroom', // chatroom 정보 확장
+          });
+
+          const chatRoomId = studyPost.expand?.chatroom?.id;
+
+          // 스터디 게시글 삭제
           await pb.collection('Study_Posts').delete(postId);
+
+          // 채팅방 삭제 (만약 존재한다면)
+          if (chatRoomId) {
+            await pb.collection('ChatRooms').delete(chatRoomId);
+          }
+
           navigate('/home');
         } else {
           await pb.collection('Question_Posts').delete(postId);
