@@ -147,7 +147,7 @@ function StudyDetailPage() {
       <div className="px-3">
         <Badge
           label={category ? category.category_name : '카테고리 없음'}
-          isPrimary={false}
+          isPrimary={true}
         />
 
         <div className="font-bold text-lg mt-2">
