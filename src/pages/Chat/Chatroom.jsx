@@ -12,6 +12,7 @@ import {
 } from '@/components/Chat';
 import { SendMessageBar } from '@/components';
 import { getChatNoticeTime } from '@/utils';
+import { formatTime } from '@/utils/formatTime';
 
 export default function Chatroom() {
   const open = useChatListStore((s) => s.isOpenedModal);
@@ -43,7 +44,7 @@ export default function Chatroom() {
         if (record.user && record.user.length > 0) {
           fetchUsers(record.user); // 사용자 데이터 불러오기
         }
-      }); 
+      });
   }, [roomId, fetchStudyPosts]);
 
   // 사용자 데이터를 fetch하는 함수
@@ -89,7 +90,9 @@ export default function Chatroom() {
     }
   };
 
-  const creatTime = studyPost && getChatNoticeTime(studyPost.date);
+  const creatTime = studyPost
+    ? `${getChatNoticeTime(studyPost.date)} ${formatTime(studyPost.time)}`
+    : null;
 
   return (
     <>
