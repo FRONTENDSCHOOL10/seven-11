@@ -7,9 +7,10 @@ import { Helmet } from 'react-helmet-async';
 
 export function Component() {
   const [questionList, setQuestionList] = useState([]);
-  const { categories, selectedCategory, setSelectedCategory } =
+  const { categories, selectedCategory, setSelectedCategory, fetchCategories } =
     useCategoryStore((s) => ({
       categories: s.categories,
+      fetchCategories: s.fetchCategories,
       selectedCategory: s.selectedCategory,
       setSelectedCategory: s.setSelectedCategory,
     }));
@@ -23,11 +24,16 @@ export function Component() {
     })),
   ];
 
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
+
   // 질문 게시글 리스트 가져오기
   const questionListFetch = useCallback(async () => {
     try {
       const data = await pb.collection('Question_Posts').getList(1, 20, {
         sort: '-created',
+        expand: 'category',
       });
 
       const newList = data.items.filter((item) =>

@@ -1,26 +1,19 @@
 import pb from '@/api/pb';
 import { getStorageData } from '@/utils';
-import { string, func } from 'prop-types';
-import { memo, useEffect, useState } from 'react';
+import { string, func, object } from 'prop-types';
+import { memo, useState } from 'react';
 
 Reply.propTypes = {
   content: string,
   replyId: string,
   onDelete: func,
   onUpdate: func,
-  userId: string,
+  replyUser: object,
 };
 
-function Reply({ content, replyId, onDelete, onUpdate, userId }) {
-  const [user, setUser] = useState({});
+function Reply({ content, replyId, onDelete, onUpdate, replyUser }) {
   const authUser = getStorageData('authInfo').user;
   const authUserId = authUser.id; // 현재 로그인된 사용자 ID
-
-  useEffect(() => {
-    pb.collection('users')
-      .getOne(userId)
-      .then((r) => setUser(r));
-  }, [userId]);
 
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(content);
@@ -46,10 +39,10 @@ function Reply({ content, replyId, onDelete, onUpdate, userId }) {
     <div className="w-full flex border-b px-[10px] mt-2">
       <div className="flex flex-col items-center justify-center mr-3">
         <img
-          src={pb.files.getUrl(user, user.avatar)}
+          src={pb.files.getUrl(replyUser, replyUser.avatar)}
           className="w-[30px] h-[30px] rounded-full"
         />
-        <span className="text-sm text-center mt-1">{user.nickname}</span>
+        <span className="text-sm text-center mt-1">{replyUser.nickname}</span>
       </div>
       <div className="flex flex-grow justify-between items-center">
         <div className="flex flex-col">
@@ -65,7 +58,7 @@ function Reply({ content, replyId, onDelete, onUpdate, userId }) {
           )}
         </div>
         <div className="flex gap-1 text-sm text-white">
-          {authUserId === userId && (
+          {authUserId === replyUser.id && (
             <>
               {isEditing ? (
                 <button

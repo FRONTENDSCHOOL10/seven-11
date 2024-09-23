@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import pb from '@/api/pb';
+import { FadeLoader } from 'react-spinners';
 
 export default function PostDetail() {
   const { postId } = useParams(); // URL에서 postId 파라미터 가져오기
@@ -20,7 +21,11 @@ export default function PostDetail() {
   }, [postId]);
 
   if (!post) {
-    return <p>로딩 중...</p>;
+    return (
+      <div className="h-[80vh] flex justify-center items-center">
+        <FadeLoader color="#79b2d1" />
+      </div>
+    );
   }
 
   return (
