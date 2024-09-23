@@ -59,7 +59,7 @@ export default function Search() {
     fetchQuestionsAndStudies(selectedOption, inputValue);
   };
 
-  // 질문 및 스터디 목록 불러오기
+  // 질문 및 스터디 목록 불러오기 (최신순으로 총 10개만)
   const fetchQuestionsAndStudies = async (category, searchTerm) => {
     setLoading(true);
     setError(null);
@@ -70,25 +70,26 @@ export default function Search() {
       if (searchTerm) filter.push(`title~'${searchTerm}'`); // 검색어가 있으면 부분 일치 검색
 
       const filterQuery = filter.join(' && '); // 필터 쿼리 조합
-      const queryOptions = filterQuery ? { filter: filterQuery } : {}; // 필터가 없으면 빈 객체 전달
+      const queryOptions = filterQuery
+        ? { filter: filterQuery, sort: '-created', perPage: 5, page: 1 }
+        : { sort: '-created', perPage: 5, page: 1 }; // 필터가 없으면 최신순으로 5개씩 가져오기
 
-      // Question_Posts에서 검색
+      // 각각 질문과 스터디에서 최대 5개씩 가져오기
       const questions = await pb
         .collection('Question_Posts')
-        .getFullList(queryOptions);
-
-      // Study_Posts에서 검색
+        .getList(1, 5, queryOptions);
       const studies = await pb
         .collection('Study_Posts')
-        .getFullList(queryOptions);
+        .getList(1, 5, queryOptions);
 
       // 결과 병합 및 정렬 (생성 날짜 기준 내림차순)
       const combinedResults = [
-        ...questions.map((item) => ({ ...item, type: 'question' })),
-        ...studies.map((item) => ({ ...item, type: 'study' })),
+        ...questions.items.map((item) => ({ ...item, type: 'question' })), // getList에서는 items 사용
+        ...studies.items.map((item) => ({ ...item, type: 'study' })),
       ].sort((a, b) => new Date(b.created) - new Date(a.created));
 
-      setResults(combinedResults);
+      // 상위 10개만 설정
+      setResults(combinedResults.slice(0, 10));
     } catch (error) {
       console.error('데이터를 가져오는 데 실패했습니다:', error);
       setError('데이터를 가져오는 데 실패했습니다.');
