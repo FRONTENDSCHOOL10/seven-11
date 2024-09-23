@@ -82,11 +82,11 @@ export default function Search() {
         .collection('Study_Posts')
         .getFullList(queryOptions);
 
-      // 결과 병합
+      // 결과 병합 및 정렬 (생성 날짜 기준 내림차순)
       const combinedResults = [
         ...questions.map((item) => ({ ...item, type: 'question' })),
         ...studies.map((item) => ({ ...item, type: 'study' })),
-      ];
+      ].sort((a, b) => new Date(b.created) - new Date(a.created));
 
       setResults(combinedResults);
     } catch (error) {
