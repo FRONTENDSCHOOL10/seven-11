@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { FadeLoader } from 'react-spinners';
 import usePostStore from '@/stores/usePostStore'; // Zustand store 가져오기
 import pb from '@/api/pb';
+import { getStorageData } from '@/utils';
 
 export default function QuestionDetailPage() {
   const param = useParams();
@@ -27,35 +28,41 @@ export default function QuestionDetailPage() {
 
   const { setPostAuthorId, isAuthor } = useAuthorStore();
 
+  // 게시글 아이디
   const id = param.postId;
+
+  const userData = getStorageData('authInfo').user;
+
+  // 현재 로그인된 auth 유저 아이디
+  const userID = userData.id;
 
   // 질문 게시글과 댓글 불러오기
   useEffect(() => {
     setLoading(true);
     setPost(id).then(() => setLoading(false));
     setReplies(id);
-  }, [id, setPost, setReplies]);
+  }, [id, setPost, setReplies, userID]);
 
-  const userID = post.userID;
-
-  // 사용자 정보 불러오기
+  // 현재 로그인된 사용자 정보 불러오기
   useEffect(() => {
-    if (userID) {
+    if (post.userID) {
       setUserLoading(true);
       pb.collection('users')
-        .getOne(userID)
+        .getOne(post.userID)
         .then((r) => {
           setUser(r);
           setUserLoading(false);
         });
     }
-  }, [userID]);
+  }, [post.userID]);
 
+  // 현재 로그인된 유저와 게시글 유저가 같은지
   useEffect(() => {
-    setPostAuthorId(userID);
-    isAuthor(user.id);
-  }, [id, isAuthor, setPostAuthorId, user.id, userID]);
+    setPostAuthorId(post.userID);
+    isAuthor(post.userID);
+  }, [isAuthor, post.userID, setPostAuthorId]);
 
+  // 선택된 카테고리 아이디
   const selectedCategoryId = post.category;
 
   // 카테고리 불러오기
@@ -86,7 +93,7 @@ export default function QuestionDetailPage() {
   const handleReply = (value) => {
     const newData = {
       reply: value,
-      user: user.id,
+      user: userID,
       post: post.id,
     };
 
@@ -96,6 +103,7 @@ export default function QuestionDetailPage() {
         addReply(createdReply); // 댓글 추가
       });
   };
+
 
   const handleDeleteReply = (replyId) => {
     if (confirm('정말 삭제하시겠습니까?')) {
@@ -156,6 +164,7 @@ export default function QuestionDetailPage() {
         <div className="overflow-auto">
           {replies.map((replyData, index) => (
             <Reply
+              userId={replyData.user}
               key={index}
               content={replyData.reply}
               replyId={replyData.id}

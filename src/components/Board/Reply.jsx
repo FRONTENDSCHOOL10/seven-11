@@ -1,17 +1,26 @@
 import pb from '@/api/pb';
 import { getStorageData } from '@/utils';
 import { string, func } from 'prop-types';
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 
 Reply.propTypes = {
   content: string,
   replyId: string,
   onDelete: func,
   onUpdate: func,
+  userId: string,
 };
 
-function Reply({ content, replyId, onDelete, onUpdate }) {
-  const user = getStorageData('authInfo').user;
+function Reply({ content, replyId, onDelete, onUpdate, userId }) {
+  const [user, setUser] = useState({});
+  const authUser = getStorageData('authInfo').user;
+  const authUserId = authUser.id; // 현재 로그인된 사용자 ID
+
+  useEffect(() => {
+    pb.collection('users')
+      .getOne(userId)
+      .then((r) => setUser(r));
+  }, [userId]);
 
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(content);
@@ -56,33 +65,35 @@ function Reply({ content, replyId, onDelete, onUpdate }) {
           )}
         </div>
         <div className="flex gap-1 text-sm text-white">
-          {isEditing ? (
-            <button
-              className="border bg-primary rounded-md px-1 py-[2px] whitespace-nowrap"
-              onClick={handleSaveClick}
-            >
-              완료
-            </button>
-          ) : (
-            <button
-              className="border bg-gray-300 rounded-md px-1 whitespace-nowrap"
-              onClick={handleEditClick}
-            >
-              수정
-            </button>
+          {authUserId === userId && (
+            <>
+              {isEditing ? (
+                <button
+                  className="border bg-primary rounded-md px-1 py-[2px] whitespace-nowrap"
+                  onClick={handleSaveClick}
+                >
+                  완료
+                </button>
+              ) : (
+                <button
+                  className="border bg-gray-300 rounded-md px-1 whitespace-nowrap"
+                  onClick={handleEditClick}
+                >
+                  수정
+                </button>
+              )}
+              <button
+                className="border bg-primary rounded-md px-1 py-[2px] whitespace-nowrap"
+                onClick={handleDeleteClick}
+              >
+                삭제
+              </button>
+            </>
           )}
-          <button
-            className="border bg-primary rounded-md px-1 py-[2px] whitespace-nowrap"
-            onClick={handleDeleteClick}
-          >
-            삭제
-          </button>
         </div>
       </div>
     </div>
   );
 }
-
-
 
 export default memo(Reply);
