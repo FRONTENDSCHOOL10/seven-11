@@ -22,7 +22,7 @@ function DateButton({ label, onChange }) {
       className="border rounded p-2 appearance-none text-center
                  w-full min-w-[95px] md:min-w-[127px] 
                  h-[38px] md:h-[42px] 
-                 text-base md:text-lg "
+                 text-[15px] "
     >
       <option value="">{label}</option>
       {label === '년' &&
