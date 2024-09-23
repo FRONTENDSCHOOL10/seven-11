@@ -68,8 +68,7 @@ export default function SelectCategory() {
 
         <div
           className="grid grid-cols-2 gap-3 max-h-[500px] min-h-[320px] w-full overflow-y-auto no-scrollbar 
-          lg:max-h-none lg:min-h-fit lg:grid-cols-2"
-          // 데스크탑 환경에서는 최대 높이 제한을 없애고 그리드 컬럼 수를 4로 변경
+          lg:max-h-[670px] lg:gap-6 "
         >
           {filteredCategories.length > 0 ? (
             filteredCategories.map((category) => (
