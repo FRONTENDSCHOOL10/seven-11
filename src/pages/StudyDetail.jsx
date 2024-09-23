@@ -5,6 +5,7 @@ import NormalButton from '@/components/NormalButton'; // 버튼 추가
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useUserStore from '../stores/useAuthorStore';
+import { formatTime } from '@/utils/formatTime';
 
 function StudyDetailPage() {
   const { studyPostId } = useParams();
@@ -162,7 +163,7 @@ function StudyDetailPage() {
           />
           <IconTextSmall
             icon="date"
-            text={formatDate(studyPostData.date) || 'N/A'}
+            text={`${formatDate(studyPostData.date)} ${formatTime(studyPostData.time) || 'N/A'}`}
           />
           <IconTextSmall
             icon="fullMap"
