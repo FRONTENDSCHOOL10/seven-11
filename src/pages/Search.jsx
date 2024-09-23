@@ -5,14 +5,16 @@ import SelectButton from '@/components/SelectButton';
 import { Helmet } from 'react-helmet-async';
 import { SubTitle } from '@/components';
 import pb from '@/api/pb'; // 수정된 pb.js 파일 임포트
+import { Link } from 'react-router-dom';
 
 export default function Search() {
-  const [selectedOption, setSelectedOption] = useState('');
-  const [options, setOptions] = useState([{ value: '', label: '전체' }]);
-  const [questions, setQuestions] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(''); // 초기값을 빈 문자열로 설정
+  const [options, setOptions] = useState([{ value: '', label: '전체' }]); // 기본 옵션을 '전체'로 설정
+  const [results, setResults] = useState([]); // 질문 및 스터디 검색 결과 상태
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태 추가
+  const [inputValue, setInputValue] = useState(''); // 실제 입력값 상태 추가
 
   // 카테고리 목록 불러오기
   useEffect(() => {
@@ -25,7 +27,7 @@ export default function Search() {
           value: category.id,
           label: category.category_name,
         }));
-        setOptions([{ value: '전체', label: '전체' }, ...categories]);
+        setOptions([{ value: '', label: '전체' }, ...categories]); // 빈 값과 카테고리 설정
       } catch (error) {
         console.error('카테고리 데이터를 가져오는 데 실패했습니다:', error);
         setError('카테고리 데이터를 가져오는 데 실패했습니다.');
@@ -37,38 +39,59 @@ export default function Search() {
     fetchCategories();
   }, []);
 
-  // 질문 데이터 불러오기
-  useEffect(() => {
-    if (selectedOption || searchTerm) {
-      fetchQuestions(selectedOption, searchTerm); // 검색어를 추가로 전달
-    }
-  }, [selectedOption, searchTerm]);
-
-  // 선택된 카테고리 처리
+  // 선택된 카테고리 처리 및 검색 실행
   const handleSelect = (value) => {
     setSelectedOption(value);
-    setQuestions([]); // 새로운 카테고리 선택 시 질문 초기화
+    setResults([]); // 새로운 카테고리 선택 시 결과 초기화
+
+    // 카테고리가 선택되면 그에 맞게 검색 수행
+    fetchQuestionsAndStudies(value, searchTerm);
   };
 
-  // 질문 목록 불러오기
-  const fetchQuestions = async (category, searchTerm) => {
+  // 검색어가 변경될 때 상태 업데이트 (검색이 실행되지는 않음)
+  const handleInputChange = (value) => {
+    setInputValue(value); // inputValue 상태만 업데이트
+  };
+
+  // 검색 버튼 클릭 또는 엔터키 입력 시 실행
+  const handleSearch = () => {
+    setSearchTerm(inputValue); // 검색어 상태를 업데이트하여 검색 실행
+    fetchQuestionsAndStudies(selectedOption, inputValue);
+  };
+
+  // 질문 및 스터디 목록 불러오기
+  const fetchQuestionsAndStudies = async (category, searchTerm) => {
     setLoading(true);
     setError(null);
     try {
       // 카테고리와 검색어를 필터에 반영
       const filter = [];
-      if (category !== '전체') filter.push(`category='${category}'`);
-      if (searchTerm) filter.push(`title~'${searchTerm}'`); // 부분 일치 검색
+      if (category) filter.push(`category='${category}'`); // 선택된 카테고리가 있으면 추가
+      if (searchTerm) filter.push(`title~'${searchTerm}'`); // 검색어가 있으면 부분 일치 검색
 
       const filterQuery = filter.join(' && '); // 필터 쿼리 조합
+      const queryOptions = filterQuery ? { filter: filterQuery } : {}; // 필터가 없으면 빈 객체 전달
 
-      const records = await pb.collection('Question_Posts').getFullList({
-        filter: filterQuery, // 필터 적용
-      });
-      setQuestions(records);
+      // Question_Posts에서 검색
+      const questions = await pb
+        .collection('Question_Posts')
+        .getFullList(queryOptions);
+
+      // Study_Posts에서 검색
+      const studies = await pb
+        .collection('Study_Posts')
+        .getFullList(queryOptions);
+
+      // 결과 병합
+      const combinedResults = [
+        ...questions.map((item) => ({ ...item, type: 'question' })),
+        ...studies.map((item) => ({ ...item, type: 'study' })),
+      ];
+
+      setResults(combinedResults);
     } catch (error) {
-      console.error('질문 데이터를 가져오는 데 실패했습니다:', error);
-      setError('질문 데이터를 가져오는 데 실패했습니다.');
+      console.error('데이터를 가져오는 데 실패했습니다:', error);
+      setError('데이터를 가져오는 데 실패했습니다.');
     } finally {
       setLoading(false);
     }
@@ -88,7 +111,10 @@ export default function Search() {
           <LeftIcon />
           <SearchBar
             location="검색할 내용을 입력해 주세요."
-            onChange={setSearchTerm} // 검색어 변경 시 상태 업데이트
+            inputColor="bg-white"
+            onChange={handleInputChange} // 입력값 변경 시 상태 업데이트 (검색은 아님)
+            onClick={handleSearch} // 검색 버튼 클릭 시 검색 실행
+            onEnter={handleSearch} // 엔터키 입력 시 검색 실행 (수정된 부분)
           />
         </div>
 
@@ -102,11 +128,11 @@ export default function Search() {
 
         <div className="mt-6">
           {loading ? (
-            <p></p>
+            <p>로딩 중...</p>
           ) : error ? (
             <p>{error}</p>
-          ) : questions.length > 0 ? (
-            <QuestionList questions={questions} />
+          ) : results.length > 0 ? (
+            <ResultList results={results} />
           ) : (
             <p></p>
           )}
@@ -116,13 +142,26 @@ export default function Search() {
   );
 }
 
-function QuestionList({ questions }) {
+// 검색 결과 목록 컴포넌트
+
+function ResultList({ results }) {
   return (
     <ul>
-      {questions.map((question) => (
-        <li key={question.id} className="py-2 border-b">
-          <h3 className="text-lg font-semibold">{question.title}</h3>
-          <p className="text-sm">{question.content}</p>
+      {results.map((result) => (
+        <li key={result.id} className="py-2 border-b">
+          {/* 글 제목을 클릭하면 해당 글의 상세 페이지로 이동 */}
+          <Link
+            to={
+              result.type === 'question'
+                ? `/home/board/qna-detail/${result.id}`
+                : `/home/study-detail/${result.id}`
+            }
+          >
+            <h3 className="text-lg font-semibold">
+              [{result.type === 'question' ? '질문' : '스터디'}] {result.title}
+            </h3>
+          </Link>
+          <p className="text-sm">{result.content}</p>
         </li>
       ))}
     </ul>

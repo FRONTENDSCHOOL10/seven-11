@@ -1,18 +1,11 @@
 import { memo, useRef, useLayoutEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import useCategoryStore from '@/stores/useCategoryStore';
 import clsx from 'clsx';
 import { Mousewheel } from 'swiper/modules';
+import { arrayOf, func, shape, string } from 'prop-types';
 
-function CategoryNav() {
-  const { categories, selectedCategory, setSelectedCategory } =
-    useCategoryStore((s) => ({
-      categories: s.categories,
-      selectedCategory: s.selectedCategory,
-      setSelectedCategory: s.setSelectedCategory,
-    }));
-
+function CategoryNav({ categories, selectedCategory, setSelectedCategory }) {
   const getTextClass = (id) => {
     return clsx(selectedCategory === id ? 'text-white' : 'text-gray-400');
   };
@@ -35,7 +28,7 @@ function CategoryNav() {
         modules={[Mousewheel]} // Mousewheel 모듈 추가
         mousewheel // 마우스 휠 사용 설정
         slidesPerView="auto" // 슬라이드 너비를 자동으로 계산
-        spaceBetween={35} // 슬라이드 간의 여백을 최소화 (원하는 값으로 조정 가능)
+        spaceBetween={35} // 슬라이드 간의 여백을 최소화
         className="w-full h-full"
       >
         <SwiperSlide className="flex items-center justify-center whitespace-nowrap !w-auto">
@@ -63,5 +56,16 @@ function CategoryNav() {
     </div>
   );
 }
+
+CategoryNav.propTypes = {
+  categories: arrayOf(
+    shape({
+      id: string.isRequired,
+      category_name: string.isRequired,
+    })
+  ).isRequired, // 카테고리 리스트도 prop으로 전달받음
+  selectedCategory: string,
+  setSelectedCategory: func.isRequired,
+};
 
 export default memo(CategoryNav);
