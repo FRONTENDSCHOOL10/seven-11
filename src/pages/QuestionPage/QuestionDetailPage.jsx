@@ -126,7 +126,7 @@ export default function QuestionDetailPage() {
         <div className="my-3">
           {category && <Badge label={category} isPrimary={true} />}
         </div>
-        <div className="h-[698px] overflow-auto no-scrollbar">
+        <div className="h-full overflow-auto no-scrollbar pb-[180px]">
           <div className="flex flex-col gap-3">
             <PostUser user={user} />
             <button className="flex items-center gap-1 text-sm">
@@ -160,7 +160,7 @@ export default function QuestionDetailPage() {
         <div className="bg-white px-3">
           <SendMessageBar onSend={handleReply} />
         </div>
-        <div className="overflow-auto">
+        <div className="max-h-[180px] h-full overflow-auto no-scrollbar">
           {replies.map((replyData, index) => (
             <Reply
               replyUser={replyData.expand.user}

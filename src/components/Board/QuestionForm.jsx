@@ -77,7 +77,11 @@ function QuestionForm({ mode = 'create', note }) {
   };
 
   return (
-    <form name="질문 게시글" onSubmit={(e) => e.preventDefault()}>
+    <form
+      name="질문 게시글"
+      onSubmit={(e) => e.preventDefault()}
+      className="flex flex-col"
+    >
       <fieldset>
         <label className="sr-only">질문 제목</label>
         <input
@@ -97,7 +101,7 @@ function QuestionForm({ mode = 'create', note }) {
       <fieldset>
         <label className="sr-only">내용 입력</label>
         <textarea
-          className="w-full h-[407px] px-3 py-2 resize-none placeholder-gray-400 text-base outline-none focus-visible:outline"
+          className="w-full h-full min-h-[300px] px-3 py-2 resize-none placeholder-gray-400 text-base outline-none focus-visible:outline"
           placeholder="내용을 입력해주세요."
           value={formData.content || ''}
           onChange={(e) =>
@@ -105,15 +109,14 @@ function QuestionForm({ mode = 'create', note }) {
           }
         />
       </fieldset>
-      <fieldset className="px-3">
+      <fieldset className="px-3 border-t-2 pt-3">
         <label className="sr-only">이미지 선택</label>
         <PostImgButton
           onClick={handleSelectImg}
           defaultThumbnail={formData.thumbnail}
         />
       </fieldset>
-
-      <div className="fixed bottom-0 max-w-[428px] w-full px-3">
+      <div className="fixed bottom-3 max-w-[428px] w-full px-3">
         <NormalButton onClick={handleSubmit} label="저장" />
       </div>
     </form>
