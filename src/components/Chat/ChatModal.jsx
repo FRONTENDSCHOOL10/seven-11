@@ -18,19 +18,19 @@ ChatModal.propTypes = {
 function ChatModal({ isOpened, users, roomId, authUserId }) {
   const [isAnimating, setIsAnimating] = useState(false);
   const modalRef = useRef(null);
-  const [wasOpened, setWasOpened] = useState(false); // New flag to track user-initiated action
+  const [wasOpened, setWasOpened] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!wasOpened && isOpened) {
-      setWasOpened(true); // Set the flag to true after first user action
+      setWasOpened(true);
     }
 
     if (isOpened && wasOpened) {
       setIsAnimating(true);
       gsap.fromTo(
         modalRef.current,
-        { x: '100%' }, // Start position (off-screen right)
+        { x: '100%' },
         {
           x: '0%',
           duration: 0.5,
@@ -41,13 +41,14 @@ function ChatModal({ isOpened, users, roomId, authUserId }) {
     } else if (!isOpened && wasOpened) {
       setIsAnimating(true);
       gsap.to(modalRef.current, {
-        x: '100%', // End position (off-screen right)
+        x: '100%',
         duration: 0.5,
         ease: 'power3.in',
         onComplete: () => setIsAnimating(false),
       });
     }
   }, [isOpened, wasOpened]);
+
 
   const handleExit = async () => {
     if (confirm('채팅방을 나가시겠습니까?')) {

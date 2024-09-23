@@ -111,7 +111,7 @@ function ProfileDetail() {
           content="작심하루에 등록한 나의 프로필을 수정하고 저장할 수 있습니다."
         />
       </Helmet>
-      <div>
+      <div className=''>
         <Toaster />
         <ProfileHeader to={'/home/user-info/profile-edit'}>
           기본정보
@@ -140,7 +140,7 @@ function ProfileDetail() {
             저장
           </ProfileButton>
         </div>
-        <span className="text-sm text-gray-300 flex justify-center mb-[34px]">
+        <span className="text-sm text-gray-400 flex justify-center mb-[34px]">
           정보 초기화 및 이용 동의 철회
         </span>
       </div>
