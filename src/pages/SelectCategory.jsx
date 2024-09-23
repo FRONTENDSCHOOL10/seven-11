@@ -65,7 +65,7 @@ export default function SelectCategory() {
           />
         </p>
 
-        <div className="grid grid-cols-2 gap-3 max-h-[500px] min-[320px] w-full overflow-y-auto no-scrollbar">
+        <div className="grid grid-cols-2 gap-3 max-h-[480px] min-h-[320px] w-full overflow-y-auto no-scrollbar">
           {filteredCategories.length > 0 ? (
             filteredCategories.map((category) => (
               <CategoryButton
