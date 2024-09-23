@@ -58,11 +58,9 @@ export default function SignUp() {
       if (emailExists) {
         toast.error('이미 존재하는 이메일 입니다.');
         setIsEmailChecked(false);
-        console.log(result.items);
       } else {
         toast.success('사용 가능한 이메일 입니다.');
         setIsEmailChecked(true);
-        console.log(result.items);
       }
     } catch (error) {
       console.error('이메일 중복 확인 실패:', error);
@@ -98,7 +96,6 @@ export default function SignUp() {
 
   const handleGenderChange = (selectedGenders) => {
     setGender(selectedGenders);
-    console.log('선택된 성별:', selectedGenders); // 콘솔에 선택된 성별 출력
   };
 
   const handleYearChange = (selectedYear) => {
@@ -154,10 +151,8 @@ export default function SignUp() {
         emailVisibility: true,
       };
 
-      console.log('회원가입 데이터:', data);
-
       const record = await pb.collection('users').create(data);
-      console.log('회원가입 성공:', record);
+
       await pb.collection('users').requestVerification(record.email);
       toast.success('회원가입 성공!');
       navigate('/check-email');
