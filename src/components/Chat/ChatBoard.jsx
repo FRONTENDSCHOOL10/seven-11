@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useState, useRef } from 'react';
 import pb from '@/api/pb';
 import {
   getChatTime,
@@ -16,6 +16,7 @@ ChatBoard.propTypes = {
 
 function ChatBoard({ roomId, users }) {
   const [messages, setMessages] = useState([]);
+  const lastMessageRef = useRef(null);
 
   useEffect(() => {
     pb.collection('Chat_Messages')
@@ -40,6 +41,12 @@ function ChatBoard({ roomId, users }) {
     };
   }, [roomId]);
 
+  useEffect(() => {
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
+
   const authUser = pb.authStore.model;
   const authUserId = authUser?.id;
 
@@ -47,7 +54,7 @@ function ChatBoard({ roomId, users }) {
 
   return (
     <div className="flex flex-col gap-2 px-3 pb-20">
-      {messages.map((message) => {
+      {messages.map((message, index) => {
         const user = users.find((user) => user.id === message.user);
         const currentMessageDate = new Date(message.created);
 
@@ -55,8 +62,10 @@ function ChatBoard({ roomId, users }) {
           !lastMessageDate || !isSameDate(lastMessageDate, currentMessageDate);
         lastMessageDate = currentMessageDate;
 
+        const isLastMessage = index === messages.length - 1;
+
         return (
-          <div key={message.id}>
+          <div key={message.id} ref={isLastMessage ? lastMessageRef : null}>
             {showChatTime && (
               <ChatTime time={getChatUpdateTime(message.created)} />
             )}

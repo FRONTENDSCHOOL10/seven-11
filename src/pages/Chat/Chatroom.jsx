@@ -28,10 +28,9 @@ export default function Chatroom() {
   }
 
   const [room, setRoom] = useState({ user: [], roomName: '채팅방' });
-  const [users, setUsers] = useState([]); // users 상태
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    // 채팅방 정보 가져오기
     pb.collection('ChatRooms')
       .getOne(roomId)
       .then((record) => {
@@ -42,12 +41,11 @@ export default function Chatroom() {
         }
 
         if (record.user && record.user.length > 0) {
-          fetchUsers(record.user); // 사용자 데이터 불러오기
+          fetchUsers(record.user);
         }
       });
   }, [roomId, fetchStudyPosts]);
 
-  // 사용자 데이터를 fetch하는 함수
   const fetchUsers = async (userIds) => {
     try {
       const userRecords = await Promise.all(
@@ -68,7 +66,6 @@ export default function Chatroom() {
   const authUser = pb.authStore.model;
   const authUserId = authUser?.id;
 
-  // 메세지 전송
   const handleSend = async (message) => {
     try {
       const newMessage = await pb.collection('Chat_Messages').create({
@@ -77,7 +74,6 @@ export default function Chatroom() {
         user: authUserId,
       });
 
-      // Chatrooms 업데이트
       const roomData = await pb.collection('ChatRooms').getOne(roomId);
 
       const updatedMessages = [...(roomData.message || []), newMessage.id];
@@ -108,17 +104,25 @@ export default function Chatroom() {
         />
       </Helmet>
       <div className={`w-full min-h-[630px] flex flex-col relative`}>
-        <div className={`h-full flex-grow`}>
-          <div className="fixed max-w-[430px] w-full">
-            <ChatHeader
-              title={studyPost ? studyPost.title : roomTitle}
-              people={userCount}
+        <div className={`h-full flex-grow relative`}>
+          <div className="absolute right-0 max-w-[430px] w-full">
+            <ChatModal
+              isOpened={open}
+              users={users}
+              roomId={roomId.slice(0, -1)}
+              authUserId={authUserId}
             />
-            <div className="px-3 flex justify-center pt-2 w-full">
-              <ChatNotice
-                notice={creatTime}
-                linkTo={studyPost && `/home/study-detail/${studyPost.id}`}
+            <div className="fixed top-0 max-w-[428px] w-full bg-white">
+              <ChatHeader
+                title={studyPost ? studyPost.title : roomTitle}
+                people={userCount}
               />
+              <div className="px-3 flex justify-center pt-2 w-full">
+                <ChatNotice
+                  notice={creatTime}
+                  linkTo={studyPost && `/home/study-detail/${studyPost.id}`}
+                />
+              </div>
             </div>
           </div>
 
@@ -126,7 +130,7 @@ export default function Chatroom() {
             <div className="min-h-[500px] h-screen pt-[110px]">
               <ChatBoard roomId={roomId} users={users} studyPost={studyPost} />
             </div>
-            <div className="fixed max-w-[428px] w-full bottom-0 bg-white px-2 ">
+            <div className="fixed max-w-[428px] w-full bottom-0 bg-white px-2">
               <SendMessageBar
                 onSend={handleSend}
                 placeholder={'메세지 보내기'}
@@ -134,13 +138,8 @@ export default function Chatroom() {
             </div>
           </div>
         </div>
-        <ChatModal
-          isOpened={open}
-          users={users}
-          roomId={roomId.slice(0, -1)}
-          authUserId={authUserId}
-        />
       </div>
     </>
   );
 }
+
