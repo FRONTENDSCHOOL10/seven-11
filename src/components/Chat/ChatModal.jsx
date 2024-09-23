@@ -1,11 +1,12 @@
-import { memo } from 'react';
-import ChatUser from './ChatUser';
-import ChatExitNav from './ChatExitNav';
-import clsx from 'clsx';
-import { array, bool, string } from 'prop-types';
-import CancelIcon from './CancelIcon';
+import { memo, useEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
 import pb from '@/api/pb';
+import clsx from 'clsx';
 import { useNavigate } from 'react-router-dom';
+import CancelIcon from './CancelIcon';
+import { array, bool, string } from 'prop-types';
+import ChatExitNav from './ChatExitNav';
+import ChatUser from './ChatUser';
 
 ChatModal.propTypes = {
   isOpened: bool.isRequired,
@@ -15,10 +16,39 @@ ChatModal.propTypes = {
 };
 
 function ChatModal({ isOpened, users, roomId, authUserId }) {
-  const display = clsx(isOpened ? '' : 'hidden');
+  const [isAnimating, setIsAnimating] = useState(false);
+  const modalRef = useRef(null);
+  const [wasOpened, setWasOpened] = useState(false); // New flag to track user-initiated action
   const navigate = useNavigate();
 
-  // Chatroom에서 사용자를 제거하는 함수
+  useEffect(() => {
+    if (!wasOpened && isOpened) {
+      setWasOpened(true); // Set the flag to true after first user action
+    }
+
+    if (isOpened && wasOpened) {
+      setIsAnimating(true);
+      gsap.fromTo(
+        modalRef.current,
+        { x: '100%' }, // Start position (off-screen right)
+        {
+          x: '0%',
+          duration: 0.5,
+          ease: 'power3.out',
+          onComplete: () => setIsAnimating(false),
+        }
+      );
+    } else if (!isOpened && wasOpened) {
+      setIsAnimating(true);
+      gsap.to(modalRef.current, {
+        x: '100%', // End position (off-screen right)
+        duration: 0.5,
+        ease: 'power3.in',
+        onComplete: () => setIsAnimating(false),
+      });
+    }
+  }, [isOpened, wasOpened]);
+
   const handleExit = async () => {
     if (confirm('채팅방을 나가시겠습니까?')) {
       try {
@@ -28,12 +58,10 @@ function ChatModal({ isOpened, users, roomId, authUserId }) {
           (userId) => userId !== authUserId
         );
 
-        // 업데이트된 user 배열을 ChatRooms에 업데이트
         await pb.collection('ChatRooms').update(roomId, {
           user: updatedUsers,
         });
 
-        console.log(`${authUserId}님이 채팅방을 나갔습니다.`);
         navigate(-1);
       } catch (error) {
         console.error('채팅방에서 유저 데이터 삭제를 실패했습니다.:', error);
@@ -42,23 +70,29 @@ function ChatModal({ isOpened, users, roomId, authUserId }) {
   };
 
   return (
-    <div className={`${display} fixed bg-white w-[266px] h-screen right-0`}>
+    <div
+      ref={modalRef}
+      className={clsx(
+        'bg-white w-[266px] h-screen absolute top-0 right-0 z-50',
+        {
+          hidden: !isOpened && !isAnimating,
+        }
+      )}
+    >
       <div className="flex flex-row justify-between border-b p-2">
         <h3 className="text-[14px]">참여중인 이웃</h3>
         <CancelIcon />
       </div>
-      {users.map((user) => {
-        return (
-          <ChatUser
-            key={user.id}
-            userName={user.nickname}
-            userImg={
-              user.avatar ? pb.files.getUrl(user, user.avatar) : '/favicon.svg'
-            }
-            userLink={`/profile/${user.id}`}
-          />
-        );
-      })}
+      {users.map((user) => (
+        <ChatUser
+          key={user.id}
+          userName={user.nickname}
+          userImg={
+            user.avatar ? pb.files.getUrl(user, user.avatar) : '/favicon.svg'
+          }
+          userLink={`/profile/${user.id}`}
+        />
+      ))}
       <ChatExitNav handleExit={handleExit} />
     </div>
   );

@@ -30,6 +30,13 @@ export default function SendMessageBar({ onSend, placeholder }) {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
@@ -51,6 +58,7 @@ export default function SendMessageBar({ onSend, placeholder }) {
           placeholder={placeholder}
           value={message}
           onChange={handleChange}
+          onKeyDown={handleKeyDown}
           rows={1}
         />
       </div>
