@@ -1,6 +1,7 @@
 import pb from '@/api/pb';
 import { BannerSwiper } from '@/components';
 import { CategoryNav, StudyPostItem } from '@/components/Board';
+import useCategoryStore from '@/stores/useCategoryStore';
 import { getStorageData } from '@/utils';
 import extractCityDistrict from '@/utils/extractCityDistrict';
 import { useCallback, useEffect, useState } from 'react';
@@ -10,58 +11,66 @@ import { FadeLoader } from 'react-spinners';
 export default function HomePage() {
   const [studyList, setStudyList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [categories, setCategories] = useState([]); // 카테고리 데이터 상태 추가
-  const [selectedCategory, setSelectedCategory] = useState(null); // 선택된 카테고리 상태 추가
+  const [isCategoryLoading, setIsCategoryLoading] = useState(true);
+
+  const categories = useCategoryStore((state) => state.categories);
+  const fetchCategories = useCategoryStore((state) => state.fetchCategories);
+  const selectedCategory = useCategoryStore((state) => state.selectedCategory);
+  const setSelectedCategory = useCategoryStore(
+    (state) => state.setSelectedCategory
+  );
 
   const user = getStorageData('authInfo').user;
   const userLocation = extractCityDistrict(user.address);
 
-  // 사용자 카테고리와 스터디 리스트 가져오기
-  const fetchUserCategoriesAndStudyList = useCallback(async () => {
+  const studyListFetch = useCallback(async () => {
     try {
       setIsLoading(true);
 
-
-      const userData = await pb.collection('Users').getOne(user.id, {
-        expand: 'category', 
-      });
-
-      if (userData.expand?.category) {
-        setCategories(userData.expand.category); 
-      }
-
-      // 스터디 리스트 가져오기
       const data = await pb.collection('Study_Posts').getFullList({
         sort: '-created',
       });
 
-      // 구가 일치하는 데이터만 필터링
+      // 유저 카테고리에 속한 스터디만 필터링
+      const userCategories = categories.map((cat) => cat.id);
       const filteredData = data.filter((item) => {
         const postLocation = extractCityDistrict(item.location);
-        if (postLocation) {
-          return postLocation === userLocation;
-        }
-        return false;
+        return (
+          postLocation === userLocation &&
+          userCategories.includes(item.category)
+        );
       });
 
       setStudyList(filteredData);
     } catch (error) {
-      console.error('스터디 게시글 리스트를 가져오는 데 실패했습니다:', error);
+      console.error('스터디 게시글 리스트를 가져오는 데 실패했습니다.:', error);
     } finally {
       setIsLoading(false);
     }
-  }, [user.id, userLocation]);
+  }, [userLocation, categories]);
 
   useEffect(() => {
-    fetchUserCategoriesAndStudyList();
-  }, [fetchUserCategoriesAndStudyList]);
+    if (categories.length === 0) {
+      setIsCategoryLoading(true);
+      fetchCategories().finally(() => {
+        setIsCategoryLoading(false);
+      });
+    } else {
+      setIsCategoryLoading(false);
+    }
+  }, [fetchCategories, categories]);
 
-  // 선택된 카테고리로 게시글 필터링
+  useEffect(() => {
+    if (!isCategoryLoading) {
+      studyListFetch();
+    }
+  }, [studyListFetch, isCategoryLoading]);
+
   const filteredStudyList = selectedCategory
     ? studyList.filter((item) => item.category === selectedCategory)
     : studyList;
 
-  if (isLoading) {
+  if (isLoading || isCategoryLoading) {
     return (
       <div className="h-[80vh] flex justify-center items-center">
         <FadeLoader color="#79b2d1" />
@@ -80,9 +89,9 @@ export default function HomePage() {
       </Helmet>
       <div className="w-full flex flex-col">
         <BannerSwiper />
-        {/* 사용자 카테고리와 상태 업데이트 함수 전달 */}
+
         <CategoryNav
-          categories={categories} // 로그인된 사용자의 카테고리만 전달
+          categories={categories}
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
         />
@@ -97,7 +106,7 @@ export default function HomePage() {
                 <StudyPostItem
                   key={item.id}
                   item={item}
-                  categories={categories} // 카테고리 전달
+                  categories={categories}
                 />
               ))
             )}
