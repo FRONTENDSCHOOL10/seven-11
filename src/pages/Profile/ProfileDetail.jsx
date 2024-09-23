@@ -140,7 +140,7 @@ function ProfileDetail() {
             저장
           </ProfileButton>
         </div>
-        <span className="text-sm text-gray-300 flex justify-center mb-[34px]">
+        <span className="text-sm text-gray-400 flex justify-center mb-[34px]">
           정보 초기화 및 이용 동의 철회
         </span>
       </div>

@@ -29,6 +29,7 @@ export default function HomePage() {
 
       const data = await pb.collection('Study_Posts').getFullList({
         sort: '-created',
+        expand: 'category',
       });
 
       // 유저 카테고리에 속한 스터디만 필터링

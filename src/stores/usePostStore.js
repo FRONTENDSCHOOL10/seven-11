@@ -14,7 +14,9 @@ const usePostStore = create((set) => ({
     const repliesData = await pb.collection('Question_Replies').getFullList({
       filter: `post="${id}"`,
       sort: '-created',
+      expand: 'user',
     });
+
     set({ replies: repliesData });
   },
   addReply: (newReply) =>

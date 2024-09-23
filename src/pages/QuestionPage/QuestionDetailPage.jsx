@@ -5,7 +5,7 @@ import useAuthorStore from '@/stores/useAuthorStore';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FadeLoader } from 'react-spinners';
-import usePostStore from '@/stores/usePostStore'; // Zustand store 가져오기
+import usePostStore from '@/stores/usePostStore';
 import pb from '@/api/pb';
 import { getStorageData } from '@/utils';
 
@@ -104,7 +104,6 @@ export default function QuestionDetailPage() {
       });
   };
 
-
   const handleDeleteReply = (replyId) => {
     if (confirm('정말 삭제하시겠습니까?')) {
       pb.collection('Question_Replies')
@@ -164,7 +163,7 @@ export default function QuestionDetailPage() {
         <div className="overflow-auto">
           {replies.map((replyData, index) => (
             <Reply
-              userId={replyData.user}
+              replyUser={replyData.expand.user}
               key={index}
               content={replyData.reply}
               replyId={replyData.id}

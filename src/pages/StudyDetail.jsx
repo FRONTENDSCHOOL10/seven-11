@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useUserStore from '../stores/useAuthorStore';
 import { formatTime } from '@/utils/formatTime';
+import { FadeLoader } from 'react-spinners';
 
 function StudyDetailPage() {
   const { studyPostId } = useParams();
@@ -135,7 +136,11 @@ function StudyDetailPage() {
   };
 
   if (loading) {
-    return <div>로딩 중...</div>;
+    return (
+      <div className="h-[80vh] flex justify-center items-center">
+        <FadeLoader color="#79b2d1" />
+      </div>
+    );
   }
 
   if (error) {

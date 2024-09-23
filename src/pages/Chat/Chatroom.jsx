@@ -109,7 +109,7 @@ export default function Chatroom() {
             <ChatModal
               isOpened={open}
               users={users}
-              roomId={roomId.slice(0, -1)}
+              roomId={roomId}
               authUserId={authUserId}
             />
             <div className="fixed top-0 max-w-[428px] w-full bg-white">
@@ -142,4 +142,3 @@ export default function Chatroom() {
     </>
   );
 }
-
