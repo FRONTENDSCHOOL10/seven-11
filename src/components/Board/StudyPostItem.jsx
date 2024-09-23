@@ -1,32 +1,27 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { object } from 'prop-types';
-import { getTimeDifference } from '@/utils/getTimeDifference';
-import Badge from '../Badge';
-import LocationTime from '../Chat/LocationTime';
 import pb from '@/api/pb';
 import getDetailedAddress from '@/utils/getDetailedAddress';
+import { getTimeDifference } from '@/utils/getTimeDifference';
+import { arrayOf, object } from 'prop-types';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import Badge from '../Badge';
+import LocationTime from '../Chat/LocationTime';
 
 StudyPostItem.propTypes = {
   item: object.isRequired,
+  categories: arrayOf(object).isRequired,
 };
 
-function StudyPostItem({ item }) {
-  const [category, setCategory] = useState(null);
+function StudyPostItem({ item, categories }) {
   const [chatroom, setChatroom] = useState(null);
 
-  useEffect(() => {
-    const fetchCategoryAndChatroom = async () => {
-      try {
-        if (item.category) {
-          const categoryData = await pb
-            .collection('Categories')
-            .getOne(item.category);
-          setCategory(categoryData);
-        } else {
-          setCategory({ category_name: '카테고리 없음' });
-        }
+  const category = categories.find((cat) => cat.id === item.category) || {
+    category_name: '카테고리 없음',
+  };
 
+  useEffect(() => {
+    const fetchChatroom = async () => {
+      try {
         if (item.chatroom) {
           const chatroomData = await pb
             .collection('ChatRooms')
@@ -36,12 +31,12 @@ function StudyPostItem({ item }) {
           setChatroom(null);
         }
       } catch (error) {
-        console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
+        console.error('채팅방 정보를 가져오는 중 오류가 발생했습니다:', error);
       }
     };
 
-    fetchCategoryAndChatroom();
-  }, [item.category, item.chatroom]);
+    fetchChatroom();
+  }, [item.chatroom]);
 
   const address = item.location;
   const detailedAddress = getDetailedAddress(address);
@@ -50,7 +45,7 @@ function StudyPostItem({ item }) {
 
   return (
     <Link
-      to={`/home/study-detail/${item.id}`} // 각 스터디의 상세 페이지로 이동하는 링크
+      to={`/home/study-detail/${item.id}`}
       className="w-full h-full bg-white p-3 flex justify-between border-b border-gray-200"
     >
       <div>

@@ -43,8 +43,6 @@ function StudyDetailPage() {
             expand: 'user,category,chatroom',
           });
 
-        console.log('studyPostData:', studyPost);
-
         setStudyPostData(studyPost);
 
         const postAuthorId = studyPost.expand?.user?.id || '작성자 없음';
