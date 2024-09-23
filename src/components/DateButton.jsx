@@ -19,7 +19,10 @@ function DateButton({ label, onChange }) {
     <select
       value={selectedValue}
       onChange={handleSelect}
-      className="border rounded p-2 min-w-[93px] w-full appearance-none text-center"
+      className="border rounded p-2 appearance-none text-center
+                 w-full min-w-[95px] md:min-w-[127px] 
+                 h-[38px] md:h-[42px] 
+                 text-base md:text-lg "
     >
       <option value="">{label}</option>
       {label === '년' &&

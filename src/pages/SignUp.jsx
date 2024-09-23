@@ -281,7 +281,7 @@ export default function SignUp() {
           <div className="my-2 mx-0.5">
             <SubTitle title="생년월일" />
           </div>
-          <div className="flex justify-start gap-3">
+          <div className="flex justify-center gap-3">
             <div className="my-1">
               <DateButton label="년" onChange={handleYearChange} />
             </div>
