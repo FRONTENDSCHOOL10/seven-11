@@ -1,4 +1,3 @@
-import { throttle } from '@/utils';
 import { string, func, oneOf } from 'prop-types';
 import { memo } from 'react';
 
@@ -11,10 +10,10 @@ InputText.propTypes = {
 };
 
 function InputText({ inputType, placeholder, onChange, value, name }) {
-  const handleInput = throttle((e) => {
+  const handleInput = (e) => {
     const userInputValue = e.target.value;
     onChange(userInputValue); // 부모 컴포넌트로 입력값 전달
-  }, 1000);
+  };
 
   const isAutoComplete = name === 'password' ? 'off' : '';
 
