@@ -20,7 +20,9 @@ export function Component() {
           </div>
         }
       >
-        <ChatList />
+        <div className=''>
+          <ChatList />
+        </div>
       </Suspense>
     </div>
   );

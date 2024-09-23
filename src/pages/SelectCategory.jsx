@@ -36,6 +36,7 @@ export default function SelectCategory() {
   const handleSearch = (value) => {
     console.log(value);
   };
+
   return (
     <>
       <div className="my-2 flex items-center px-3 gap-1 py-1">
@@ -65,7 +66,10 @@ export default function SelectCategory() {
           />
         </p>
 
-        <div className="grid grid-cols-2 gap-3 max-h-[500px] min-[320px] w-full overflow-y-auto no-scrollbar">
+        <div
+          className="grid grid-cols-2 gap-3 max-h-[500px] min-h-[320px] w-full overflow-y-auto no-scrollbar 
+          lg:max-h-[670px] lg:gap-6 "
+        >
           {filteredCategories.length > 0 ? (
             filteredCategories.map((category) => (
               <CategoryButton
@@ -77,7 +81,7 @@ export default function SelectCategory() {
               />
             ))
           ) : (
-            <p className="text-gray-500">검색된 카테고리가 없습니다.</p>
+            <p className="text-gray-500"></p>
           )}
         </div>
 

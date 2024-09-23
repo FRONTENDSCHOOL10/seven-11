@@ -14,7 +14,7 @@ import {
   Chatroom,
   UserProfile,
   StudyDetailPage,
-  QuestionDetailPage,
+  QuestionDetailPage, // 이미 임포트되어 있음
   QuestionEdit,
   StudyEdit,
 } from './pages/index';
@@ -77,19 +77,16 @@ export const routes = [
   },
   {
     path: '/home/study-detail/:studyPostId',
-    element: <StudyDetailPage />,
+    element: <StudyDetailPage />, // 스터디 상세 페이지 라우트
   },
   {
     path: '/home/board/qna-detail/:postId',
-    element: <QuestionDetailPage />,
+    element: <QuestionDetailPage />, // 질문 상세 페이지 라우트
   },
-
   {
     path: '/profile/:id',
     element: <UserProfile />,
   },
-
-  // Q&A 디테일: home/board/qna-detail/:postId
 ];
 
 const router = createBrowserRouter(routes, {

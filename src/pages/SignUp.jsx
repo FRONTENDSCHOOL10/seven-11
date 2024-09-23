@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom'; // 리다이렉트를 위한 use
 import toast, { Toaster } from 'react-hot-toast';
 import AddressSearch from '@/components/AddressSearch';
 import getPbImageURL from '@/api/getPbImageURL';
+import { downloadImage } from '@/utils/downloadImage';
 
 export default function SignUp() {
   const [email, setEmail] = useState('');
@@ -58,11 +59,9 @@ export default function SignUp() {
       if (emailExists) {
         toast.error('이미 존재하는 이메일 입니다.');
         setIsEmailChecked(false);
-        console.log(result.items);
       } else {
         toast.success('사용 가능한 이메일 입니다.');
         setIsEmailChecked(true);
-        console.log(result.items);
       }
     } catch (error) {
       console.error('이메일 중복 확인 실패:', error);
@@ -98,7 +97,6 @@ export default function SignUp() {
 
   const handleGenderChange = (selectedGenders) => {
     setGender(selectedGenders);
-    console.log('선택된 성별:', selectedGenders); // 콘솔에 선택된 성별 출력
   };
 
   const handleYearChange = (selectedYear) => {
@@ -139,6 +137,10 @@ export default function SignUp() {
       const formattedDay = day.padStart(2, '0'); // 일을 2자리로 맞춤
       const birth_date = `${year}-${formattedMonth}-${formattedDay}`;
 
+      const img = await pb.collection('default').getOne('yzadwsf0sc5xo5n');
+      const defaultAvatarUrl = getPbImageURL(img, 'avatar');
+      const imgBlob = await downloadImage(defaultAvatarUrl);
+
       const data = {
         email,
         password,
@@ -152,12 +154,11 @@ export default function SignUp() {
         level: '뉴비',
         userTemp: 36.5,
         emailVisibility: true,
+        avatar: imgBlob,
       };
 
-      console.log('회원가입 데이터:', data);
-
       const record = await pb.collection('users').create(data);
-      console.log('회원가입 성공:', record);
+
       await pb.collection('users').requestVerification(record.email);
       toast.success('회원가입 성공!');
       navigate('/check-email');
@@ -280,7 +281,7 @@ export default function SignUp() {
           <div className="my-2 mx-0.5">
             <SubTitle title="생년월일" />
           </div>
-          <div className="flex justify-start gap-3">
+          <div className="flex justify-center gap-3">
             <div className="my-1">
               <DateButton label="년" onChange={handleYearChange} />
             </div>

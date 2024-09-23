@@ -5,6 +5,7 @@ import NormalButton from '@/components/NormalButton'; // 버튼 추가
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useUserStore from '../stores/useAuthorStore';
+import { formatTime } from '@/utils/formatTime';
 
 function StudyDetailPage() {
   const { studyPostId } = useParams();
@@ -42,8 +43,6 @@ function StudyDetailPage() {
           .getFirstListItem(`id="${studyPostId}"`, {
             expand: 'user,category,chatroom',
           });
-
-        console.log('studyPostData:', studyPost);
 
         setStudyPostData(studyPost);
 
@@ -149,7 +148,7 @@ function StudyDetailPage() {
       <div className="px-3">
         <Badge
           label={category ? category.category_name : '카테고리 없음'}
-          isPrimary={false}
+          isPrimary={true}
         />
 
         <div className="font-bold text-lg mt-2">
@@ -164,7 +163,7 @@ function StudyDetailPage() {
           />
           <IconTextSmall
             icon="date"
-            text={formatDate(studyPostData.date) || 'N/A'}
+            text={`${formatDate(studyPostData.date)} ${formatTime(studyPostData.time) || 'N/A'}`}
           />
           <IconTextSmall
             icon="fullMap"

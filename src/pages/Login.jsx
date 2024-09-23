@@ -1,4 +1,3 @@
-import pb from '@/api/pb';
 import { userSignIn } from '@/api/user';
 import { InputText, NormalButton } from '@/components';
 import { getStorageData, setStorageData } from '@/utils/';

@@ -19,14 +19,17 @@ function DateButton({ label, onChange }) {
     <select
       value={selectedValue}
       onChange={handleSelect}
-      className="border rounded p-2 min-w-[93px] w-full appearance-none text-center"
+      className="border rounded p-2 appearance-none text-center
+                 w-full min-w-[95px] md:min-w-[127px] 
+                 h-[38px] md:h-[42px] 
+                 text-[15px] "
     >
       <option value="">{label}</option>
       {label === '년' &&
         Array.from({ length: 2024 - 1920 + 1 }, (_, i) => {
-          const year = 1920 + i;
+          const year = 2024 - i; // 2024년부터 1920년까지 역순으로 설정
           return (
-            <option key={i} value={year}>
+            <option key={year} value={year}>
               {year} 년
             </option>
           );

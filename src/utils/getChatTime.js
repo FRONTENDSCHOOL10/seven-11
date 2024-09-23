@@ -22,20 +22,19 @@ export function getChatUpdateTime(isoTime) {
   return `${year}년 ${month}월 ${day}일`;
 }
 
-
 export function getChatNoticeTime(isoTime) {
   const date = new Date(isoTime);
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
 
-  let hours = date.getHours();
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-  const period = hours >= 12 ? 'PM' : 'AM';
+  // let hours = date.getHours();
+  // const minutes = date.getMinutes().toString().padStart(2, '0');
+  // const period = hours >= 12 ? 'PM' : 'AM';
 
-  hours = hours % 12 || 12;
+  // hours = hours % 12 || 12;
 
-  return `${year}년 ${month}월 ${day}일 ${hours}:${minutes} ${period}`;
+  return `${year}년 ${month}월 ${day}일 `;
 }
 
 // 날짜가 지났는지 검사
