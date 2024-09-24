@@ -3,11 +3,19 @@
 
 ## 🏠팀 소개 및 프로젝트 소개
 
-> "작심하루"는 오늘 하루, 확실하게 목표를 이루기 위해 결심하고 함께 실천하는 앱이라는 의미를 담고 있습니다.
+> **작심하루**는 내가 원하는 지역에서 빠르게 **스터디원을 구하는 플랫폼입니다**
 
 <img src='https://github.com/user-attachments/assets/2f9accdb-ad9a-444b-b747-20127f63a959' width='300px'/>
 
 [✈️ 프로젝트 소개 wiki](https://github.com/FRONTENDSCHOOL10/seven-11/wiki)
+
+<br/>
+
+## 배포 QR
+
+<img src='https://github.com/user-attachments/assets/a077ccac-f527-43b5-893a-4fe2894e98bb' width='200px'/>
+
+<br/>
 
 ## 👩‍🔧기술 스택
 
