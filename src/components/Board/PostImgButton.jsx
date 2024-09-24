@@ -62,7 +62,7 @@ function PostImgButton({ onClick, defaultThumbnail = [] }) {
         </div>
       </div>
 
-      <div className="mt-2">
+      <div className="mt-2 h-[100px] overflow-auto no-scrollbar">
         {selectedImages.length > 0 && (
           <div>
             {selectedImages.map((image, index) => (

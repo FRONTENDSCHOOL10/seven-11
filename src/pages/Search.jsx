@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet-async';
 import { SubTitle } from '@/components';
 import pb from '@/api/pb'; // 수정된 pb.js 파일 임포트
 import { Link } from 'react-router-dom';
+import { FadeLoader } from 'react-spinners';
 
 export default function Search() {
   const [selectedOption, setSelectedOption] = useState(''); // 초기값을 빈 문자열로 설정
@@ -129,7 +130,9 @@ export default function Search() {
 
         <div className="mt-6">
           {loading ? (
-            <p>로딩 중...</p>
+            <div className="h-[80vh] flex justify-center items-center">
+              <FadeLoader color="#79b2d1" />
+            </div>
           ) : error ? (
             <p>{error}</p>
           ) : results.length > 0 ? (

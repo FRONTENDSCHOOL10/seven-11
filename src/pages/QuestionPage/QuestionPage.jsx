@@ -28,6 +28,7 @@ export function Component() {
     try {
       const data = await pb.collection('Question_Posts').getList(1, 20, {
         sort: '-created',
+        expand: 'category',
       });
 
       const newList = data.items.filter((item) =>
