@@ -74,7 +74,7 @@ function ChatModal({ isOpened, users, roomId, authUserId }) {
     <div
       ref={modalRef}
       className={clsx(
-        'bg-white w-[266px] h-screen absolute top-0 right-0 z-50',
+        'bg-white w-[266px] h-screen fixed top-0 right-0 z-50 shadow-lg',
         {
           hidden: !isOpened && !isAnimating,
         }

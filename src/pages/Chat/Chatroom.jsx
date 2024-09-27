@@ -20,7 +20,7 @@ export default function Chatroom() {
     studyPosts: s.studyPosts,
     fetchStudyPosts: s.fetchStudyPosts,
   }));
-  const bgClass = clsx(open ? 'bg-[#46464699] opacity-65' : '');
+  const bgClass = clsx(open ? 'bg-[#46464699] opacity-65' : 'bg-white');
   let { roomId } = useParams();
 
   if (roomId.includes('}')) {
@@ -105,7 +105,7 @@ export default function Chatroom() {
       </Helmet>
       <div className={`w-full min-h-[630px] flex flex-col relative`}>
         <div className={`h-full flex-grow relative`}>
-          <div className="absolute right-0 max-w-[430px] w-full">
+          <div className="absolute h-screen right-0 top-0 max-w-[430px] w-full">
             <ChatModal
               isOpened={open}
               users={users}
@@ -117,7 +117,7 @@ export default function Chatroom() {
                 title={studyPost ? studyPost.title : roomTitle}
                 people={userCount}
               />
-              <div className="px-3 flex justify-center pt-2 w-full">
+              <div className="px-3 flex justify-center pt-2 pb-[1px] w-full">
                 <ChatNotice
                   notice={creatTime}
                   linkTo={studyPost && `/home/study-detail/${studyPost.id}`}
@@ -126,8 +126,8 @@ export default function Chatroom() {
             </div>
           </div>
 
-          <div className={`min-h-[690px] h-screen ${bgClass}`}>
-            <div className="min-h-[500px] h-screen pt-[110px]">
+          <div className={`h-screen`}>
+            <div className="h-hull pt-[110px]">
               <ChatBoard roomId={roomId} users={users} studyPost={studyPost} />
             </div>
             <div className="fixed max-w-[428px] w-full bottom-0 bg-white px-2">
